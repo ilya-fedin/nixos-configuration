@@ -211,7 +211,6 @@ with lib;
   services.xserver.desktopManager.mate.enable = true;
 
   fonts.fonts = with pkgs; [
-    noto-fonts-cjk
     joypixels
   ];
 
@@ -220,6 +219,7 @@ with lib;
 
   fonts.fontconfig.crOSMaps = true;
   fonts.fontconfig.extraEmojiConfiguration = true;
+  fonts.fontconfig.useNotoCjk = true;
 
   fonts.fontconfig.defaultFonts.sansSerif = [ "Roboto" ];
   fonts.fontconfig.defaultFonts.serif = [ "Roboto Slab" ];
