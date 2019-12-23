@@ -7,7 +7,10 @@ let
 
   pkgs = import sources.nixpkgs {
     overlays = overlays;
-    config.allowUnfree = true;
+    config = {
+      allowUnfree = true;
+      oraclejdk.accept_license = true;
+    };
   };
 
   inherit (pkgs) lib nur;
@@ -131,6 +134,8 @@ with lib;
     kwalletmanager
     ix
     nur.repos.ilya-fedin.silver
+    steam-run
+    oraclejdk8
   ];
 
   environment.sessionVariables = rec {
@@ -179,12 +184,6 @@ with lib;
   xdg.portal.extraPortals = with pkgs; [
     xdg-desktop-portal-kde
   ];
-
-  virtualisation.lxc.enable = true;
-  virtualisation.lxc.defaultConfig = ''
-    lxc.net.0.type = none
-    lxc.apparmor.profile = unconfined
-  '';
 
   virtualisation.docker.enable = true;
   virtualisation.docker.enableOnBoot = false;
