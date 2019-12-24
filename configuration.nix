@@ -28,6 +28,7 @@ with lib;
 
   nix.nixPath = [ "nixpkgs-overlays=/etc/nixos/overlays-compat" ];
   nix.buildCores = 2;
+  nix.trustedUsers = [ "root" "@wheel" ];
 
   boot.loader.systemd-boot.enable = true;
 
