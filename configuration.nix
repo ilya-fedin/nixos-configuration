@@ -136,6 +136,8 @@ with lib;
     nur.repos.ilya-fedin.silver
     steam-run
     oraclejdk8
+    dfeet
+    bustle
   ];
 
   environment.sessionVariables = rec {
