@@ -155,6 +155,11 @@ with lib;
   programs.qt5ct.enable = true;
   programs.system-config-printer.enable = false;
 
+  programs.ssh.extraConfig = ''
+    Host *
+    ServerAliveInterval 100
+  '';
+
   programs.nm-applet.enable = true;
   systemd.user.services.nm-applet.serviceConfig.ExecStart = mkForce "${pkgs.networkmanagerapplet}/bin/nm-applet --indicator";
 
