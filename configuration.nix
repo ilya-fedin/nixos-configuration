@@ -182,6 +182,13 @@ with lib;
     hplip
   ];
 
+  services.tor.enable = true;
+  services.tor.client.enable = true;
+
+  services.tor.extraConfig = ''
+    ExitNodes {ua}
+  '';
+
   services.teamviewer.enable = true;
 
   services.gnome3.at-spi2-core.enable = mkForce false;
