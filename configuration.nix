@@ -256,7 +256,6 @@ with lib;
     password = passwords.ilya;
     extraGroups = [ "wheel" "docker" "adbusers" ];
     uid = 1000;
-    createHome = true;
     isNormalUser = true;
   };
 
