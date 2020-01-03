@@ -111,7 +111,7 @@ with lib;
     vlc
     nfs-utils
     ntfs3g
-    #gimp
+    gimp
     wget
     iptables
     filezilla
