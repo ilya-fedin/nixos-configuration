@@ -227,7 +227,6 @@ with lib;
   services.xserver.layout = "us,ru";
   services.xserver.useGlamor = true;
   services.xserver.libinput.enable = true;
-  services.xserver.displayManager.xserverArgs = [ "-ac" ];
 
   services.xserver.displayManager.sddm.enable = true;
   services.xserver.displayManager.sddm.autoLogin.enable = true;
