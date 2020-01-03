@@ -272,5 +272,5 @@ with lib;
 
   users.groups.sambashare = {};
 
-  system.stateVersion = "unstable";
+  system.stateVersion = "20.03";
 }
