@@ -139,6 +139,7 @@ with lib;
     oraclejdk8
     dfeet
     bustle
+    samba
   ];
 
   environment.sessionVariables = rec {
@@ -181,6 +182,19 @@ with lib;
     gutenprint
     hplip
   ];
+
+  services.avahi.enable = true;
+  services.samba.enable = true;
+
+  services.samba.extraConfig = ''
+    workgroup = WORKGROUP
+    guest account = ilya
+
+    usershare path = /var/lib/samba/usershares
+    usershare max shares = 100
+    usershare allow guests = yes
+    usershare owner only = yes
+  '';
 
   services.tor.enable = true;
   services.tor.client.enable = true;
@@ -254,10 +268,12 @@ with lib;
   users.users.ilya = {
     description = "Илья Федин";
     password = passwords.ilya;
-    extraGroups = [ "wheel" "docker" "adbusers" ];
+    extraGroups = [ "wheel" "docker" "adbusers" "sambashare" ];
     uid = 1000;
     isNormalUser = true;
   };
+
+  users.groups.sambashare = {};
 
   system.stateVersion = "unstable";
 }
