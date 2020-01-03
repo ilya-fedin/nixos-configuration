@@ -102,7 +102,6 @@ with lib;
     libsForQt5.qtstyleplugin-kvantum
     remmina
     sshfs
-    virtmanager
     yakuake
     go-mtpfs
     lm_sensors
@@ -126,7 +125,6 @@ with lib;
     unzip
     zip
     unrar
-    gnome3.gnome-boxes
     gnome3.dconf-editor
     xclip
     htop
