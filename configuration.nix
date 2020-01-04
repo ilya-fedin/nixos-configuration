@@ -40,7 +40,6 @@ with lib;
   boot.blacklistedKernelModules = [ "iTCO_wdt" "uvcvideo" ];
 
   boot.cleanTmpDir = true;
-  boot.earlyVconsoleSetup = true;
   boot.consoleLogLevel = 3;
 
   boot.kernel.sysctl = {
@@ -76,11 +75,15 @@ with lib;
   networking.wireless.iwd.enable = true;
 
   i18n = {
-    consolePackages = with pkgs; [ terminus_font ];
-    consoleFont = "ter-v16n";
-    consoleKeyMap = "ru";
     defaultLocale = "ru_RU.UTF-8";
     supportedLocales = [ "ru_RU.UTF-8/UTF-8" ];
+  };
+
+  console = {
+    packages = with pkgs; [ terminus_font ];
+    font = "ter-v16n";
+    keyMap = "ru";
+    earlySetup = true;
   };
 
   time.timeZone = "Europe/Saratov";
