@@ -131,6 +131,7 @@ with lib;
     gnome3.dconf-editor
     xclip
     htop
+    kdeFrameworks.kio
     kdeFrameworks.kglobalaccel
     kdeFrameworks.kwallet
     kwalletmanager
