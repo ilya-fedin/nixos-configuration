@@ -228,7 +228,6 @@ with lib;
   services.xserver.enable = true;
   services.xserver.dpi = 120;
   services.xserver.layout = "us,ru";
-  services.xserver.useGlamor = true;
   services.xserver.libinput.enable = true;
 
   services.xserver.displayManager.sddm.enable = true;
