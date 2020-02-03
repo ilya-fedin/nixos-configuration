@@ -250,7 +250,7 @@ with lib;
   fonts.fontconfig.extraEmojiConfiguration = true;
   fonts.fontconfig.useNotoCjk = true;
 
-  fonts.fontconfig.defaultFonts.sansSerif = [ "Roboto" ];
+  fonts.fontconfig.defaultFonts.sansSerif = [ "Exo 2" ];
   fonts.fontconfig.defaultFonts.serif = [ "Roboto Slab" ];
   fonts.fontconfig.defaultFonts.monospace = [ "Cascadia Code" "FuraCode Nerd Font" ];
   fonts.fontconfig.defaultFonts.emoji = [ "JoyPixels" ];
