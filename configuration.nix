@@ -150,6 +150,8 @@ with lib;
     VISUAL = EDITOR;
     SYSTEMD_EDITOR = EDITOR;
     LIBVA_DRIVER_NAME = "iHD";
+    # Use Qt's built-in event dispatcher instead of glib one
+    QT_NO_GLIB = "1";
   };
 
   programs.fish.enable = true;
