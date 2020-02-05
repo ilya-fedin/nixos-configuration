@@ -52,7 +52,7 @@ with lib;
   powerManagement.cpuFreqGovernor = "schedutil";
 
   hardware.bluetooth.enable = true;
-  #hardware.usbWwan.enable = true;
+  hardware.usbWwan.enable = true;
 
   hardware.opengl.enable = true;
   hardware.opengl.s3tcSupport = true;
@@ -119,7 +119,7 @@ with lib;
     iptables
     filezilla
     youtube-dl
-    #tdesktop
+    kotatogram-desktop
     vokoscreen
     qbittorrent
     quaternion
