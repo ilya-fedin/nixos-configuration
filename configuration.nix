@@ -3,7 +3,11 @@ let
 
   passwords = import ./passwords.nix;
 
-  overlays = [ (import ./overlays/nur.nix) ];
+  overlays = [
+    (import ./overlays/nur.nix)
+    (import ./overlays/indicator3.nix)
+    (import ./overlays/onboard.nix)
+  ];
 
   pkgs = import sources.nixpkgs {
     overlays = overlays;
@@ -141,7 +145,9 @@ with lib;
     oraclejdk8
     dfeet
     bustle
+    onboard
     samba
+    indicator-application-gtk3
   ];
 
   environment.sessionVariables = rec {
@@ -186,6 +192,9 @@ with lib;
     gutenprint
     hplip
   ];
+
+  services.openssh.enable = true;
+  services.openssh.forwardX11 = true;
 
   services.avahi.enable = true;
   services.samba.enable = true;
