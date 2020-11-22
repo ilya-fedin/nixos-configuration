@@ -184,7 +184,6 @@ with lib;
   '';
 
   programs.nm-applet.enable = true;
-  systemd.user.services.nm-applet.serviceConfig.ExecStart = mkForce "${pkgs.networkmanagerapplet}/bin/nm-applet --indicator";
 
   programs.vscode.enable = true;
   programs.vscode.user = "ilya";
