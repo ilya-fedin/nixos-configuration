@@ -1,3 +1,5 @@
+{ config, ... }:
+
 let
   sources = import ./nix/sources.nix;
 
@@ -5,8 +7,7 @@ let
 
   overlays = [
     (import ./overlays/nur.nix)
-    (import ./overlays/indicator3.nix)
-    (import ./overlays/onboard.nix)
+    (import ./overlays/gtk-portal.nix)
   ];
 
   pkgs = import sources.nixpkgs {
@@ -14,10 +15,21 @@ let
     config = {
       allowUnfree = true;
       oraclejdk.accept_license = true;
+      joypixels.acceptLicense = true;
     };
   };
 
   inherit (pkgs) lib nur;
+
+  addToXDGDirs = p: ''
+    if [ -d "${p}/share/gsettings-schemas/${p.name}" ]; then
+      export XDG_DATA_DIRS=$XDG_DATA_DIRS''${XDG_DATA_DIRS:+:}${p}/share/gsettings-schemas/${p.name}
+    fi
+    if [ -d "${p}/lib/girepository-1.0" ]; then
+      export GI_TYPELIB_PATH=$GI_TYPELIB_PATH''${GI_TYPELIB_PATH:+:}${p}/lib/girepository-1.0
+      export LD_LIBRARY_PATH=$LD_LIBRARY_PATH''${LD_LIBRARY_PATH:+:}${p}/lib
+    fi
+  '';
 in
 
 with lib;
@@ -31,12 +43,12 @@ with lib;
   nixpkgs.niv.enable = true;
 
   nix.nixPath = [ "nixpkgs-overlays=/etc/nixos/overlays-compat" ];
-  nix.buildCores = 2;
+  nix.buildCores = 5;
   nix.trustedUsers = [ "root" "@wheel" ];
 
   boot.loader.systemd-boot.enable = true;
 
-  #boot.kernelPackages = pkgs.linuxPackages_latest;
+  boot.kernelPackages = pkgs.linuxPackages_latest;
   boot.kernelParams = [ "intel_pstate=disable" "i915.fastboot=1" "i915.nuclear_pageflip=1" "mitigations=off" "nowatchdog" "nmi_watchdog=0" "quiet" "rd.systemd.show_status=auto" "rd.udev.log_priority=3" ];
   boot.kernelModules = [ "bfq" ];
 
@@ -52,18 +64,14 @@ with lib;
     "net.ipv4.conf.all.rp_filter" = 1;
   };
 
-  powerManagement.powertop.enable = true;
   powerManagement.cpuFreqGovernor = "schedutil";
 
   hardware.bluetooth.enable = true;
   hardware.usbWwan.enable = true;
 
   hardware.opengl.enable = true;
-  hardware.opengl.s3tcSupport = true;
-  hardware.opengl.useIrisDriver = true;
-
   hardware.opengl.extraPackages = with pkgs; [
-    intel-media-driver
+    vaapiIntel
   ];
 
   hardware.sane.enable = true;
@@ -103,6 +111,7 @@ with lib;
     adapta-backgrounds
     adapta-gtk-theme
     adapta-kde-theme
+    (getBin breeze-qt5)
     git
     neofetch
     papirus-icon-theme
@@ -113,8 +122,8 @@ with lib;
     go-mtpfs
     lm_sensors
     firefox-beta-bin
+    ark
     okteta
-    vscode
     vlc
     nfs-utils
     ntfs3g
@@ -126,9 +135,7 @@ with lib;
     kotatogram-desktop
     vokoscreen
     qbittorrent
-    quaternion
-    plasma-integration
-    p7zip
+    libarchive
     unzip
     zip
     unrar
@@ -142,12 +149,13 @@ with lib;
     ix
     nur.repos.ilya-fedin.silver
     steam-run
-    oraclejdk8
     dfeet
     bustle
-    onboard
     samba
-    indicator-application-gtk3
+    qemu
+    libvirt
+    gnome3.gnome-boxes
+    zstd
   ];
 
   environment.sessionVariables = rec {
@@ -155,15 +163,19 @@ with lib;
     EDITOR = "micro";
     VISUAL = EDITOR;
     SYSTEMD_EDITOR = EDITOR;
-    LIBVA_DRIVER_NAME = "iHD";
-    # Use Qt's built-in event dispatcher instead of glib one
-    QT_NO_GLIB = "1";
+    QT_QPA_PLATFORMTHEME = "xdgdesktopportal";
+    QT_STYLE_OVERRIDE = "kvantum";
+    MOZ_DISABLE_CONTENT_SANDBOX = "1";
+    TDESKTOP_DISABLE_TRAY_COUNTER = "1";
   };
+
+  environment.extraInit = ''
+    ${addToXDGDirs pkgs.gnome3.gnome-settings-daemon}
+  '';
 
   programs.fish.enable = true;
   programs.ssh.askPassword = "${pkgs.ksshaskpass}/bin/ksshaskpass";
   programs.adb.enable = true;
-  programs.qt5ct.enable = true;
   programs.system-config-printer.enable = false;
 
   programs.ssh.extraConfig = ''
@@ -174,13 +186,19 @@ with lib;
   programs.nm-applet.enable = true;
   systemd.user.services.nm-applet.serviceConfig.ExecStart = mkForce "${pkgs.networkmanagerapplet}/bin/nm-applet --indicator";
 
+  programs.vscode.enable = true;
+  programs.vscode.user = "ilya";
+  programs.vscode.homeDir = "/home/ilya";
+  programs.vscode.extensions = with pkgs.vscode-extensions; [
+    ms-vscode.cpptools
+  ];
+
   services.udev.optimalSchedulers = true;
   services.fstrim.enable = true;
 
   services.logind.killUserProcesses = true;
   services.earlyoom.enable = true;
 
-  services.nscd.enable = false;
   services.dbus-broker.enable = true;
 
   services.resolved.enable = true;
@@ -201,6 +219,9 @@ with lib;
 
   services.samba.extraConfig = ''
     workgroup = WORKGROUP
+    server min protocol = NT1
+    client min protocol = NT1
+    ntlm auth = yes
     guest account = ilya
 
     usershare path = /var/lib/samba/usershares
@@ -208,6 +229,18 @@ with lib;
     usershare allow guests = yes
     usershare owner only = yes
   '';
+
+  services.yggdrasil.enable = true;
+
+  services.yggdrasil.config = {
+    Peers = [
+      tcp://194.177.21.156:5066
+      tcp://46.151.26.194:60575
+      tcp://195.211.160.2:5066
+      tcp://188.226.125.64:54321
+      tcp://78.155.207.12:32320
+    ];
+  } // passwords.yggdrasil-keys;
 
   services.tor.enable = true;
   services.tor.client.enable = true;
@@ -223,51 +256,63 @@ with lib;
   services.flatpak.enable = true;
 
   xdg.portal.enable = true;
+  xdg.portal.gtkUsePortal = true;
   xdg.portal.extraPortals = with pkgs; [
+    xdg-desktop-portal-gtk
     xdg-desktop-portal-kde
   ];
 
   virtualisation.docker.enable = true;
   virtualisation.docker.enableOnBoot = false;
 
+  virtualisation.lxd.enable = true;
+  security.apparmor.enable = mkForce false;
+
+  virtualisation.virtualbox.host.enable = true;
+  virtualisation.virtualbox.host.package = pkgs.virtualboxWithExtpack;
+
   networking.firewall.enable = false;
   networking.usePredictableInterfaceNames = false;
 
   sound.enable = true;
-  hardware.pulseaudio.enable = true;
-  hardware.pulseaudio.package = pkgs.pulseaudioFull;
+  security.rtkit.enable = true;
+  services.pipewire = {
+    enable = true;
+    alsa.enable = true;
+    pulse.enable = true;
+  };
 
   services.xserver.enable = true;
-  services.xserver.dpi = 120;
   services.xserver.layout = "us,ru";
   services.xserver.videoDrivers = [ "modesetting" ];
   services.xserver.libinput.enable = true;
 
   services.xserver.displayManager.sddm.enable = true;
-  services.xserver.displayManager.sddm.autoLogin.enable = true;
-  services.xserver.displayManager.sddm.autoLogin.user = "ilya";
+  services.xserver.displayManager.autoLogin.enable = true;
+  services.xserver.displayManager.autoLogin.user = "ilya";
   security.pam.services.sddm.enableKwallet = true;
 
   services.xserver.desktopManager.mate.enable = true;
+  environment.mate.excludePackages = with pkgs.mate; [
+    mate-netbook
+  ];
 
   fonts.fonts = with pkgs; [
     joypixels
   ];
 
-  fonts.fontconfig.dpi = 120;
   fonts.fontconfig.subpixel.rgba = "none";
 
   fonts.fontconfig.crOSMaps = true;
-  fonts.fontconfig.extraEmojiConfiguration = true;
   fonts.fontconfig.useNotoCjk = true;
 
   fonts.fontconfig.defaultFonts.sansSerif = [ "Exo 2" ];
   fonts.fontconfig.defaultFonts.serif = [ "Roboto Slab" ];
-  fonts.fontconfig.defaultFonts.monospace = [ "Cascadia Code" "FuraCode Nerd Font" ];
+  fonts.fontconfig.defaultFonts.monospace = [ "Cascadia Code" "FiraCode Nerd Font" ];
   fonts.fontconfig.defaultFonts.emoji = [ "JoyPixels" ];
 
   fonts.fontconfig.cascadiaCode.enableFallback = true;
-  fonts.fontconfig.cascadiaCode.fallbackFont = "FuraCode Nerd Font";
+  fonts.fontconfig.cascadiaCode.fallbackFont = "FiraCode Nerd Font";
   fonts.fontconfig.cascadiaCode.fallbackPackage = pkgs.nerdfonts;
 
   users.mutableUsers = false;
@@ -280,7 +325,7 @@ with lib;
   users.users.ilya = {
     description = "Илья Федин";
     password = passwords.ilya;
-    extraGroups = [ "wheel" "docker" "adbusers" "sambashare" ];
+    extraGroups = [ "wheel" "docker" "lxd" "vboxusers" "adbusers" "sambashare" ];
     uid = 1000;
     isNormalUser = true;
   };
