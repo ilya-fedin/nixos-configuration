@@ -196,6 +196,10 @@ with lib;
     ms-vscode.cpptools
   ];
 
+  systemd.services.polkit = {
+    restartIfChanged = false;
+  };
+
   services.udev.optimalSchedulers = true;
   services.fstrim.enable = true;
 
