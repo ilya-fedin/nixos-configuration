@@ -50,10 +50,14 @@ with lib;
 
   boot.kernelPackages = pkgs.linuxPackages_latest;
   boot.kernelParams = [ "intel_pstate=disable" "i915.fastboot=1" "i915.nuclear_pageflip=1" "mitigations=off" "nowatchdog" "nmi_watchdog=0" "quiet" "rd.systemd.show_status=auto" "rd.udev.log_priority=3" ];
-  boot.kernelModules = [ "bfq" ];
+  boot.kernelModules = [ "bfq" "bbswitch" ];
 
+  boot.extraModulePackages = with config.boot.kernelPackages; [ bbswitch ];
   boot.initrd.availableKernelModules = mkForce [ "sd_mod" "ahci" "ext4" "i8042" "atkbd" "i915" ];
   boot.blacklistedKernelModules = [ "iTCO_wdt" "uvcvideo" ];
+  boot.extraModprobeConfig = ''
+    options bbswitch load_state=0 unload_state=1
+  '';
 
   boot.cleanTmpDir = true;
   boot.consoleLogLevel = 3;
