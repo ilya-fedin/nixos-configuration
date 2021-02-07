@@ -320,7 +320,11 @@ with lib;
 
   fonts.fontconfig.cascadiaCode.enableFallback = true;
   fonts.fontconfig.cascadiaCode.fallbackFont = "FiraCode Nerd Font";
-  fonts.fontconfig.cascadiaCode.fallbackPackage = pkgs.nerdfonts;
+  fonts.fontconfig.cascadiaCode.fallbackPackage = pkgs.nerdfonts.override {
+    fonts = [
+      "FiraCode"
+    ];
+  };
 
   users.mutableUsers = false;
   users.defaultUserShell = pkgs.fish;
