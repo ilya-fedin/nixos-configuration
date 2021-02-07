@@ -3,4 +3,3 @@ self: super: {
     buildInputs = oldAttrs.buildInputs ++ [ super.libappindicator-gtk3 ];
   });
 }
-
