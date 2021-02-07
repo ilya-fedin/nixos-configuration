@@ -146,9 +146,9 @@ with lib;
     gnome3.dconf-editor
     xclip
     htop
-    kdeFrameworks.kio
-    kdeFrameworks.kglobalaccel
-    kdeFrameworks.kwallet
+    plasma5Packages.kio
+    plasma5Packages.kglobalaccel
+    plasma5Packages.kwallet
     kwalletmanager
     ix
     nur.repos.ilya-fedin.silver
@@ -252,9 +252,9 @@ with lib;
   services.tor.enable = true;
   services.tor.client.enable = true;
 
-  services.tor.extraConfig = ''
-    ExitNodes {ua}
-  '';
+  services.tor.settings = {
+    ExitNodes = "{ua}";
+  };
 
   services.teamviewer.enable = true;
 
