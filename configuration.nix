@@ -43,21 +43,17 @@ with lib;
   nixpkgs.niv.enable = true;
 
   nix.nixPath = [ "nixpkgs-overlays=/etc/nixos/overlays-compat" ];
-  nix.buildCores = 5;
+  nix.buildCores = 9;
   nix.trustedUsers = [ "root" "@wheel" ];
 
   boot.loader.systemd-boot.enable = true;
 
-  boot.kernelPackages = pkgs.linuxPackages_latest;
-  boot.kernelParams = [ "intel_pstate=disable" "i915.fastboot=1" "i915.nuclear_pageflip=1" "mitigations=off" "nowatchdog" "nmi_watchdog=0" "quiet" "rd.systemd.show_status=auto" "rd.udev.log_priority=3" ];
-  boot.kernelModules = [ "bfq" "bbswitch" ];
+  boot.kernelPackages = pkgs.linuxPackages_zen;
+  boot.kernelParams = [ "mitigations=off" "nowatchdog" "nmi_watchdog=0" "quiet" "rd.systemd.show_status=auto" "rd.udev.log_priority=3" ];
+  boot.kernelModules = [ "bfq" ];
 
-  boot.extraModulePackages = with config.boot.kernelPackages; [ bbswitch ];
-  boot.initrd.availableKernelModules = mkForce [ "sd_mod" "ahci" "ext4" "i8042" "atkbd" "i915" ];
+  boot.initrd.availableKernelModules = mkForce [ "sd_mod" "nvme" "ext4" "i8042" "atkbd" "i915" ];
   boot.blacklistedKernelModules = [ "iTCO_wdt" "uvcvideo" ];
-  boot.extraModprobeConfig = ''
-    options bbswitch load_state=0 unload_state=1
-  '';
 
   boot.cleanTmpDir = true;
   boot.consoleLogLevel = 3;
@@ -74,9 +70,6 @@ with lib;
   hardware.usbWwan.enable = true;
 
   hardware.opengl.enable = true;
-  hardware.opengl.extraPackages = with pkgs; [
-    vaapiIntel
-  ];
 
   hardware.sane.enable = true;
   hardware.sane.extraBackends = with pkgs; [
@@ -297,6 +290,10 @@ with lib;
   services.xserver.displayManager.sddm.enable = true;
   services.xserver.displayManager.autoLogin.enable = true;
   services.xserver.displayManager.autoLogin.user = "ilya";
+  services.xserver.displayManager.setupCommands = ''
+    ${pkgs.xorg.xrandr}/bin/xrandr --output eDP-1 --scale 1.5
+  '';
+
   security.pam.services.sddm.enableKwallet = true;
 
   services.xserver.desktopManager.mate.enable = true;
