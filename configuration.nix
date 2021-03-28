@@ -156,6 +156,7 @@ with lib;
     libvirt
     gnome3.gnome-boxes
     zstd
+    neochat
   ];
 
   environment.sessionVariables = rec {
