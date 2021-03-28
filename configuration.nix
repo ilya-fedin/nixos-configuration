@@ -166,6 +166,7 @@ with lib;
     QT_QPA_PLATFORMTHEME = "xdgdesktopportal";
     QT_STYLE_OVERRIDE = "kvantum";
     QT_QUICK_CONTROLS_FALLBACK_STYLE = "org.kde.desktop";
+    QT_SCALE_FACTOR = "2";
     QT_PLUGIN_PATH = "${pkgs.libsForQt5.qqc2-desktop-style}/${pkgs.qt5.qtbase.qtPluginPrefix}:${pkgs.libsForQt514.qqc2-desktop-style}/${pkgs.qt514.qtbase.qtPluginPrefix}";
     QML2_IMPORT_PATH = "${pkgs.libsForQt5.qqc2-desktop-style}/${pkgs.qt5.qtbase.qtQmlPrefix}:${pkgs.libsForQt514.qqc2-desktop-style}/${pkgs.qt514.qtbase.qtQmlPrefix}";
     MOZ_DISABLE_CONTENT_SANDBOX = "1";
