@@ -113,6 +113,9 @@ with lib;
     neofetch
     papirus-icon-theme
     libsForQt5.qtstyleplugin-kvantum
+    libsForQt5.qqc2-desktop-style
+    libsForQt514.qtstyleplugin-kvantum
+    libsForQt514.qqc2-desktop-style
     remmina
     sshfs
     yakuake
@@ -162,6 +165,9 @@ with lib;
     SYSTEMD_EDITOR = EDITOR;
     QT_QPA_PLATFORMTHEME = "xdgdesktopportal";
     QT_STYLE_OVERRIDE = "kvantum";
+    QT_QUICK_CONTROLS_FALLBACK_STYLE = "org.kde.desktop";
+    QT_PLUGIN_PATH = "${pkgs.libsForQt5.qqc2-desktop-style}/${pkgs.qt5.qtbase.qtPluginPrefix}:${pkgs.libsForQt514.qqc2-desktop-style}/${pkgs.qt514.qtbase.qtPluginPrefix}";
+    QML2_IMPORT_PATH = "${pkgs.libsForQt5.qqc2-desktop-style}/${pkgs.qt5.qtbase.qtQmlPrefix}:${pkgs.libsForQt514.qqc2-desktop-style}/${pkgs.qt514.qtbase.qtQmlPrefix}";
     MOZ_DISABLE_CONTENT_SANDBOX = "1";
     TDESKTOP_DISABLE_TRAY_COUNTER = "1";
   };
