@@ -7,6 +7,7 @@ let
 
   overlays = [
     (import ./overlays/nur.nix)
+    (import ./overlays/xdp.nix)
     (import ./overlays/gtk-portal.nix)
   ];
 
