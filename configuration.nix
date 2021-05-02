@@ -317,7 +317,9 @@ with lib;
     })
   ];
 
+  fonts.fontconfig.hinting.enable = false;
   fonts.fontconfig.subpixel.rgba = "none";
+  fonts.fontconfig.subpixel.lcdfilter = "none";
 
   fonts.fontconfig.crOSMaps = true;
   fonts.fontconfig.useNotoCjk = true;
