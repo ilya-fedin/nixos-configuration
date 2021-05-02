@@ -218,7 +218,10 @@ with lib;
   services.openssh.forwardX11 = true;
 
   services.avahi.enable = true;
+  services.avahi.nssmdns = true;
+
   services.samba.enable = true;
+  services.samba.nsswins = true;
 
   services.samba.extraConfig = ''
     workgroup = WORKGROUP
