@@ -1,20 +1,32 @@
-{ config, ... }:
+{ config, inputs, ... }:
 
 let
-  sources = import ./nix/sources.nix;
+  passwords = import inputs.passwords;
 
-  passwords = import ./passwords.nix;
+  nixpkgsConfig = {
+    allowUnfree = true;
+    oraclejdk.accept_license = true;
+    joypixels.acceptLicense = true;
+  };
 
-  pkgs = import sources.nixpkgs {
-    overlays = [
-      (import ./overlays/nur.nix)
-    ];
-
-    config = {
-      allowUnfree = true;
-      oraclejdk.accept_license = true;
-      joypixels.acceptLicense = true;
+  nurOverlay = self: super: {
+    nur = import inputs.nur {
+      nurpkgs = super;
+      pkgs = super;
+      repoOverrides = {
+        ilya-fedin = import inputs.nur-repo-override {
+          pkgs = super;
+        };
+      };
     };
+  };
+
+  pkgs = import inputs.nixpkgs {
+    system = "x86_64-linux";
+
+    config = nixpkgsConfig;
+
+    overlays = [ nurOverlay ];
   };
 
   inherit (pkgs) lib nur;
@@ -32,21 +44,29 @@ in
 
 with lib;
 {
-  imports =
-    [
-      ./hardware-configuration.nix
-    ] ++ attrValues nur.repos.ilya-fedin.modules;
+  imports = [
+    (import inputs.hardware-configuration)
+  ] ++ attrValues nur.repos.ilya-fedin.modules;
+
+  nixpkgs.config = nixpkgsConfig;
 
   nixpkgs.overlays = [
-    (import ./overlays/nur.nix)
+    nurOverlay
     nur.repos.ilya-fedin.overlays.portal
   ];
 
-  nixpkgs.niv.enable = true;
-
-  nix.nixPath = [ "nixpkgs-overlays=/etc/nixos/overlays-compat" ];
+  nix.package = pkgs.nixUnstable;
+  nix.nixPath = mkForce [
+    "nixpkgs=/etc/nixpkgs"
+    "nixos-config=/etc/nixos/configuration.nix"
+    "nixpkgs-overlays=/etc/nixos/overlays-compat"
+  ];
   nix.buildCores = 9;
   nix.trustedUsers = [ "root" "@wheel" ];
+  nix.registry.self.flake = inputs.self;
+  nix.extraOptions = ''
+    experimental-features = nix-command flakes
+  '';
 
   boot.loader.systemd-boot.enable = true;
 
@@ -98,6 +118,8 @@ with lib;
   };
 
   time.timeZone = "Europe/Saratov";
+
+  environment.etc.nixpkgs.source = inputs.nixpkgs;
 
   environment.systemPackages = with pkgs; [
     file
@@ -258,8 +280,8 @@ with lib;
 
   services.teamviewer.enable = true;
 
-  services.gnome3.at-spi2-core.enable = mkForce false;
-  services.gnome3.gnome-keyring.enable = mkForce false;
+  services.gnome.at-spi2-core.enable = mkForce false;
+  services.gnome.gnome-keyring.enable = mkForce false;
   services.flatpak.enable = true;
 
   xdg.portal.enable = true;
