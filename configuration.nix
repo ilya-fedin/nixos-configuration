@@ -5,14 +5,11 @@ let
 
   passwords = import ./passwords.nix;
 
-  overlays = [
-    (import ./overlays/nur.nix)
-    (import ./overlays/xdp.nix)
-    (import ./overlays/gtk-portal.nix)
-  ];
-
   pkgs = import sources.nixpkgs {
-    overlays = overlays;
+    overlays = [
+      (import ./overlays/nur.nix)
+    ];
+
     config = {
       allowUnfree = true;
       oraclejdk.accept_license = true;
@@ -40,7 +37,11 @@ with lib;
       ./hardware-configuration.nix
     ] ++ attrValues nur.repos.ilya-fedin.modules;
 
-  nixpkgs.overlays = overlays;
+  nixpkgs.overlays = [
+    (import ./overlays/nur.nix)
+    nur.repos.ilya-fedin.overlays.portal
+  ];
+
   nixpkgs.niv.enable = true;
 
   nix.nixPath = [ "nixpkgs-overlays=/etc/nixos/overlays-compat" ];
