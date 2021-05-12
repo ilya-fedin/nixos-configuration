@@ -53,7 +53,7 @@ with lib;
   boot.kernelParams = [ "mitigations=off" "nowatchdog" "nmi_watchdog=0" "quiet" "rd.systemd.show_status=auto" "rd.udev.log_priority=3" ];
   boot.kernelModules = [ "bfq" ];
 
-  boot.initrd.availableKernelModules = mkForce [ "sd_mod" "nvme" "ext4" "i8042" "atkbd" "i915" ];
+  boot.initrd.availableKernelModules = mkForce [ "sd_mod" "nvme" "ext4" "i8042" "atkbd" "amdgpu" ];
   boot.blacklistedKernelModules = [ "iTCO_wdt" "uvcvideo" ];
 
   boot.cleanTmpDir = true;
