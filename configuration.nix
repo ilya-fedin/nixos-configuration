@@ -9,6 +9,13 @@ let
     joypixels.acceptLicense = true;
   };
 
+  nur-no-pkgs = import inputs.nur {
+    nurpkgs = import inputs.nixpkgs { system = "x86_64-linux"; };
+    repoOverrides = {
+      ilya-fedin = import inputs.nur-repo-override {};
+    };
+  };
+
   nurOverlay = self: super: {
     nur = import inputs.nur {
       nurpkgs = super;
@@ -21,12 +28,17 @@ let
     };
   };
 
+  overlays = [
+    nurOverlay
+    nur-no-pkgs.repos.ilya-fedin.overlays.portal
+  ];
+
   pkgs = import inputs.nixpkgs {
     system = "x86_64-linux";
 
     config = nixpkgsConfig;
 
-    overlays = [ nurOverlay ];
+    overlays = overlays;
   };
 
   inherit (pkgs) lib nur;
@@ -50,10 +62,7 @@ with lib;
 
   nixpkgs.config = nixpkgsConfig;
 
-  nixpkgs.overlays = [
-    nurOverlay
-    nur.repos.ilya-fedin.overlays.portal
-  ];
+  nixpkgs.overlays = overlays;
 
   nix.package = pkgs.nixUnstable;
   nix.nixPath = mkForce [
