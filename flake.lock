@@ -4,11 +4,11 @@
       "flake": false,
       "locked": {
         "narHash": "sha256-YnFcXJpisnIL9NLqUy6jhkGaOByBBqvYGFzy9Yn59yw=",
-        "path": "hardware-configuration.nix",
+        "path": "/etc/nixos/hardware-configuration.nix",
         "type": "path"
       },
       "original": {
-        "path": "hardware-configuration.nix",
+        "path": "/etc/nixos/hardware-configuration.nix",
         "type": "path"
       }
     },
@@ -59,11 +59,11 @@
       "flake": false,
       "locked": {
         "narHash": "sha256-d9sNRudCDJiZncNUQSXuWb8MGwdQqU0DCK/Ylcah+0I=",
-        "path": "passwords.nix",
+        "path": "/etc/nixos/passwords.nix",
         "type": "path"
       },
       "original": {
-        "path": "passwords.nix",
+        "path": "/etc/nixos/passwords.nix",
         "type": "path"
       }
     },

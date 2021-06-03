@@ -8,12 +8,12 @@
   };
 
   inputs.hardware-configuration = {
-    url = "path:hardware-configuration.nix";
+    url = "path:/etc/nixos/hardware-configuration.nix";
     flake = false;
   };
 
   inputs.passwords = {
-    url = "path:passwords.nix";
+    url = "path:/etc/nixos/passwords.nix";
     flake = false;
   };
 
@@ -23,5 +23,8 @@
       modules = [ ./configuration.nix ];
       specialArgs = { inherit inputs; };
     };
+
+    defaultPackage.x86_64-linux = inputs.self.nixosConfigurations.nixos.config.system.build.vm;
+    legacyPackages.x86_64-linux = (builtins.head (builtins.attrValues inputs.self.nixosConfigurations)).pkgs;
   };
 }

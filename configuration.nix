@@ -10,7 +10,11 @@ let
   };
 
   nur-no-pkgs = import inputs.nur {
-    nurpkgs = import inputs.nixpkgs { system = "x86_64-linux"; };
+    nurpkgs = import inputs.nixpkgs {
+      system = "x86_64-linux";
+      overlays = [];
+    };
+
     repoOverrides = {
       ilya-fedin = import inputs.nur-repo-override {};
     };
@@ -35,9 +39,7 @@ let
 
   pkgs = import inputs.nixpkgs {
     system = "x86_64-linux";
-
     config = nixpkgsConfig;
-
     overlays = overlays;
   };
 
@@ -61,7 +63,6 @@ with lib;
   ] ++ attrValues nur.repos.ilya-fedin.modules;
 
   nixpkgs.config = nixpkgsConfig;
-
   nixpkgs.overlays = overlays;
 
   nix.package = pkgs.nixUnstable;
@@ -128,7 +129,7 @@ with lib;
 
   time.timeZone = "Europe/Saratov";
 
-  environment.etc.nixpkgs.source = inputs.nixpkgs;
+  environment.etc.nixpkgs.source = pkgs.path;
 
   environment.systemPackages = with pkgs; [
     file
