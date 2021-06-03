@@ -29,7 +29,7 @@
       specialArgs = { inherit inputs; };
     };
 
-    defaultPackage.x86_64-linux = inputs.self.nixosConfigurations.nixos.config.system.build.vm;
+    defaultPackage.x86_64-linux = inputs.self.nixosConfigurations.nixos.config.system.build.toplevel;
     legacyPackages.x86_64-linux = (builtins.head (builtins.attrValues inputs.self.nixosConfigurations)).pkgs;
   };
 }
