@@ -167,7 +167,7 @@ with lib;
     filezilla
     youtube-dl
     kotatogram-desktop
-    vokoscreen
+    vokoscreen-ng
     qbittorrent
     libarchive
     unzip
