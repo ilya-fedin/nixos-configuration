@@ -12,6 +12,22 @@
         "type": "path"
       }
     },
+    "mozilla": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1622726979,
+        "narHash": "sha256-JCBPZVQ4aGe3cmnQc1tjJRwaxqz1b60piQz+/F9CMtc=",
+        "owner": "mozilla",
+        "repo": "nixpkgs-mozilla",
+        "rev": "3f3fba4e2066f28a1ad7ac60e86a688a92eb5b5f",
+        "type": "github"
+      },
+      "original": {
+        "owner": "mozilla",
+        "repo": "nixpkgs-mozilla",
+        "type": "github"
+      }
+    },
     "nixpkgs": {
       "locked": {
         "lastModified": 1621840840,
@@ -70,6 +86,7 @@
     "root": {
       "inputs": {
         "hardware-configuration": "hardware-configuration",
+        "mozilla": "mozilla",
         "nixpkgs": "nixpkgs",
         "nur": "nur",
         "nur-repo-override": "nur-repo-override",

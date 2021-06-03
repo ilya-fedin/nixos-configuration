@@ -34,6 +34,7 @@ let
 
   overlays = [
     nurOverlay
+    (import inputs.mozilla)
     nur-no-pkgs.repos.ilya-fedin.overlays.portal
   ];
 
@@ -155,7 +156,7 @@ with lib;
     yakuake
     go-mtpfs
     lm_sensors
-    firefox-beta-bin
+    latest.firefox-beta-bin
     ark
     okteta
     vlc

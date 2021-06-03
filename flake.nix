@@ -2,6 +2,11 @@
   inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
   inputs.nur.url = "github:nix-community/NUR";
 
+  inputs.mozilla = {
+    url = "github:mozilla/nixpkgs-mozilla";
+    flake = false;
+  };
+
   inputs.nur-repo-override = {
     url = "path:/home/ilya/nur-repository";
     flake = false;
@@ -17,7 +22,7 @@
     flake = false;
   };
 
-  outputs = { self, nixpkgs, nur, nur-repo-override, hardware-configuration, passwords }@inputs: {
+  outputs = { self, nixpkgs, nur, mozilla, nur-repo-override, hardware-configuration, passwords }@inputs: {
     nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
       modules = [ ./configuration.nix ];
