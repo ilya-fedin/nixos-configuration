@@ -382,7 +382,7 @@ with lib;
   users.users.ilya = {
     description = "Илья Федин";
     password = passwords.ilya;
-    extraGroups = [ "wheel" "networkmanager" "docker" "lxd" "vboxusers" "adbusers" "sambashare" ];
+    extraGroups = [ "wheel" "dialout" "networkmanager" "docker" "lxd" "vboxusers" "adbusers" "sambashare" ];
     uid = 1000;
     isNormalUser = true;
   };
