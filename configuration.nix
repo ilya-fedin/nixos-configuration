@@ -76,6 +76,7 @@ with lib;
   nix.trustedUsers = [ "root" "@wheel" ];
   nix.registry.self.flake = inputs.self;
   nix.extraOptions = ''
+    sandbox = false
     experimental-features = nix-command flakes
   '';
 
