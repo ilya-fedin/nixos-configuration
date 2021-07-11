@@ -157,7 +157,12 @@ with lib;
     lm_sensors
     latest.firefox-beta-bin
     ark
+    dolphin
+    kate
+    konsole
     okteta
+    okular
+    spectacle
     vlc
     nfs-utils
     ntfs3g
@@ -177,6 +182,10 @@ with lib;
     xclip
     htop
     plasma5Packages.kio
+    plasma5Packages.kio-extras
+    plasma5Packages.dolphin-plugins
+    plasma5Packages.kdegraphics-thumbnailers
+    plasma5Packages.ffmpegthumbs
     plasma5Packages.kglobalaccel
     plasma5Packages.kwallet
     kwalletmanager
@@ -333,7 +342,7 @@ with lib;
 
   services.xserver.desktopManager.mate.enable = true;
   environment.mate.excludePackages = with pkgs.mate; [
-    mate-netbook
+    mate-netbook caja engrampa pluma atril
   ];
 
   fonts.fonts = with pkgs; [
