@@ -30,11 +30,11 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1621840840,
-        "narHash": "sha256-o6h6+d5ZwrFmOTe+ma9s1Z9kyHsCW1C84IA8RZ9/fIU=",
+        "lastModified": 1625874246,
+        "narHash": "sha256-7cGgcysIXz/j/lRpJn7cNJjf0+k7sQ5EuGn62252Svw=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "ea7d4aa9b8225abd6147339f0d56675d6f1f0fd1",
+        "rev": "45fc7d4a35c5343e58541a7847f6415654ccbb37",
         "type": "github"
       },
       "original": {
@@ -46,11 +46,11 @@
     },
     "nur": {
       "locked": {
-        "lastModified": 1622155894,
-        "narHash": "sha256-VaJenc/XtYF8ivA1MzUaFKXcuhszKpSpF6XfQv25h34=",
+        "lastModified": 1625976548,
+        "narHash": "sha256-6FoG4l8fYD519mxoYhwVPS3mxuykq7XqKLf3A3E4+OY=",
         "owner": "nix-community",
         "repo": "NUR",
-        "rev": "e08dc88d84ce1a6bba1391c34e34a0100bde4696",
+        "rev": "20e2a62d2e0a2ae0a1a036c8fdf9f9e1bd1c4311",
         "type": "github"
       },
       "original": {
@@ -62,7 +62,7 @@
     "nur-repo-override": {
       "flake": false,
       "locked": {
-        "narHash": "sha256-QFrpcPXuwpaesVw6sPHaQlHEyvIZJ2No6C6dsNeAl1A=",
+        "narHash": "sha256-Ex/LUt8e85twb5smbIjwE2kvEubnACaNu4Jk+Az1yew=",
         "path": "/home/ilya/nur-repository",
         "type": "path"
       },
