@@ -310,7 +310,7 @@ with lib;
   security.apparmor.enable = mkForce false;
 
   virtualisation.virtualbox.host.enable = true;
-  virtualisation.virtualbox.host.package = pkgs.virtualboxWithExtpack;
+  virtualisation.virtualbox.host.enableExtensionPack = true;
 
   networking.firewall.enable = false;
   networking.usePredictableInterfaceNames = false;
