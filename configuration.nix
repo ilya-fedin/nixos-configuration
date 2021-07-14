@@ -46,16 +46,6 @@ let
   };
 
   inherit (pkgs) lib nur;
-
-  addToXDGDirs = p: ''
-    if [ -d "${p}/share/gsettings-schemas/${p.name}" ]; then
-      export XDG_DATA_DIRS=$XDG_DATA_DIRS''${XDG_DATA_DIRS:+:}${p}/share/gsettings-schemas/${p.name}
-    fi
-    if [ -d "${p}/lib/girepository-1.0" ]; then
-      export GI_TYPELIB_PATH=$GI_TYPELIB_PATH''${GI_TYPELIB_PATH:+:}${p}/lib/girepository-1.0
-      export LD_LIBRARY_PATH=$LD_LIBRARY_PATH''${LD_LIBRARY_PATH:+:}${p}/lib
-    fi
-  '';
 in
 
 with lib;
@@ -212,10 +202,6 @@ with lib;
     QT_SCALE_FACTOR = "2";
     MOZ_DISABLE_CONTENT_SANDBOX = "1";
   };
-
-  environment.extraInit = ''
-    ${addToXDGDirs pkgs.gnome3.gnome-settings-daemon}
-  '';
 
   programs.fish.enable = true;
   programs.ssh.askPassword = "${pkgs.ksshaskpass}/bin/ksshaskpass";
