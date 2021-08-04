@@ -191,6 +191,7 @@ with lib;
     zstd
     neochat
     vscodium
+    p7zip
   ];
 
   environment.sessionVariables = rec {
