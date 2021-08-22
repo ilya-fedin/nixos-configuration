@@ -36,7 +36,6 @@ let
     nurOverlay
     (import inputs.mozilla)
     nur-no-pkgs.repos.ilya-fedin.overlays.portal
-    nur-no-pkgs.repos.ilya-fedin.overlays.qt5ct
   ];
 
   pkgs = import inputs.nixpkgs {
