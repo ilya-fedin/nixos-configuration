@@ -81,6 +81,7 @@ with lib;
 
   boot.cleanTmpDir = true;
   boot.consoleLogLevel = 3;
+  boot.initrd.verbose = false;
 
   boot.kernel.sysctl = {
     "kernel.sysrq" = 1;
