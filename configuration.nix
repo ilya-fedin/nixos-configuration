@@ -70,7 +70,7 @@ with lib;
     experimental-features = nix-command flakes
   '';
 
-  boot.loader.systemd-boot.enable = true;
+  boot.loader.unifiedKernelImage.enable = true;
 
   boot.kernelPackages = pkgs.linuxPackages_zen;
   boot.kernelParams = [ "mitigations=off" "nowatchdog" "nmi_watchdog=0" "quiet" "rd.systemd.show_status=auto" "rd.udev.log_priority=3" ];
