@@ -200,7 +200,6 @@ with lib;
     VISUAL = EDITOR;
     SYSTEMD_EDITOR = EDITOR;
     QT_STYLE_OVERRIDE = "kvantum";
-    QT_SCALE_FACTOR = "2";
     MOZ_DISABLE_CONTENT_SANDBOX = "1";
   };
 
