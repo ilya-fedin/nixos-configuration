@@ -99,6 +99,7 @@ with lib;
   hardware.sane.enable = true;
   hardware.sane.extraBackends = with pkgs; [
     hplipWithPlugin
+    sane-airscan
   ];
 
   networking.hostName = "nixos";
