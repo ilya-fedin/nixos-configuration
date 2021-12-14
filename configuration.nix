@@ -70,6 +70,14 @@ with lib;
     experimental-features = nix-command flakes
   '';
 
+  nix.binaryCaches = [
+    "https://ilya-fedin.cachix.org"
+  ];
+
+  nix.binaryCachePublicKeys = [
+    "ilya-fedin.cachix.org-1:QveU24a5ePPMh82mAFSxLk1P+w97pRxqe9rh+MJqlag="
+  ];
+
   boot.loader.unifiedKernelImage.enable = true;
 
   boot.kernelPackages = pkgs.linuxPackages_zen;
@@ -162,7 +170,7 @@ with lib;
     iptables
     filezilla
     youtube-dl
-    kotatogram-desktop
+    nur.repos.ilya-fedin.kotatogram-desktop
     vokoscreen-ng
     qbittorrent
     libarchive
