@@ -190,7 +190,6 @@ with lib;
     kwalletmanager
     ix
     nur.repos.ilya-fedin.silver
-    steam-run
     dfeet
     bustle
     samba
