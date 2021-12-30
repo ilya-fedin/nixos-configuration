@@ -285,6 +285,9 @@ with lib;
 
   services.tor.settings = {
     ExitNodes = "{ua}";
+    UseBridges = true;
+    ClientTransportPlugin = "obfs4 exec ${pkgs.obfs4}/bin/obfs4proxy";
+    Bridge = "obfs4 46.226.107.197:10300 A38FD6BDFD902882F5F5B9B7CCC95602A20B0BC4 cert=t8tA9q2AeGlmp/dO6oW9bkY5RqqmvqjArCEM9wjJoDnk6XtnaejkF0JTA7VamdyOzcvuBg iat-mode=0";
   };
 
   services.teamviewer.enable = true;
