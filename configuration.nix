@@ -149,6 +149,7 @@ with lib;
     neofetch
     papirus-icon-theme
     libsForQt5.qtstyleplugin-kvantum
+    libsForQt514.qt5ct
     remmina
     sshfs
     yakuake
