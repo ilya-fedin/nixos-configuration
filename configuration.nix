@@ -62,19 +62,19 @@ with lib;
     "nixos-config=/etc/nixos/configuration.nix"
     "nixpkgs-overlays=/etc/nixos/overlays-compat"
   ];
-  nix.buildCores = 9;
-  nix.trustedUsers = [ "root" "@wheel" ];
+  nix.settings.cores = 9;
+  nix.settings.trusted-users = [ "root" "@wheel" ];
   nix.registry.self.flake = inputs.self;
   nix.extraOptions = ''
     sandbox = false
     experimental-features = nix-command flakes
   '';
 
-  nix.binaryCaches = [
+  nix.settings.substituters = [
     "https://ilya-fedin.cachix.org"
   ];
 
-  nix.binaryCachePublicKeys = [
+  nix.settings.trusted-public-keys = [
     "ilya-fedin.cachix.org-1:QveU24a5ePPMh82mAFSxLk1P+w97pRxqe9rh+MJqlag="
   ];
 
