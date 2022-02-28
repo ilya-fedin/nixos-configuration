@@ -261,6 +261,7 @@ with lib;
     server min protocol = NT1
     client min protocol = NT1
     ntlm auth = yes
+    map to guest = bad user
     guest account = ilya
 
     usershare path = /var/lib/samba/usershares
