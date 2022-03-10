@@ -295,6 +295,7 @@ with lib;
 
   services.gnome.at-spi2-core.enable = mkForce false;
   services.gnome.gnome-keyring.enable = mkForce false;
+  services.gvfs.package = pkgs.gvfs;
   services.flatpak.enable = true;
 
   xdg.portal.enable = true;
