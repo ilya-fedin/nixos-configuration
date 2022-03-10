@@ -136,7 +136,7 @@ with lib;
   environment.systemPackages = with pkgs; [
     file
     psmisc
-    telnet
+    inetutils
     pciutils
     usbutils
     micro
