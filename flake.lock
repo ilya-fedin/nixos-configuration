@@ -76,9 +76,11 @@
       }
     },
     "nur-repo-override": {
-      "flake": false,
+      "inputs": {
+        "nixpkgs": "nixpkgs_2"
+      },
       "locked": {
-        "narHash": "sha256-8CycxBILi5GD0vU5ZSVk4mJym/FwC8tm/YZOw0to6IU=",
+        "narHash": "sha256-Gr+dJnYwxaY5UkMe+b78YLdnzn6v/VpP1INjirxyX0o=",
         "path": "/home/ilya/nur-repository",
         "type": "path"
       },
