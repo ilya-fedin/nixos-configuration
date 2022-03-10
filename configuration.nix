@@ -348,23 +348,21 @@ with lib;
 
   fonts.fonts = with pkgs; [
     nur.repos.ilya-fedin.exo2
+    unifont
+    lmmath
     joypixels
-    (nerdfonts.override {
-      fonts = [
-        "Arimo"
-      ];
-    })
   ];
+
+  fonts.enableDefaultFonts = false;
 
   fonts.fontconfig.hinting.enable = false;
   fonts.fontconfig.subpixel.rgba = "none";
   fonts.fontconfig.subpixel.lcdfilter = "none";
 
   fonts.fontconfig.crOSMaps = true;
-  fonts.fontconfig.useNotoCjk = true;
 
   fonts.fontconfig.defaultFonts.sansSerif = [ "Exo 2" "Arimo Nerd Font" ];
-  fonts.fontconfig.defaultFonts.serif = [ "Roboto Slab" ];
+  fonts.fontconfig.defaultFonts.serif = [ "Tinos Nerd Font" ];
   fonts.fontconfig.defaultFonts.monospace = [ "Cascadia Code" "FiraCode Nerd Font" ];
   fonts.fontconfig.defaultFonts.emoji = [ "JoyPixels" ];
 
