@@ -80,13 +80,17 @@
         "nixpkgs": "nixpkgs_2"
       },
       "locked": {
-        "narHash": "sha256-Gr+dJnYwxaY5UkMe+b78YLdnzn6v/VpP1INjirxyX0o=",
-        "path": "/home/ilya/nur-repository",
-        "type": "path"
+        "lastModified": 1646932138,
+        "narHash": "sha256-lUF7/n3/6sGegbme3bYGqwvJCsHbKVEVYND8cAwhW4U=",
+        "ref": "master",
+        "rev": "348b8a65e86e2f86ec20ee11ea2a4c1e9bf6c6ac",
+        "revCount": 101,
+        "type": "git",
+        "url": "file:///home/ilya/nur-repository"
       },
       "original": {
-        "path": "/home/ilya/nur-repository",
-        "type": "path"
+        "type": "git",
+        "url": "file:///home/ilya/nur-repository"
       }
     },
     "passwords": {
