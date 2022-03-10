@@ -289,7 +289,7 @@ with lib;
     ExitNodes = "{ua}";
     UseBridges = true;
     ClientTransportPlugin = "obfs4 exec ${pkgs.obfs4}/bin/obfs4proxy";
-    Bridge = "obfs4 116.203.73.90:59514 FC18DCCF1E88EB63FFCD1A0B1A3AA52B2E9D0258 cert=Rzqms47rIRAnrMLs0rhF+//4Q0WeUMmsTNMuQey1Mrapmr8tfzmSiput8FWI17NUEjV7Rg iat-mode=0";
+    Bridge = "obfs4 137.220.35.35:443 75B34B8458A1C93714BFF9393E09F7CBC04A2F59 cert=GglhKh0UwOjkfQPN0aH3gs8ZdnE6T4qU9uU/fmiYbJ69Dpk4nxS9o82UBnAxVZJytOulfA iat-mode=0";
   };
 
   services.teamviewer.enable = true;
