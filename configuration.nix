@@ -150,7 +150,6 @@ with lib;
     papirus-icon-theme
     libsForQt5.qtstyleplugin-kvantum
     libsForQt514.qt5ct
-    remmina
     sshfs
     yakuake
     go-mtpfs
@@ -343,7 +342,7 @@ with lib;
 
   services.xserver.desktopManager.mate.enable = true;
   environment.mate.excludePackages = with pkgs.mate; [
-    mate-netbook caja engrampa pluma atril
+    mate-netbook mate-user-guide caja engrampa pluma atril
   ];
 
   fonts.fonts = with pkgs; [
