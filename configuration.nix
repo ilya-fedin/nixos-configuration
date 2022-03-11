@@ -348,9 +348,11 @@ with lib;
 
   fonts.fonts = with pkgs; [
     nur.repos.ilya-fedin.exo2
+    nur.repos.ilya-fedin.cascadia-code-powerline
     unifont
     lmmath
     joypixels
+    nur.repos.ilya-fedin.nerd-fonts-symbols
   ];
 
   fonts.enableDefaultFonts = false;
@@ -361,18 +363,10 @@ with lib;
 
   fonts.fontconfig.crOSMaps = true;
 
-  fonts.fontconfig.defaultFonts.sansSerif = [ "Exo 2" "Arimo Nerd Font" ];
+  fonts.fontconfig.defaultFonts.sansSerif = [ "Exo 2" "Symbols Nerd Font" ];
   fonts.fontconfig.defaultFonts.serif = [ "Tinos Nerd Font" ];
-  fonts.fontconfig.defaultFonts.monospace = [ "Cascadia Code" "FiraCode Nerd Font" ];
+  fonts.fontconfig.defaultFonts.monospace = [ "Cascadia Code PL" "Symbols Nerd Font" ];
   fonts.fontconfig.defaultFonts.emoji = [ "JoyPixels" ];
-
-  fonts.fontconfig.cascadiaCode.enableFallback = true;
-  fonts.fontconfig.cascadiaCode.fallbackFont = "FiraCode Nerd Font";
-  fonts.fontconfig.cascadiaCode.fallbackPackage = pkgs.nerdfonts.override {
-    fonts = [
-      "FiraCode"
-    ];
-  };
 
   users.mutableUsers = false;
   users.defaultUserShell = pkgs.fish;
