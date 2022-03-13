@@ -350,7 +350,7 @@ with lib;
     nur.repos.ilya-fedin.exo2
     nur.repos.ilya-fedin.cascadia-code-powerline
     unifont
-    lmmath
+    stix-two
     joypixels
     nur.repos.ilya-fedin.nerd-fonts-symbols
   ];
