@@ -343,7 +343,7 @@ with lib;
 
   services.xserver.desktopManager.mate.enable = true;
   environment.mate.excludePackages = with pkgs.mate; [
-    mate-netbook mate-user-guide caja engrampa pluma atril pkgs.yelp
+    mate-netbook mate-themes mate-icon-theme mate-user-guide caja engrampa pluma atril pkgs.yelp
   ];
 
   fonts.fonts = with pkgs; [
