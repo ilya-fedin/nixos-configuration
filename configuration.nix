@@ -103,6 +103,7 @@ with lib;
   hardware.usbWwan.enable = true;
 
   hardware.opengl.enable = true;
+  hardware.opengl.package = nur.repos.ilya-fedin.mesa-drivers-amd;
 
   hardware.sane.enable = true;
   hardware.sane.extraBackends = with pkgs; [
