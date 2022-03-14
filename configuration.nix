@@ -147,7 +147,6 @@ with lib;
     (getBin breeze-qt5)
     git
     neofetch
-    papirus-icon-theme
     libsForQt5.qtstyleplugin-kvantum
     libsForQt514.qt5ct
     sshfs
@@ -200,6 +199,10 @@ with lib;
     neochat
     vscodium
     p7zip
+  ];
+
+  environment.icons = with pkgs; [
+    papirus-icon-theme
   ];
 
   environment.sessionVariables = rec {
