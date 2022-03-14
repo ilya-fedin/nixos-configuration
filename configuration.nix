@@ -144,7 +144,6 @@ with lib;
     adapta-backgrounds
     adapta-gtk-theme
     adapta-kde-theme
-    (getBin breeze-qt5)
     git
     neofetch
     libsForQt5.qtstyleplugin-kvantum
@@ -199,10 +198,6 @@ with lib;
     neochat
     vscodium
     p7zip
-  ];
-
-  environment.icons = with pkgs; [
-    papirus-icon-theme
   ];
 
   environment.sessionVariables = rec {
@@ -300,6 +295,11 @@ with lib;
   services.gnome.gnome-keyring.enable = mkForce false;
   services.gvfs.package = pkgs.gvfs;
   services.flatpak.enable = true;
+
+  xdg.icons.icons = with pkgs; [
+    papirus-icon-theme
+    (getBin breeze-qt5)
+  ];
 
   xdg.portal.enable = true;
   xdg.portal.gtkUsePortal = true;
