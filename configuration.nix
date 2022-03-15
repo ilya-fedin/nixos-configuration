@@ -141,18 +141,15 @@ with lib;
     pciutils
     usbutils
     micro
-    qt5.qttools
     adapta-backgrounds
     adapta-gtk-theme
     adapta-kde-theme
     git
     neofetch
     libsForQt5.qtstyleplugin-kvantum
-    libsForQt514.qt5ct
-    sshfs
+    (lowPrio libsForQt514.qt5ct)
     yakuake
     go-mtpfs
-    lm_sensors
     latest.firefox-beta-bin
     ark
     dolphin
@@ -162,13 +159,8 @@ with lib;
     okular
     spectacle
     vlc
-    nfs-utils
-    ntfs3g
     gimp
     wget
-    iptables
-    filezilla
-    youtube-dl
     nur.repos.ilya-fedin.kotatogram-desktop
     vokoscreen-ng
     qbittorrent
@@ -185,13 +177,10 @@ with lib;
     plasma5Packages.kdegraphics-thumbnailers
     plasma5Packages.ffmpegthumbs
     plasma5Packages.kglobalaccel
-    plasma5Packages.kwallet
-    kwalletmanager
     ix
     nur.repos.ilya-fedin.silver
     dfeet
     bustle
-    samba
     qemu
     libvirt
     gnome3.gnome-boxes
@@ -342,8 +331,6 @@ with lib;
   services.xserver.displayManager.setupCommands = ''
     ${pkgs.xorg.xrandr}/bin/xrandr --output eDP-1 --scale 1.5
   '';
-
-  security.pam.services.sddm.enableKwallet = true;
 
   services.xserver.desktopManager.mate.enable = true;
   environment.mate.excludePackages = with pkgs.mate; [
