@@ -184,7 +184,6 @@ with lib;
     qemu
     libvirt
     gnome3.gnome-boxes
-    zstd
     neochat
     vscodium
     p7zip
