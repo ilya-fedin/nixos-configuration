@@ -189,6 +189,8 @@ with lib;
     p7zip
   ];
 
+  environment.defaultPackages = [];
+
   environment.sessionVariables = rec {
     NIXPKGS_ALLOW_UNFREE = "1";
     EDITOR = "micro";
