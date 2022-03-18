@@ -185,7 +185,6 @@ with lib;
     libvirt
     gnome3.gnome-boxes
     neochat
-    vscodium
     p7zip
   ];
 
@@ -212,6 +211,13 @@ with lib;
 
   programs.nm-applet.enable = true;
   programs.qt5ct.enable = true;
+
+  programs.vscode.enable = true;
+  programs.vscode.user = "ilya";
+  programs.vscode.homeDir = "/home/ilya";
+  programs.vscode.extensions = with pkgs.vscode-extensions; [
+    ms-vscode.cpptools
+  ];
 
   systemd.services.polkit = {
     restartIfChanged = false;
