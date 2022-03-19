@@ -18,14 +18,14 @@
     flake = false;
   };
 
-  outputs = { self, nixpkgs, nur, mozilla, nur-repo-override, hardware-configuration, passwords }@inputs: {
+  outputs = { self, nixpkgs, nur, mozilla, nur-repo-override, hardware-configuration, passwords }@inputs: rec {
     nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
       modules = [ ./configuration.nix ];
       specialArgs = { inherit inputs; };
     };
 
-    defaultPackage.x86_64-linux = inputs.self.nixosConfigurations.nixos.config.system.build.toplevel;
-    legacyPackages.x86_64-linux = (builtins.head (builtins.attrValues inputs.self.nixosConfigurations)).pkgs;
+    defaultPackage.x86_64-linux = nixosConfigurations.nixos.config.system.build.toplevel;
+    legacyPackages.x86_64-linux = nixosConfigurations.nixos.pkgs;
   };
 }
