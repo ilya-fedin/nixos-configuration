@@ -4,11 +4,11 @@
       "flake": false,
       "locked": {
         "narHash": "sha256-YnFcXJpisnIL9NLqUy6jhkGaOByBBqvYGFzy9Yn59yw=",
-        "path": "/etc/nixos/hardware-configuration.nix",
+        "path": "/home/ilya/nixos-configuration/hardware-configuration.nix",
         "type": "path"
       },
       "original": {
-        "path": "/etc/nixos/hardware-configuration.nix",
+        "path": "/home/ilya/nixos-configuration/hardware-configuration.nix",
         "type": "path"
       }
     },
@@ -97,11 +97,11 @@
       "flake": false,
       "locked": {
         "narHash": "sha256-d9sNRudCDJiZncNUQSXuWb8MGwdQqU0DCK/Ylcah+0I=",
-        "path": "/etc/nixos/passwords.nix",
+        "path": "/home/ilya/nixos-configuration/passwords.nix",
         "type": "path"
       },
       "original": {
-        "path": "/etc/nixos/passwords.nix",
+        "path": "/home/ilya/nixos-configuration/passwords.nix",
         "type": "path"
       }
     },

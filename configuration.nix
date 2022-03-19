@@ -58,9 +58,9 @@ with lib;
 
   nix.package = pkgs.nixUnstable;
   nix.nixPath = mkForce [
-    "nixpkgs=/etc/nixpkgs"
-    "nixos-config=/etc/nixos/configuration.nix"
-    "nixpkgs-overlays=/etc/nixos/overlays-compat"
+    "nixpkgs=/etc/static/nixpkgs"
+    "nixos-config=/home/ilya/nixos-configuration/configuration.nix"
+    "nixpkgs-overlays=/home/ilya/nixos-configuration/overlays-compat"
   ];
   nix.settings.cores = 9;
   nix.settings.trusted-users = [ "root" "@wheel" ];

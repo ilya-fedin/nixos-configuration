@@ -9,12 +9,12 @@
   };
 
   inputs.hardware-configuration = {
-    url = "path:/etc/nixos/hardware-configuration.nix";
+    url = "path:/home/ilya/nixos-configuration/hardware-configuration.nix";
     flake = false;
   };
 
   inputs.passwords = {
-    url = "path:/etc/nixos/passwords.nix";
+    url = "path:/home/ilya/nixos-configuration/passwords.nix";
     flake = false;
   };
 
