@@ -18,8 +18,8 @@
     flake = false;
   };
 
-  outputs = { self, nixpkgs, nur, mozilla, nur-repo-override, hardware-configuration, passwords }@inputs: rec {
-    nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
+  outputs = inputs: rec {
+    nixosConfigurations.nixos = inputs.nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
       modules = [ ./configuration.nix ];
       specialArgs = { inherit inputs; };
