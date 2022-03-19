@@ -56,6 +56,13 @@ with lib;
   nixpkgs.config = nixpkgsConfig;
   nixpkgs.overlays = overlays;
 
+  system.replaceRuntimeDependencies = [
+    {
+      original = pkgs.glibcLocales;
+      replacement = config.i18n.glibcLocales;
+    }
+  ];
+
   nix.package = pkgs.nixUnstable;
   nix.nixPath = mkForce [
     "nixpkgs=/etc/static/nixpkgs"
@@ -186,6 +193,7 @@ with lib;
     gnome3.gnome-boxes
     neochat
     p7zip
+    vscode-fhs
   ];
 
   environment.defaultPackages = [];
@@ -211,13 +219,6 @@ with lib;
 
   programs.nm-applet.enable = true;
   programs.qt5ct.enable = true;
-
-  programs.vscode.enable = true;
-  programs.vscode.user = "ilya";
-  programs.vscode.homeDir = "/home/ilya";
-  programs.vscode.extensions = with pkgs.vscode-extensions; [
-    ms-vscode.cpptools
-  ];
 
   systemd.services.polkit = {
     restartIfChanged = false;
