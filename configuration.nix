@@ -188,9 +188,13 @@ with lib;
     nur.repos.ilya-fedin.silver
     dfeet
     bustle
-    qemu
-    libvirt
-    gnome3.gnome-boxes
+    qemu_kvm
+    (gnome3.gnome-boxes.override {
+      qemu = qemu_kvm;
+      qemu-utils = qemu-utils.override {
+        qemu = qemu_kvm;
+      };
+    })
     neochat
     p7zip
     vscode-fhs
