@@ -345,8 +345,17 @@ with lib;
   '';
 
   services.xserver.desktopManager.mate.enable = true;
-  environment.mate.excludePackages = with pkgs.mate; [
-    mate-netbook mate-themes mate-icon-theme mate-user-guide caja engrampa pluma atril pkgs.yelp
+  environment.mate.excludePackages = with pkgs; with mate; [
+    caja
+    engrampa
+    atril
+    mate-netbook
+    mate-themes
+    mate-icon-theme
+    mate-user-guide
+    mate-terminal
+    pluma
+    yelp
   ];
 
   fonts.fonts = with pkgs; [
