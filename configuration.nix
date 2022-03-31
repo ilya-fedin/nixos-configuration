@@ -224,9 +224,8 @@ with lib;
   programs.nm-applet.enable = true;
   programs.qt5ct.enable = true;
 
-  systemd.services.polkit = {
-    restartIfChanged = false;
-  };
+  systemd.services.polkit.restartIfChanged = false;
+  systemd.services.NetworkManager-wait-online.wantedBy = mkForce [];
 
   services.udev.optimalSchedulers = true;
   services.fstrim.enable = true;
