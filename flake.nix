@@ -8,11 +8,6 @@
     flake = false;
   };
 
-  inputs.hardware-configuration = {
-    url = "path:/home/ilya/nixos-configuration/hardware-configuration.nix";
-    flake = false;
-  };
-
   inputs.passwords = {
     url = "path:/home/ilya/nixos-configuration/passwords.nix";
     flake = false;

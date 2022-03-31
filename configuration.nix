@@ -49,9 +49,7 @@ in
 
 with lib;
 {
-  imports = [
-    (import inputs.hardware-configuration)
-  ] ++ attrValues nur.repos.ilya-fedin.modules;
+  imports = attrValues nur.repos.ilya-fedin.modules;
 
   nixpkgs.config = nixpkgsConfig;
   nixpkgs.overlays = overlays;
@@ -85,13 +83,28 @@ with lib;
     "ilya-fedin.cachix.org-1:QveU24a5ePPMh82mAFSxLk1P+w97pRxqe9rh+MJqlag="
   ];
 
+  fileSystems."/" = {
+    device = "/dev/disk/by-partlabel/nixos";
+    fsType = "ext4";
+  };
+
+  fileSystems."/boot" = {
+    device = "/dev/disk/by-partlabel/boot";
+    fsType = "vfat";
+  };
+
+  swapDevices = [
+    { device = "/dev/disk/by-partlabel/swap"; }
+  ];
+
   boot.loader.unifiedKernelImage.enable = true;
 
   boot.kernelPackages = pkgs.linuxPackages_zen;
   boot.kernelParams = [ "mitigations=off" "nowatchdog" "nmi_watchdog=0" "quiet" "rd.systemd.show_status=auto" "rd.udev.log_priority=3" ];
-  boot.kernelModules = [ "bfq" ];
+  boot.kernelModules = [ "kvm-amd" "bfq" ];
 
-  boot.initrd.availableKernelModules = mkForce [ "sd_mod" "nvme" "ext4" "i8042" "atkbd" "amdgpu" ];
+  boot.initrd.includeDefaultModules = false;
+  boot.initrd.availableKernelModules = [ "sd_mod" "nvme" "ext4" "i8042" "atkbd" "amdgpu" ];
   boot.blacklistedKernelModules = [ "iTCO_wdt" "uvcvideo" ];
 
   boot.cleanTmpDir = true;
@@ -106,6 +119,7 @@ with lib;
 
   powerManagement.cpuFreqGovernor = "schedutil";
 
+  hardware.firmware = with pkgs; [ linux-firmware ];
   hardware.bluetooth.enable = true;
   hardware.usbWwan.enable = true;
 
