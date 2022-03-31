@@ -241,6 +241,16 @@ with lib;
   systemd.services.polkit.restartIfChanged = false;
   systemd.services.NetworkManager-wait-online.wantedBy = mkForce [];
 
+  systemd.user.services.xrandr-scale = {
+    description = "Scale the screen with xrandr";
+    wantedBy = [ "graphical-session.target" ];
+    partOf = [ "graphical-session.target" ];
+    serviceConfig = {
+      ExecStart = "${pkgs.xorg.xrandr}/bin/xrandr --output eDP-1 --scale 1.5";
+      Type = "oneshot";
+    };
+  };
+
   services.udev.optimalSchedulers = true;
   services.fstrim.enable = true;
 
@@ -353,9 +363,6 @@ with lib;
   services.xserver.displayManager.sddm.enable = true;
   services.xserver.displayManager.autoLogin.enable = true;
   services.xserver.displayManager.autoLogin.user = "ilya";
-  services.xserver.displayManager.setupCommands = ''
-    ${pkgs.xorg.xrandr}/bin/xrandr --output eDP-1 --scale 1.5
-  '';
 
   services.xserver.desktopManager.mate.enable = true;
   environment.mate.excludePackages = with pkgs; with mate; [
