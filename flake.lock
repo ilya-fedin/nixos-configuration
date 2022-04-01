@@ -85,11 +85,11 @@
       "flake": false,
       "locked": {
         "narHash": "sha256-d9sNRudCDJiZncNUQSXuWb8MGwdQqU0DCK/Ylcah+0I=",
-        "path": "/home/ilya/nixos-configuration/passwords.nix",
+        "path": "/etc/nixos/passwords.nix",
         "type": "path"
       },
       "original": {
-        "path": "/home/ilya/nixos-configuration/passwords.nix",
+        "path": "/etc/nixos/passwords.nix",
         "type": "path"
       }
     },

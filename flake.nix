@@ -9,7 +9,7 @@
   };
 
   inputs.passwords = {
-    url = "path:/home/ilya/nixos-configuration/passwords.nix";
+    url = "path:/etc/nixos/passwords.nix";
     flake = false;
   };
 
