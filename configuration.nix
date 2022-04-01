@@ -1,13 +1,7 @@
-{ config, inputs, system, ... }:
+{ config, lib, pkgs, inputs, system, ... }:
 
 let
   passwords = import inputs.passwords;
-
-  nixpkgsConfig = {
-    allowUnfree = true;
-    oraclejdk.accept_license = true;
-    joypixels.acceptLicense = true;
-  };
 
   nur-no-pkgs = import inputs.nur {
     nurpkgs = import inputs.nixpkgs {
@@ -31,29 +25,24 @@ let
       };
     };
   };
+in
 
-  overlays = [
+with lib;
+{
+  imports = attrValues nur-no-pkgs.repos.ilya-fedin.modules;
+
+  nixpkgs.config = {
+    allowUnfree = true;
+    oraclejdk.accept_license = true;
+    joypixels.acceptLicense = true;
+  };
+
+  nixpkgs.overlays = [
     nurOverlay
     (import inputs.mozilla)
     nur-no-pkgs.repos.ilya-fedin.overlays.portal
     nur-no-pkgs.repos.ilya-fedin.overlays.mate
   ];
-
-  pkgs = import inputs.nixpkgs {
-    inherit system;
-    config = nixpkgsConfig;
-    overlays = overlays;
-  };
-
-  inherit (pkgs) lib nur;
-in
-
-with lib;
-{
-  imports = attrValues nur.repos.ilya-fedin.modules;
-
-  nixpkgs.config = nixpkgsConfig;
-  nixpkgs.overlays = overlays;
 
   system.replaceRuntimeDependencies = [
     {
@@ -125,7 +114,7 @@ with lib;
   hardware.usbWwan.enable = true;
 
   hardware.opengl.enable = true;
-  hardware.opengl.package = nur.repos.ilya-fedin.mesa-drivers-amd;
+  hardware.opengl.package = pkgs.nur.repos.ilya-fedin.mesa-drivers-amd;
 
   hardware.sane.enable = true;
   hardware.sane.extraBackends = with pkgs; [
