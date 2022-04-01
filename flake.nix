@@ -14,10 +14,10 @@
   };
 
   outputs = inputs: rec {
-    nixosConfigurations.nixos = inputs.nixpkgs.lib.nixosSystem {
+    nixosConfigurations.nixos = inputs.nixpkgs.lib.nixosSystem rec {
       system = "x86_64-linux";
       modules = [ ./configuration.nix ];
-      specialArgs = { inherit inputs; };
+      specialArgs = { inherit inputs system; };
     };
 
     defaultPackage.x86_64-linux = nixosConfigurations.nixos.config.system.build.toplevel;

@@ -1,4 +1,4 @@
-{ config, inputs, ... }:
+{ config, inputs, system, ... }:
 
 let
   passwords = import inputs.passwords;
@@ -11,7 +11,7 @@ let
 
   nur-no-pkgs = import inputs.nur {
     nurpkgs = import inputs.nixpkgs {
-      system = "x86_64-linux";
+      inherit system;
       overlays = [];
     };
 
@@ -40,7 +40,7 @@ let
   ];
 
   pkgs = import inputs.nixpkgs {
-    system = "x86_64-linux";
+    inherit system;
     config = nixpkgsConfig;
     overlays = overlays;
   };
