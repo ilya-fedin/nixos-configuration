@@ -41,7 +41,6 @@ with lib;
     nurOverlay
     (import inputs.mozilla)
     nur-no-pkgs.repos.ilya-fedin.overlays.portal
-    nur-no-pkgs.repos.ilya-fedin.overlays.mate
   ];
 
   system.replaceRuntimeDependencies = [
@@ -350,10 +349,9 @@ with lib;
   services.xserver.videoDrivers = [ "modesetting" ];
   services.xserver.libinput.enable = true;
 
-  services.greetd.enable = true;
-  services.greetd.settings.initial_session.command = "startx ${config.services.xserver.displayManager.sessionData.wrapper} mate-session";
-  services.greetd.settings.initial_session.user = "ilya";
-  programs.qtgreet.enable = true;
+  services.xserver.displayManager.sddm.enable = true;
+  services.xserver.displayManager.autoLogin.enable = true;
+  services.xserver.displayManager.autoLogin.user = "ilya";
 
   services.xserver.desktopManager.mate.enable = true;
   environment.mate.excludePackages = with pkgs; with mate; [
