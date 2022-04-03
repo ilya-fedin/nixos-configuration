@@ -95,7 +95,7 @@ with lib;
 
   boot.initrd.includeDefaultModules = false;
   boot.initrd.availableKernelModules = [ "sd_mod" "nvme" "ext4" "i8042" "atkbd" "amdgpu" ];
-  boot.blacklistedKernelModules = [ "iTCO_wdt" "uvcvideo" ];
+  boot.blacklistedKernelModules = [ "iTCO_wdt" "sp5100_tco" "uvcvideo" ];
 
   boot.cleanTmpDir = true;
   boot.consoleLogLevel = 3;
