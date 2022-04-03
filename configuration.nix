@@ -152,7 +152,6 @@ with lib;
     pciutils
     usbutils
     micro
-    adapta-backgrounds
     adapta-gtk-theme
     adapta-kde-theme
     git
