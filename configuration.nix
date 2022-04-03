@@ -39,7 +39,7 @@ with lib;
 
   nixpkgs.overlays = [
     nurOverlay
-    (import inputs.mozilla)
+    inputs.mozilla.overlays.firefox
     nur-no-pkgs.repos.ilya-fedin.overlays.portal
     nur-no-pkgs.repos.ilya-fedin.overlays.indicator
   ];

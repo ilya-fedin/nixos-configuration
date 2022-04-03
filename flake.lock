@@ -17,7 +17,6 @@
       }
     },
     "mozilla": {
-      "flake": false,
       "locked": {
         "lastModified": 1645464064,
         "narHash": "sha256-YeN4bpPvHkVOpQzb8APTAfE7/R+MFMwJUMkqmfvytSk=",
