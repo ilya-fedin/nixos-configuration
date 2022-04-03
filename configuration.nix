@@ -41,6 +41,7 @@ with lib;
     nurOverlay
     (import inputs.mozilla)
     nur-no-pkgs.repos.ilya-fedin.overlays.portal
+    nur-no-pkgs.repos.ilya-fedin.overlays.indicator
   ];
 
   system.replaceRuntimeDependencies = [
@@ -201,6 +202,8 @@ with lib;
     neochat
     p7zip
     vscode-fhs
+    nur.repos.ilya-fedin.ayatana-indicator-keyboard
+    nur.repos.ilya-fedin.ayatana-indicator-power
   ];
 
   environment.defaultPackages = [];
@@ -227,6 +230,11 @@ with lib;
   programs.nm-applet.enable = true;
   programs.qt5ct.enable = true;
 
+  systemd.packages = with pkgs; [
+    nur.repos.ilya-fedin.ayatana-indicator-keyboard
+    nur.repos.ilya-fedin.ayatana-indicator-power
+  ];
+
   systemd.services.polkit.restartIfChanged = false;
   systemd.services.NetworkManager-wait-online.wantedBy = mkForce [];
 
@@ -238,6 +246,14 @@ with lib;
       ExecStart = "${pkgs.xorg.xrandr}/bin/xrandr --output eDP-1 --scale 1.5";
       Type = "oneshot";
     };
+  };
+
+  systemd.user.services.ayatana-indicator-keyboard = {
+    wantedBy = [ "graphical-session.target" ];
+  };
+
+  systemd.user.services.ayatana-indicator-power = {
+    wantedBy = [ "graphical-session.target" ];
   };
 
   services.udev.optimalSchedulers = true;
