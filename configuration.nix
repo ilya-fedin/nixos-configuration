@@ -248,10 +248,12 @@ with lib;
   };
 
   systemd.user.services.ayatana-indicator-keyboard = {
+    environment.PATH = mkForce null;
     wantedBy = [ "graphical-session.target" ];
   };
 
   systemd.user.services.ayatana-indicator-power = {
+    environment.PATH = mkForce null;
     wantedBy = [ "graphical-session.target" ];
   };
 
@@ -367,6 +369,7 @@ with lib;
   services.xserver.displayManager.sddm.enable = true;
   services.xserver.displayManager.autoLogin.enable = true;
   services.xserver.displayManager.autoLogin.user = "ilya";
+  services.xserver.displayManager.importedVariables = [ "PATH" "XDG_CURRENT_DESKTOP" ];
 
   services.xserver.desktopManager.mate.enable = true;
   environment.mate.excludePackages = with pkgs; with mate; [
