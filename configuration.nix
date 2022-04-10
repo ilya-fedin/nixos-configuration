@@ -216,6 +216,8 @@ with lib;
     MOZ_DISABLE_CONTENT_SANDBOX = "1";
   };
 
+  programs.command-not-found.dbPath = "${inputs.nixpkgs}/programs.sqlite";
+
   programs.fish.enable = true;
   programs.ssh.askPassword = "${pkgs.ksshaskpass}/bin/ksshaskpass";
   programs.adb.enable = true;
