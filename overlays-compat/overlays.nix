@@ -10,6 +10,6 @@ let
       }
     )
     { src = ./..; }
-  ).defaultNix.outputs.nixosConfigurations.nixos.config.nixpkgs.overlays;
+  ).defaultNix.outputs.nixosConfigurations.${fileContents /proc/sys/kernel/hostname}.config.nixpkgs.overlays;
 in
 foldl' (flip extends) (_: super) paths self
