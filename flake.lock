@@ -63,6 +63,18 @@
         "type": "github"
       }
     },
+    "nixpkgs-channel": {
+      "flake": false,
+      "locked": {
+        "narHash": "sha256-VxtfPVOKC101nzzRGGwBccc/5RoStIWoHlBj9Zd2vd0=",
+        "type": "tarball",
+        "url": "https://channels.nixos.org/nixos-unstable/nixexprs.tar.xz"
+      },
+      "original": {
+        "type": "tarball",
+        "url": "https://channels.nixos.org/nixos-unstable/nixexprs.tar.xz"
+      }
+    },
     "nixpkgs_2": {
       "locked": {
         "lastModified": 1648219316,
@@ -130,6 +142,7 @@
         "flake-compat": "flake-compat",
         "mozilla": "mozilla",
         "nixpkgs": "nixpkgs",
+        "nixpkgs-channel": "nixpkgs-channel",
         "nur": "nur",
         "nur-repo-override": "nur-repo-override",
         "passwords": "passwords"
