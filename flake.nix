@@ -14,7 +14,7 @@
     flake = false;
   };
 
-  outputs = { nixpkgs, ... }@inputs: rec {
+  outputs = { nixpkgs, ... } @ inputs: rec {
     nixosConfigurations.nixos = nixpkgs.lib.nixosSystem rec {
       system = "x86_64-linux";
       modules = [ ./configuration.nix ];
