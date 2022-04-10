@@ -1,13 +1,9 @@
 {
   inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+  inputs.nixpkgs-channel.url = "https://channels.nixos.org/nixos-unstable/nixexprs.tar.xz";
   inputs.nur.url = "github:nix-community/NUR";
   inputs.nur-repo-override.url = "git+file:///home/ilya/nur-repository";
   inputs.mozilla.url = "github:mozilla/nixpkgs-mozilla";
-
-  inputs.nixpkgs-channel = {
-    url = "https://channels.nixos.org/nixos-unstable/nixexprs.tar.xz";
-    flake = false;
-  };
 
   inputs.flake-compat = {
     url = github:edolstra/flake-compat;
