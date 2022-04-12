@@ -267,6 +267,8 @@ with lib;
 
   services.dbus-broker.enable = true;
 
+  services.journald.extraConfig = "SystemMaxUse=10M";
+
   services.resolved.enable = true;
   services.resolved.dnssec = "false";
 
