@@ -346,9 +346,6 @@ with lib;
   virtualisation.docker.enable = true;
   virtualisation.docker.enableOnBoot = false;
 
-  virtualisation.lxd.enable = true;
-  security.apparmor.enable = mkForce false;
-
   virtualisation.virtualbox.host.enable = true;
   virtualisation.virtualbox.host.enableExtensionPack = true;
 
@@ -421,7 +418,7 @@ with lib;
   users.users.ilya = {
     description = "Илья Федин";
     password = passwords.ilya;
-    extraGroups = [ "wheel" "dialout" "networkmanager" "docker" "lxd" "vboxusers" "adbusers" "sambashare" ];
+    extraGroups = [ "wheel" "dialout" "networkmanager" "docker" "vboxusers" "adbusers" "sambashare" ];
     uid = 1000;
     isNormalUser = true;
   };
