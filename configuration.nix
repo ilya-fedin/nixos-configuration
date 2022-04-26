@@ -126,6 +126,7 @@ with lib;
   networking.dhcpcd.enable = false;
 
   networking.networkmanager.enable = true;
+  networking.networkmanager.plugins = mkForce [];
   networking.networkmanager.wifi.backend = "iwd";
   networking.wireless.iwd.enable = true;
 
