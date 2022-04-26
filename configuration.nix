@@ -340,7 +340,10 @@ with lib;
   xdg.portal.enable = true;
   xdg.portal.gtkUsePortal = true;
   xdg.portal.extraPortals = with pkgs; [
-    xdg-desktop-portal-gtk
+    (xdg-desktop-portal-gtk.overrideAttrs(_: {
+      buildInputs = [ glib gsettings-desktop-schemas gtk3 ];
+      configureFlags = [];
+    }))
     xdg-desktop-portal-kde
   ];
 
