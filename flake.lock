@@ -18,11 +18,11 @@
     },
     "mozilla": {
       "locked": {
-        "lastModified": 1650459918,
-        "narHash": "sha256-sroCK+QJTmoXtcRkwZyKOP9iAYOPID2Bwdxn4GkG16w=",
+        "lastModified": 1657214286,
+        "narHash": "sha256-rO/4oymKXU09wG2bcTt4uthPCp1XsBZjxuCJo3yVXNs=",
         "owner": "mozilla",
         "repo": "nixpkgs-mozilla",
-        "rev": "e1f7540fc0a8b989fb8cf701dc4fd7fc76bcf168",
+        "rev": "0508a66e28a5792fdfb126bbf4dec1029c2509e0",
         "type": "github"
       },
       "original": {
@@ -33,11 +33,11 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1656753965,
-        "narHash": "sha256-BCrB3l0qpJokOnIVc3g2lHiGhnjUi0MoXiw6t1o8H1E=",
+        "lastModified": 1657802959,
+        "narHash": "sha256-9+JWARSdlL8KiH3ymnKDXltE1vM+/WEJ78F5B1kjXys=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "0ea7a8f1b939d74e5df8af9a8f7342097cdf69eb",
+        "rev": "4a01ca36d6bfc133bc617e661916a81327c9bbc8",
         "type": "github"
       },
       "original": {
@@ -49,7 +49,7 @@
     },
     "nixpkgs-channel": {
       "locked": {
-        "narHash": "sha256-Svj9o/UdIUoonyuxkJ2e/gEQM/TD4IAAo865nJBzcWo=",
+        "narHash": "sha256-QI9tGD46YTP5CVAfqi4wdiT06+tcSRvqOXLL/y1FGGU=",
         "type": "tarball",
         "url": "https://channels.nixos.org/nixos-unstable/nixexprs.tar.xz"
       },
@@ -60,11 +60,11 @@
     },
     "nur": {
       "locked": {
-        "lastModified": 1656802233,
-        "narHash": "sha256-jtnTe0+6udpPgfdGYS/RTUAUNnHumdGvBs7qhliXUCo=",
+        "lastModified": 1657868325,
+        "narHash": "sha256-4iHOPir++P5aE69kYkJG/+QlvTwVO4aJv7cMngNwyEU=",
         "owner": "nix-community",
         "repo": "NUR",
-        "rev": "b674433205860f051960f245a97c0e6ed97530d3",
+        "rev": "2fb0fbdb0daccfc79a79ea2b67c7e9f3391a6823",
         "type": "github"
       },
       "original": {
@@ -83,11 +83,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1656723017,
-        "narHash": "sha256-A3H05ZtxfJ3tJIh1WSp3yqVBPFnRsfDjmfM09N5Vv6s=",
+        "lastModified": 1657868900,
+        "narHash": "sha256-/1d7XgjS6lQvnmexDh005jkePMizRGliwDcAnGYO5Ls=",
         "ref": "refs/heads/master",
-        "rev": "4debba23157dccd3d8650c7f1a3a2d9c44c92f0a",
-        "revCount": 265,
+        "rev": "d80c6163bd4c63086fbb5cfcbaa8a746d77c7ae6",
+        "revCount": 280,
         "type": "git",
         "url": "file:///home/ilya/nur-repository"
       },

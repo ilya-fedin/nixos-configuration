@@ -157,7 +157,6 @@ with lib;
     git
     neofetch
     libsForQt5.qtstyleplugin-kvantum
-    (lowPrio libsForQt514.qt5ct)
     yakuake
     go-mtpfs
     latest.firefox-beta-bin
@@ -212,6 +211,7 @@ with lib;
     EDITOR = "micro";
     VISUAL = EDITOR;
     SYSTEMD_EDITOR = EDITOR;
+    GTK_USE_PORTAL = "1";
     QT_STYLE_OVERRIDE = "kvantum";
     MOZ_DISABLE_CONTENT_SANDBOX = "1";
   };
@@ -229,7 +229,7 @@ with lib;
   '';
 
   programs.nm-applet.enable = true;
-  programs.qt5ct.enable = true;
+  qt5.platformTheme = "qt5ct";
 
   systemd.packages = with pkgs; [
     nur.repos.ilya-fedin.ayatana-indicator-keyboard
@@ -337,7 +337,6 @@ with lib;
   ];
 
   xdg.portal.enable = true;
-  xdg.portal.gtkUsePortal = true;
   xdg.portal.extraPortals = with pkgs; [
     (xdg-desktop-portal-gtk.overrideAttrs(_: {
       buildInputs = [ glib gsettings-desktop-schemas gtk3 ];
