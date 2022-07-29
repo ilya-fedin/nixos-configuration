@@ -41,7 +41,6 @@ with lib;
     nurOverlay
     inputs.mozilla.overlays.firefox
     nur-no-pkgs.repos.ilya-fedin.overlays.portal
-    nur-no-pkgs.repos.ilya-fedin.overlays.indicator
   ];
 
   system.replaceRuntimeDependencies = [
@@ -163,6 +162,7 @@ with lib;
     ark
     dolphin
     kate
+    kcalc
     konsole
     okteta
     okular
@@ -171,7 +171,7 @@ with lib;
     gimp
     wget
     nur.repos.ilya-fedin.kotatogram-desktop
-    vokoscreen-ng
+    obs-studio
     qbittorrent
     libarchive
     unzip
@@ -180,6 +180,7 @@ with lib;
     gnome3.dconf-editor
     xclip
     htop
+    xsettingsd
     plasma5Packages.kio
     plasma5Packages.kio-extras
     plasma5Packages.dolphin-plugins
@@ -200,8 +201,6 @@ with lib;
     neochat
     p7zip
     vscode-fhs
-    nur.repos.ilya-fedin.ayatana-indicator-keyboard
-    nur.repos.ilya-fedin.ayatana-indicator-power
   ];
 
   environment.defaultPackages = [];
@@ -212,7 +211,6 @@ with lib;
     VISUAL = EDITOR;
     SYSTEMD_EDITOR = EDITOR;
     GTK_USE_PORTAL = "1";
-    QT_STYLE_OVERRIDE = "kvantum";
     MOZ_DISABLE_CONTENT_SANDBOX = "1";
   };
 
@@ -228,36 +226,12 @@ with lib;
     ServerAliveInterval 100
   '';
 
-  programs.nm-applet.enable = true;
-  qt5.platformTheme = "qt5ct";
-
   systemd.packages = with pkgs; [
-    nur.repos.ilya-fedin.ayatana-indicator-keyboard
-    nur.repos.ilya-fedin.ayatana-indicator-power
+    dconf
   ];
 
   systemd.services.polkit.restartIfChanged = false;
   systemd.services.NetworkManager-wait-online.wantedBy = mkForce [];
-
-  systemd.user.services.xrandr-scale = {
-    description = "Scale the screen with xrandr";
-    wantedBy = [ "graphical-session.target" ];
-    partOf = [ "graphical-session.target" ];
-    serviceConfig = {
-      ExecStart = "${pkgs.xorg.xrandr}/bin/xrandr --output eDP-1 --scale 1.5";
-      Type = "oneshot";
-    };
-  };
-
-  systemd.user.services.ayatana-indicator-keyboard = {
-    environment.PATH = mkForce null;
-    wantedBy = [ "graphical-session.target" ];
-  };
-
-  systemd.user.services.ayatana-indicator-power = {
-    environment.PATH = mkForce null;
-    wantedBy = [ "graphical-session.target" ];
-  };
 
   services.udev.optimalSchedulers = true;
   services.fstrim.enable = true;
@@ -266,6 +240,10 @@ with lib;
   services.earlyoom.enable = true;
 
   services.dbus-broker.enable = true;
+
+  services.dbus.packages = with pkgs; [
+    dconf
+  ];
 
   services.journald.extraConfig = "SystemMaxUse=100M";
 
@@ -370,21 +348,12 @@ with lib;
   services.xserver.displayManager.sddm.enable = true;
   services.xserver.displayManager.autoLogin.enable = true;
   services.xserver.displayManager.autoLogin.user = "ilya";
-  services.xserver.displayManager.importedVariables = [ "PATH" "XDG_CURRENT_DESKTOP" ];
+  services.xserver.displayManager.defaultSession = "plasmawayland";
 
-  services.xserver.desktopManager.mate.enable = true;
-  environment.mate.excludePackages = with pkgs; with mate; [
-    caja
-    engrampa
-    atril
-    mate-netbook
-    mate-themes
-    mate-icon-theme
-    mate-user-guide
-    mate-terminal
-    pluma
-    yelp
-  ];
+  services.xserver.desktopManager.plasma5.enable = true;
+  services.xserver.desktopManager.plasma5.runUsingSystemd = true;
+  services.xserver.desktopManager.plasma5.useQtScaling = true;
+  services.xserver.desktopManager.plasma5.phononBackend = "vlc";
 
   fonts.fonts = with pkgs; [
     nur.repos.ilya-fedin.exo2
