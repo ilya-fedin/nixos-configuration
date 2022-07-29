@@ -89,6 +89,7 @@ with lib;
   boot.loader.systemd-boot.enable = true;
 
   boot.kernelPackages = pkgs.linuxPackages_zen;
+  boot.extraModulePackages = [ config.boot.kernelPackages.rtl8821au ];
   boot.kernelParams = [ "mitigations=off" "nowatchdog" "nmi_watchdog=0" "quiet" "rd.systemd.show_status=auto" "rd.udev.log_priority=3" ];
   boot.kernelModules = [ "kvm-amd" "bfq" ];
 
