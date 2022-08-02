@@ -193,6 +193,7 @@ with lib;
     dfeet
     bustle
     qemu_kvm
+    virt-manager
     (gnome3.gnome-boxes.override {
       qemu = qemu_kvm;
       qemu-utils = qemu-utils.override {
@@ -327,6 +328,10 @@ with lib;
   virtualisation.docker.enable = true;
   virtualisation.docker.enableOnBoot = false;
 
+  virtualisation.libvirtd.enable = true;
+  virtualisation.spiceUSBRedirection.enable = true;
+  virtualisation.libvirtd.qemu.package = pkgs.qemu_kvm;
+
   virtualisation.virtualbox.host.enable = true;
   virtualisation.virtualbox.host.enableExtensionPack = true;
 
@@ -388,7 +393,7 @@ with lib;
   users.users.ilya = {
     description = "Илья Федин";
     password = passwords.ilya;
-    extraGroups = [ "wheel" "dialout" "networkmanager" "docker" "vboxusers" "adbusers" "sambashare" ];
+    extraGroups = [ "wheel" "dialout" "networkmanager" "docker" "libvirtd" "vboxusers" "adbusers" "sambashare" ];
     uid = 1000;
     isNormalUser = true;
   };
