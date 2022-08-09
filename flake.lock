@@ -33,11 +33,11 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1658380158,
-        "narHash": "sha256-DBunkegKWlxPZiOcw3/SNIFg93amkdGIy2g0y/jDpHg=",
+        "lastModified": 1659889440,
+        "narHash": "sha256-O8+FsHZzQIqjQjuh+VXbJtGrpPswm5ta2Z/eo72Lz2U=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "a65b5b3f5504b8b89c196aba733bdf2b0bd13c16",
+        "rev": "4bdf4169ad2896236895ca607a843f30c9680345",
         "type": "github"
       },
       "original": {
@@ -49,7 +49,7 @@
     },
     "nixpkgs-channel": {
       "locked": {
-        "narHash": "sha256-Z4M1HykPQp3BI3q8FxfdeAaqZNxgmXzB3h+qJv7k0a4=",
+        "narHash": "sha256-LMX974MSMN/0ejgMx/9U/yq2E7gQW7JLw9GoHjRyZoc=",
         "type": "tarball",
         "url": "https://channels.nixos.org/nixos-unstable/nixexprs.tar.xz"
       },
@@ -60,11 +60,11 @@
     },
     "nur": {
       "locked": {
-        "lastModified": 1658498600,
-        "narHash": "sha256-whzMRCk2TLjimj0Mc1WIrHyWJVOvXa53SDfS0OQzg7w=",
+        "lastModified": 1659987762,
+        "narHash": "sha256-vVY7XgKYnm48Xbwsx3Q+FJyFo93DKqXnhIuDKhj7j7c=",
         "owner": "nix-community",
         "repo": "NUR",
-        "rev": "219640a3a9d0da398e81df29d497079f32307a6f",
+        "rev": "0929bb3683ebcecd25a524f5793a7e07d6cab32f",
         "type": "github"
       },
       "original": {
@@ -83,11 +83,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1659123228,
-        "narHash": "sha256-grea+bchyXvYK9yQKqMDgpz38kVePJF5KWBZJjg1rwY=",
+        "lastModified": 1659488139,
+        "narHash": "sha256-DybBgQeSH0BH+tI3Yfr5hYM3JhJL2dOnudwhdMSg48o=",
         "ref": "refs/heads/master",
-        "rev": "c41e535e3d224ab10947af6cdf2c30897b8873eb",
-        "revCount": 293,
+        "rev": "314fdbc25caaae13a0bfd45dd5e996903a8c71b6",
+        "revCount": 297,
         "type": "git",
         "url": "file:///home/ilya/nur-repository"
       },
@@ -99,7 +99,7 @@
     "passwords": {
       "flake": false,
       "locked": {
-        "lastModified": 1647663414,
+        "lastModified": 1659183003,
         "narHash": "sha256-d9sNRudCDJiZncNUQSXuWb8MGwdQqU0DCK/Ylcah+0I=",
         "path": "/etc/nixos/passwords.nix",
         "type": "path"
