@@ -283,8 +283,7 @@ with lib;
   '';
 
   services.yggdrasil.enable = true;
-
-  services.yggdrasil.config = {
+  services.yggdrasil.settings = {
     Peers = [
       tcp://194.177.21.156:5066
       tcp://46.151.26.194:60575
