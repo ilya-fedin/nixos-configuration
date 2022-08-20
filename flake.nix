@@ -13,7 +13,7 @@
   };
 
   inputs.passwords = {
-    url = "path:/etc/nixos/passwords.nix";
+    url = "file+file:///etc/nixos/passwords.nix";
     flake = false;
   };
 
