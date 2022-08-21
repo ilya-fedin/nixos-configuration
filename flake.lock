@@ -33,11 +33,11 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1660819943,
-        "narHash": "sha256-TRZV/mlW1eYuojqDC3ueYWj7jsTKXJCtyMLNYX/Ybtw=",
+        "lastModified": 1660908602,
+        "narHash": "sha256-SwZ85IPWvC4NxxFhWhRMTJpApSHbY1u4YK2UFWEBWvY=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "8ea014acc33da95ea56c902229957d8225005163",
+        "rev": "495b19d5b3e62b4ec7e846bdfb6ef3d9c3b83492",
         "type": "github"
       },
       "original": {
@@ -49,7 +49,7 @@
     },
     "nixpkgs-channel": {
       "locked": {
-        "narHash": "sha256-qQF57vPWnq7FaM2IcHpTi2dNO8HB6B/5cm5oC5EQhdU=",
+        "narHash": "sha256-rqykhbL0K54+aTXqnSRlvagrBkbTvwqtGimaTE0Q92A=",
         "type": "tarball",
         "url": "https://channels.nixos.org/nixos-unstable/nixexprs.tar.xz"
       },
@@ -60,11 +60,11 @@
     },
     "nur": {
       "locked": {
-        "lastModified": 1661001745,
-        "narHash": "sha256-QchKRilC5JYH0ui/6/0AnxIvD3pZIg+rCmg32wHJEHw=",
+        "lastModified": 1661052390,
+        "narHash": "sha256-AFGFMq2tIi1eStJBj4B09u7Q+hEbyaxI6BWQLJUvcCk=",
         "owner": "nix-community",
         "repo": "NUR",
-        "rev": "fe5fd072a030a34e44a2607ad04aad8aad0a56cd",
+        "rev": "e1e0fd4c208a107bc88aa44c193b77f37390bb7e",
         "type": "github"
       },
       "original": {
@@ -83,11 +83,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1660967618,
-        "narHash": "sha256-yycmwF0baqIZAin7L2r0pgKrnpdWqzDRXXJqM71CqV4=",
+        "lastModified": 1661042731,
+        "narHash": "sha256-lqflY2hi0vhncscuOpYQPUiYm9RKyZCmjKZ0DPtOP3g=",
         "ref": "refs/heads/master",
-        "rev": "3fe8c87975c7f3607e0470c41b5527c4cdfb53ba",
-        "revCount": 311,
+        "rev": "5be6c6e7b26d3d42f722388de03b36373f9e0326",
+        "revCount": 312,
         "type": "git",
         "url": "file:///home/ilya/nur-repository"
       },
