@@ -235,6 +235,8 @@ with lib;
   systemd.services.polkit.restartIfChanged = false;
   systemd.services.NetworkManager-wait-online.wantedBy = mkForce [];
 
+  services.getty.autologinUser = "ilya";
+
   services.udev.optimalSchedulers = true;
   services.fstrim.enable = true;
 
