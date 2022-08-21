@@ -202,7 +202,7 @@ with lib;
     })
     neochat
     p7zip
-    vscode-fhs
+    vscode
   ];
 
   environment.defaultPackages = [];
