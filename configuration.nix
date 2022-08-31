@@ -61,6 +61,7 @@ with lib;
   nix.registry.self.flake = inputs.self;
   nix.extraOptions = ''
     sandbox = false
+    tarball-ttl = 604800
     experimental-features = nix-command flakes
   '';
 
@@ -217,7 +218,7 @@ with lib;
     MOZ_DISABLE_CONTENT_SANDBOX = "1";
   };
 
-  programs.command-not-found.dbPath = "${inputs.nixpkgs-channel}/programs.sqlite";
+  programs.command-not-found.dbPath = "${builtins.fetchTarball "https://channels.nixos.org/nixos-unstable/nixexprs.tar.xz"}/programs.sqlite";
 
   programs.fish.enable = true;
   programs.ssh.askPassword = "${pkgs.ksshaskpass}/bin/ksshaskpass";
