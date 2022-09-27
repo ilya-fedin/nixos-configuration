@@ -382,7 +382,7 @@ with lib;
   fonts.fontconfig.crOSMaps = true;
 
   fonts.fontconfig.defaultFonts.sansSerif = [ "Exo 2" "Symbols Nerd Font" ];
-  fonts.fontconfig.defaultFonts.serif = [ "Tinos Nerd Font" ];
+  fonts.fontconfig.defaultFonts.serif = [ "Tinos" "Symbols Nerd Font" ];
   fonts.fontconfig.defaultFonts.monospace = [ "Cascadia Code PL" "Symbols Nerd Font" ];
   fonts.fontconfig.defaultFonts.emoji = [ "JoyPixels" ];
 
