@@ -179,7 +179,7 @@ with lib;
     unzip
     zip
     unrar
-    gnome3.dconf-editor
+    gnome.dconf-editor
     xclip
     htop
     xsettingsd
@@ -195,8 +195,7 @@ with lib;
     bustle
     qemu_kvm
     virt-manager
-    (gnome3.gnome-boxes.override {
-      qemu = qemu_kvm;
+    (gnome.gnome-boxes.override {
       qemu-utils = qemu-utils.override {
         qemu = qemu_kvm;
       };
