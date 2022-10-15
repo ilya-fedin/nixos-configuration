@@ -212,7 +212,6 @@ with lib;
     EDITOR = "micro";
     VISUAL = EDITOR;
     SYSTEMD_EDITOR = EDITOR;
-    NIXOS_OZONE_WL = "1";
     GTK_USE_PORTAL = "1";
     MOZ_DISABLE_CONTENT_SANDBOX = "1";
     CUPS_SERVER = "rpi4";
