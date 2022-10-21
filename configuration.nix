@@ -41,6 +41,33 @@ with lib;
     nurOverlay
     inputs.mozilla.overlays.firefox
     nur-no-pkgs.repos.ilya-fedin.overlays.portal
+    (self: super: with super; {
+      plasma5Packages = plasma5Packages // {
+        plasma5 = plasma5Packages.plasma5 // {
+          kwin = plasma5Packages.plasma5.kwin.overrideAttrs(oldAttrs: {
+            src = fetchFromGitLab {
+              domain = "invent.kde.org";
+              owner = "plasma";
+              repo = "kwin";
+              rev = "85d46016a22781ae2b9eab22e1bfbe0cf35ce9fa";
+              sha256 = "sha256-DVpMdT9LoVSGByUFEnQy+HSk66Tle37hSprrTrwObEc=";
+            };
+            postPatch = oldAttrs.postPatch + ''
+              sed -i 's/PROJECT_VERSION "5.26.80"/PROJECT_VERSION "5.26.0"/' CMakeLists.txt
+            '';
+            buildInputs = [
+              (wayland-protocols.overrideAttrs(oldAttrs: rec {
+                version = "1.27";
+                src = fetchurl {
+                  url = "https://gitlab.freedesktop.org/wayland/wayland-protocols/-/releases/${version}/downloads/${oldAttrs.pname}-${version}.tar.xz";
+                  sha256 = "sha256-kEbxCkJdTioAlloDrPtrP7V1pWUDrHLCuGghxpZTN1w=";
+                };
+              }))
+            ] ++ oldAttrs.buildInputs;
+          });
+        };
+      };
+    })
   ];
 
   system.replaceRuntimeDependencies = [
