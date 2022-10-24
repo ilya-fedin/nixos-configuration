@@ -49,8 +49,8 @@ with lib;
               domain = "invent.kde.org";
               owner = "plasma";
               repo = "kwin";
-              rev = "85d46016a22781ae2b9eab22e1bfbe0cf35ce9fa";
-              sha256 = "sha256-DVpMdT9LoVSGByUFEnQy+HSk66Tle37hSprrTrwObEc=";
+              rev = "7da79f5ec4918d525e4e43ca8d88265dfd94e22d";
+              sha256 = "sha256-WP0hb/qpCpNbZvsVK5zNEdGGzDJxkERf8qQThguQXtU=";
             };
             postPatch = oldAttrs.postPatch + ''
               sed -i 's/PROJECT_VERSION "5.26.80"/PROJECT_VERSION "5.26.0"/' CMakeLists.txt
