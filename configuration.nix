@@ -156,6 +156,8 @@ with lib;
   networking.networkmanager.plugins = mkForce [];
   networking.networkmanager.wifi.backend = "iwd";
   networking.wireless.iwd.enable = true;
+  networking.firewall.enable = false;
+  networking.usePredictableInterfaceNames = false;
 
   i18n = {
     defaultLocale = "ru_RU.UTF-8";
@@ -355,9 +357,6 @@ with lib;
 
   virtualisation.virtualbox.host.enable = true;
   virtualisation.virtualbox.host.enableExtensionPack = true;
-
-  networking.firewall.enable = false;
-  networking.usePredictableInterfaceNames = false;
 
   sound.enable = true;
   security.rtkit.enable = true;
