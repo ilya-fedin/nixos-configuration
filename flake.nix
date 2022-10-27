@@ -33,7 +33,7 @@
       specialArgs = { inherit inputs system; };
     };
 
-    defaultPackage.x86_64-linux = nixosConfigurations.nixos.config.system.build.toplevel;
-    legacyPackages.x86_64-linux = nixosConfigurations.nixos.pkgs;
+    defaultPackage.${system} = nixosConfigurations.nixos.config.system.build.toplevel;
+    legacyPackages.${system} = nixosConfigurations.nixos.pkgs;
   };
 }
