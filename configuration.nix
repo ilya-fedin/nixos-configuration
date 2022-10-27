@@ -25,6 +25,23 @@ let
       };
     };
   };
+
+  silverConfig = pkgs.writeText "silver.toml" ''
+    [[left]]
+    name = "status"
+    color.background = "black"
+    color.foreground = "none"
+
+    [[left]]
+    name = "dir"
+    color.background = "blue"
+    color.foreground = "black"
+
+    [[left]]
+    name = "git"
+    color.background = "green"
+    color.foreground = "black"
+  '';
 in
 
 with lib;
@@ -185,7 +202,6 @@ with lib;
     adapta-gtk-theme
     adapta-kde-theme
     git
-    neofetch
     libsForQt5.qtstyleplugin-kvantum
     yakuake
     go-mtpfs
@@ -219,7 +235,6 @@ with lib;
     plasma5Packages.ffmpegthumbs
     plasma5Packages.kglobalaccel
     ix
-    nur.repos.ilya-fedin.silver
     dfeet
     bustle
     qemu_kvm
@@ -249,6 +264,21 @@ with lib;
   programs.command-not-found.dbPath = "${builtins.fetchTarball "https://channels.nixos.org/nixos-unstable/nixexprs.tar.xz"}/programs.sqlite";
 
   programs.fish.enable = true;
+  programs.fish.promptInit = with pkgs; with nur.repos.ilya-fedin; ''
+    function fish_greeting
+        ${neofetch}/bin/neofetch
+    end
+
+    function fish_prompt
+        env code=$status jobs=(count (jobs -p)) cmdtime={$CMD_DURATION} ${silver}/bin/silver -c ${silverConfig} lprint
+    end
+    function fish_right_prompt
+        env code=$status jobs=(count (jobs -p)) cmdtime={$CMD_DURATION} ${silver}/bin/silver -c ${silverConfig} rprint
+    end
+
+    set -x VIRTUAL_ENV_DISABLE_PROMPT 1
+  '';
+
   programs.ssh.askPassword = "${pkgs.ksshaskpass}/bin/ksshaskpass";
   programs.adb.enable = true;
   programs.system-config-printer.enable = false;
