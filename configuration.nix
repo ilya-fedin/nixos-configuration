@@ -264,23 +264,23 @@ with lib;
   systemd.services.NetworkManager-wait-online.wantedBy = mkForce [];
 
   services.getty.autologinUser = "ilya";
-
   services.udev.optimalSchedulers = true;
   services.fstrim.enable = true;
-
   services.logind.killUserProcesses = true;
   services.earlyoom.enable = true;
+  services.journald.extraConfig = "SystemMaxUse=100M";
+  services.resolved.enable = true;
+  services.resolved.dnssec = "false";
+  services.teamviewer.enable = true;
+  services.gnome.at-spi2-core.enable = mkForce false;
+  services.gnome.gnome-keyring.enable = mkForce false;
+  services.gvfs.package = pkgs.gvfs;
+  services.flatpak.enable = true;
 
   services.dbus-broker.enable = true;
-
   services.dbus.packages = with pkgs; [
     dconf
   ];
-
-  services.journald.extraConfig = "SystemMaxUse=100M";
-
-  services.resolved.enable = true;
-  services.resolved.dnssec = "false";
 
   services.printing.enable = true;
   services.printing.startWhenNeeded = true;
@@ -325,20 +325,12 @@ with lib;
 
   services.tor.enable = true;
   services.tor.client.enable = true;
-
   services.tor.settings = {
     ExitNodes = "{ua}";
     UseBridges = true;
     ClientTransportPlugin = "obfs4 exec ${pkgs.obfs4}/bin/obfs4proxy";
     Bridge = "obfs4 137.220.35.35:443 75B34B8458A1C93714BFF9393E09F7CBC04A2F59 cert=GglhKh0UwOjkfQPN0aH3gs8ZdnE6T4qU9uU/fmiYbJ69Dpk4nxS9o82UBnAxVZJytOulfA iat-mode=0";
   };
-
-  services.teamviewer.enable = true;
-
-  services.gnome.at-spi2-core.enable = mkForce false;
-  services.gnome.gnome-keyring.enable = mkForce false;
-  services.gvfs.package = pkgs.gvfs;
-  services.flatpak.enable = true;
 
   xdg.icons.icons = with pkgs; [
     papirus-icon-theme
