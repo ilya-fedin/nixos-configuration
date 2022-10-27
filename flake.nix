@@ -16,9 +16,19 @@
     flake = false;
   };
 
-  outputs = { nixpkgs, ... } @ inputs: rec {
-    nixosConfigurations.nixos = nixpkgs.lib.nixosSystem rec {
-      system = "x86_64-linux";
+  outputs = inputs: let
+    system = "x86_64-linux";
+    nixpkgs = (import ((import inputs.nixpkgs {
+      inherit system;
+      overlays = [];
+    }).applyPatches {
+      name = "nixpkgs";
+      src = inputs.nixpkgs;
+      patches = [ ./allow-no-password.patch ];
+    } + "/flake.nix")).outputs { self = nixpkgs; };
+  in rec {
+    nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
+      inherit system;
       modules = [ ./configuration.nix ];
       specialArgs = { inherit inputs system; };
     };

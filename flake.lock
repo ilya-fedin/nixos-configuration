@@ -88,7 +88,7 @@
     "passwords": {
       "flake": false,
       "locked": {
-        "narHash": "sha256-d9sNRudCDJiZncNUQSXuWb8MGwdQqU0DCK/Ylcah+0I=",
+        "narHash": "sha256-EraqreIncZXWkP04Z7GbIBGt9auAPNFQdxaZ5Yl3j6A=",
         "type": "file",
         "url": "file:///etc/nixos/passwords.nix"
       },

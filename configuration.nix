@@ -407,12 +407,12 @@ with lib;
   users.defaultUserShell = pkgs.fish;
 
   users.users.root = {
-    password = passwords.root;
+    hashedPassword = "";
   };
 
   users.users.ilya = {
     description = "Илья Федин";
-    password = passwords.ilya;
+    hashedPassword = "";
     extraGroups = [ "wheel" "input" "audio" "dialout" "networkmanager" "docker" "libvirtd" "vboxusers" "adbusers" "sambashare" ];
     uid = 1000;
     isNormalUser = true;
