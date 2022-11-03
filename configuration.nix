@@ -264,6 +264,10 @@ with lib;
   programs.command-not-found.dbPath = "${builtins.fetchTarball "https://channels.nixos.org/nixos-unstable/nixexprs.tar.xz"}/programs.sqlite";
 
   programs.fish.enable = true;
+  programs.fish.interactiveShellInit = with pkgs; ''
+    eval (${coreutils}/bin/dircolors -c)
+  '';
+
   programs.fish.promptInit = with pkgs; with nur.repos.ilya-fedin; ''
     function fish_greeting
         ${neofetch}/bin/neofetch
