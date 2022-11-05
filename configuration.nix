@@ -247,6 +247,7 @@ with lib;
     neochat
     p7zip
     vscode
+    nur.repos.ilya-fedin.nixos-collect-garbage
   ];
 
   environment.defaultPackages = [];
