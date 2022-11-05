@@ -190,7 +190,7 @@ with lib;
 
   time.timeZone = "Europe/Saratov";
 
-  environment.etc.nixpkgs.source = inputs.nixpkgs;
+  environment.etc.nixpkgs.source = builtins.storePath ("/nix/store/" + (concatStringsSep "-" (remove 0 (splitString "-" (elemAt (splitString "/" (toString pkgs.path)) 3)))));
 
   environment.systemPackages = with pkgs; [
     file
