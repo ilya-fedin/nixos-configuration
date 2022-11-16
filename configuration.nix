@@ -416,7 +416,7 @@ with lib;
   services.xserver.desktopManager.plasma5.useQtScaling = true;
   services.xserver.desktopManager.plasma5.phononBackend = "vlc";
 
-  fonts.fonts = with pkgs; [
+  fonts.fonts = with pkgs; mkForce [
     nur.repos.ilya-fedin.exo2
     nur.repos.ilya-fedin.cascadia-code-powerline
     unifont
