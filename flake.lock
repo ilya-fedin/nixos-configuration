@@ -72,11 +72,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1668041391,
-        "narHash": "sha256-8B8NauAO9YB21Iqaxpo6XvGa9fI5LUkkUISrUZsbUGM=",
+        "lastModified": 1668625368,
+        "narHash": "sha256-g/X2Pwh3eG2ShW3mqiK8RF8bNhinunDsUcyg17OuUcg=",
         "ref": "refs/heads/master",
-        "rev": "f3c4538575b96e7f311e22747910beb04bbefc09",
-        "revCount": 383,
+        "rev": "2afb9b6f60f7438f3100e15c85eac56d2fecc8dd",
+        "revCount": 389,
         "type": "git",
         "url": "file:///home/ilya/nur-repository"
       },
