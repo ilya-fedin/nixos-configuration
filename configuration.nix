@@ -304,6 +304,7 @@ with lib;
   services.udev.optimalSchedulers = true;
   services.fstrim.enable = true;
   services.logind.killUserProcesses = true;
+  services.logind.extraConfig = "UserStopDelaySec=0";
   services.earlyoom.enable = true;
   services.journald.extraConfig = "SystemMaxUse=100M";
   services.resolved.enable = true;
