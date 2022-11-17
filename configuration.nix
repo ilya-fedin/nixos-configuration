@@ -420,6 +420,9 @@ with lib;
   fonts.fonts = with pkgs; mkForce [
     nur.repos.ilya-fedin.exo2
     nur.repos.ilya-fedin.cascadia-code-powerline
+    nur.repos.ilya-fedin.ttf-croscore
+    carlito
+    caladea
     unifont
     symbola
     joypixels
