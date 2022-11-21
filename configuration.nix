@@ -404,6 +404,7 @@ with lib;
 
   services.xserver.enable = true;
   services.xserver.layout = "us,ru";
+  services.xserver.xkbOptions = "grp:win_space_toggle";
   services.xserver.videoDrivers = [ "modesetting" ];
   services.xserver.libinput.enable = true;
 
