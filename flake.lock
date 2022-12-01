@@ -33,11 +33,11 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1669542132,
-        "narHash": "sha256-DRlg++NJAwPh8io3ExBJdNW7Djs3plVI5jgYQ+iXAZQ=",
+        "lastModified": 1669791787,
+        "narHash": "sha256-KBfoA2fOI5+wCrm7PR+j7jHqXeTkVRPQ0m5fcKchyuU=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "a115bb9bd56831941be3776c8a94005867f316a7",
+        "rev": "e76c78d20685a043d23f5f9e0ccd2203997f1fb1",
         "type": "github"
       },
       "original": {
@@ -49,11 +49,11 @@
     },
     "nur": {
       "locked": {
-        "lastModified": 1669749637,
-        "narHash": "sha256-QAJt9dov1gJTNFaWbEwaHV1IDtVrsM18E7LsLsvsHIA=",
+        "lastModified": 1669805596,
+        "narHash": "sha256-g1CPQZ+1jGhY4bsjppk+gH5jfzzqmPlqGHg0zSYS3Hw=",
         "owner": "nix-community",
         "repo": "NUR",
-        "rev": "f7b4e636b872255bf3ea0712d93ce9dc934d4076",
+        "rev": "c81b1e527f3a220abfa9bf8096153d52784c5007",
         "type": "github"
       },
       "original": {
@@ -72,11 +72,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1668625368,
-        "narHash": "sha256-g/X2Pwh3eG2ShW3mqiK8RF8bNhinunDsUcyg17OuUcg=",
+        "lastModified": 1669908560,
+        "narHash": "sha256-jm1Lantqge/3n6QnpKjw0n5MU2lj8DwW2Kk3tXwfO/0=",
         "ref": "refs/heads/master",
-        "rev": "2afb9b6f60f7438f3100e15c85eac56d2fecc8dd",
-        "revCount": 389,
+        "rev": "8c992e2304ab20c3c8cc88480980d9e32aade80b",
+        "revCount": 410,
         "type": "git",
         "url": "file:///home/ilya/nur-repository"
       },
