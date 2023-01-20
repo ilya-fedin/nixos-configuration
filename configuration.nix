@@ -312,6 +312,7 @@ with lib;
   services.teamviewer.enable = true;
   services.gnome.at-spi2-core.enable = mkForce false;
   services.gnome.gnome-keyring.enable = mkForce false;
+  services.gvfs.enable = true;
   services.gvfs.package = pkgs.gvfs;
   services.flatpak.enable = true;
 
