@@ -262,6 +262,8 @@ with lib;
     CUPS_SERVER = "rpi4";
   };
 
+  environment.memoryAllocator.provider = "scudo";
+
   programs.command-not-found.dbPath = "${builtins.fetchTarball "https://channels.nixos.org/nixos-unstable/nixexprs.tar.xz"}/programs.sqlite";
 
   programs.fish.enable = true;
