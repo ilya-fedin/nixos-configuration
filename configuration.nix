@@ -67,6 +67,13 @@ with lib;
     }
   ];
 
+  system.activationScripts = {
+    enableLingering = ''
+      mkdir -p /var/lib/systemd/linger
+      touch /var/lib/systemd/linger/ilya
+    '';
+  };
+
   nix.package = pkgs.nixUnstable;
   nix.nixPath = mkForce [
     "nixpkgs=/etc/static/nixpkgs"
@@ -275,7 +282,6 @@ with lib;
   systemd.services.polkit.restartIfChanged = false;
   systemd.services.NetworkManager-wait-online.wantedBy = mkForce [];
 
-  services.getty.autologinUser = "ilya";
   services.udev.optimalSchedulers = true;
   services.fstrim.enable = true;
   services.logind.killUserProcesses = true;
