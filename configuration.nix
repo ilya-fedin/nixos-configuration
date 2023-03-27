@@ -198,7 +198,9 @@ with lib;
     gimp
     wget
     nur.repos.ilya-fedin.kotatogram-desktop
-    obs-studio
+    (vokoscreen-ng.overrideAttrs(oldAttrs: {
+      buildInputs = oldAttrs.buildInputs ++ [ pkgs.pipewire ];
+    }))
     qbittorrent
     libarchive
     unzip
