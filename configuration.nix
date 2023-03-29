@@ -115,7 +115,18 @@ with lib;
 
   boot.kernelPackages = pkgs.linuxPackages_zen;
   boot.extraModulePackages = [ config.boot.kernelPackages.rtl8821au ];
-  boot.kernelParams = [ "amd_pstate=passive" "mitigations=off" "panic=1" "nowatchdog" "nmi_watchdog=0" "quiet" "rd.systemd.show_status=auto" "rd.udev.log_priority=3" ];
+  boot.kernelParams = [
+    "zswap.enabled=1"
+    "zswap.compressor=lz4"
+    "zswap.zpool=z3fold"
+    "amd_pstate=passive"
+    "mitigations=off"
+    "panic=1"
+    "nowatchdog"
+    "nmi_watchdog=0"
+    "quiet"
+    "rd.systemd.show_status=auto"
+    "rd.udev.log_priority=3" ];
   boot.kernelModules = [ "kvm-amd" "bfq" ];
 
   boot.initrd.includeDefaultModules = false;
