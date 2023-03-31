@@ -399,6 +399,35 @@ with lib;
     pulse.enable = true;
   };
 
+  environment.etc."wireplumber/main.lua.d/51-alsa-custom.lua".text = ''
+    rules = {
+      {
+        matches = {
+          {
+            { "device.name", "matches", "alsa_card.pci-0000_2d_00.1" },
+          },
+        },
+        apply_properties = {
+          ["api.alsa.use-acp"] = false,
+        },
+      },
+      {
+        matches = {
+          {
+            { "node.name", "matches", "alsa_output.pci-0000_2d_00.1.playback.*" },
+          },
+        },
+        apply_properties = {
+          ["session.suspend-timeout-seconds"] = 0,
+        },
+      },
+    }
+
+    for _,v in ipairs(rules) do
+        table.insert(alsa_monitor.rules, v)
+    end
+  '';
+
   services.xserver.enable = true;
   services.xserver.layout = "us,ru";
   services.xserver.xkbOptions = "grp:win_space_toggle";
