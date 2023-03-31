@@ -382,6 +382,8 @@ with lib;
   virtualisation.docker.enable = true;
   virtualisation.docker.enableOnBoot = false;
 
+  virtualisation.lxc.enable = true;
+
   virtualisation.libvirtd.enable = true;
   virtualisation.spiceUSBRedirection.enable = true;
   virtualisation.libvirtd.qemu.package = pkgs.qemu_kvm;
