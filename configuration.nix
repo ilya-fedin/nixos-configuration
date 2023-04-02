@@ -117,8 +117,6 @@ with lib;
   boot.extraModulePackages = [ config.boot.kernelPackages.rtl8821au ];
   boot.kernelParams = [
     "zswap.enabled=1"
-    "zswap.compressor=zstd"
-    "zswap.zpool=z3fold"
     "amd_pstate=passive"
     "mitigations=off"
     "panic=1"
@@ -294,6 +292,19 @@ with lib;
 
   systemd.services.polkit.restartIfChanged = false;
   systemd.services.NetworkManager-wait-online.wantedBy = mkForce [];
+
+  systemd.services.zswap = {
+    description = "zswap";
+    wantedBy = [ "multi-user.target" ];
+    serviceConfig = {
+      Type = "oneshot";
+      RemainAfterExit = true;
+    };
+    script = ''
+      echo zstd > /sys/module/zswap/parameters/compressor
+      echo z3fold > /sys/module/zswap/parameters/zpool
+    '';
+  };
 
   services.udev.optimalSchedulers = true;
   services.fstrim.enable = true;
