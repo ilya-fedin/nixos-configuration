@@ -117,7 +117,7 @@ with lib;
   boot.extraModulePackages = [ config.boot.kernelPackages.rtl8821au ];
   boot.kernelParams = [
     "zswap.enabled=1"
-    "zswap.compressor=lz4"
+    "zswap.compressor=zstd"
     "zswap.zpool=z3fold"
     "amd_pstate=passive"
     "mitigations=off"
