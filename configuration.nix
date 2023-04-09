@@ -131,7 +131,7 @@ with lib;
   boot.initrd.availableKernelModules = [ "sd_mod" "nvme" "ext4" "i8042" "atkbd" "amdgpu" ];
   boot.blacklistedKernelModules = [ "iTCO_wdt" "sp5100_tco" "uvcvideo" ];
 
-  boot.cleanTmpDir = true;
+  boot.tmp.cleanOnBoot = true;
   boot.consoleLogLevel = 3;
   boot.initrd.verbose = false;
 
@@ -207,9 +207,7 @@ with lib;
     gimp
     wget
     nur.repos.ilya-fedin.kotatogram-desktop
-    (vokoscreen-ng.overrideAttrs(oldAttrs: {
-      buildInputs = oldAttrs.buildInputs ++ [ pkgs.pipewire ];
-    }))
+    vokoscreen-ng
     qbittorrent
     libarchive
     unzip
