@@ -19,9 +19,7 @@ let
       nurpkgs = super;
       pkgs = super;
       repoOverrides = {
-        ilya-fedin = import inputs.nur-repo-override {
-          pkgs = super;
-        };
+        ilya-fedin = import inputs.nur-repo-override {};
       };
     };
   };
