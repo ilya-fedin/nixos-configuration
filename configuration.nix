@@ -148,7 +148,7 @@ with lib;
 
   hardware.sane.enable = true;
   hardware.sane.extraBackends = with pkgs; [
-    hplipWithPlugin
+    nur.repos.ilya-fedin.hplipWithPlugin
     sane-airscan
   ];
 
