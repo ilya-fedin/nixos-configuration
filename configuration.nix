@@ -112,7 +112,6 @@ with lib;
   boot.loader.systemd-boot.enable = true;
 
   boot.kernelPackages = pkgs.linuxPackages_zen;
-  boot.extraModulePackages = [ config.boot.kernelPackages.rtl8821au ];
   boot.kernelParams = [
     "zswap.enabled=1"
     "amd_pstate=passive"
