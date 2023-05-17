@@ -406,9 +406,6 @@ with lib;
   virtualisation.spiceUSBRedirection.enable = true;
   virtualisation.libvirtd.qemu.package = pkgs.qemu_kvm;
 
-  virtualisation.virtualbox.host.enable = true;
-  virtualisation.virtualbox.host.enableExtensionPack = true;
-
   security.rtkit.enable = true;
   services.pipewire = {
     enable = true;
