@@ -309,7 +309,7 @@ with lib;
       RemainAfterExit = true;
     };
     script = ''
-      ${pkgs.alsa-utils}/bin/amixer -c HDMI sset IEC958 on
+      ${pkgs.alsa-utils}/bin/amixer -c HDMI sset IEC958 on || true
     '';
   };
 
@@ -327,6 +327,7 @@ with lib;
   services.gvfs.enable = true;
   services.gvfs.package = pkgs.gvfs;
   services.flatpak.enable = true;
+  services.sysprof.enable = true;
 
   services.dbus-broker.enable = true;
   services.dbus.packages = with pkgs; [
