@@ -329,7 +329,7 @@ with lib;
   services.flatpak.enable = true;
   services.sysprof.enable = true;
 
-  services.dbus-broker.enable = true;
+  services.dbus.implementation = "broker";
   services.dbus.packages = with pkgs; [
     dconf
   ];
