@@ -406,6 +406,12 @@ with lib;
   virtualisation.libvirtd.enable = true;
   virtualisation.spiceUSBRedirection.enable = true;
   virtualisation.libvirtd.qemu.package = pkgs.qemu_kvm;
+  virtualisation.libvirtd.qemu.ovmf.packages = [
+    (pkgs.OVMF.override {
+      secureBoot = true;
+      tpmSupport = true;
+    }).fd
+  ];
 
   security.rtkit.enable = true;
   services.pipewire = {
