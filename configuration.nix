@@ -114,7 +114,7 @@ with lib;
   boot.kernelPackages = pkgs.linuxPackages_zen;
   boot.kernelParams = [
     "zswap.enabled=1"
-    "amd_pstate=passive"
+    "amd_pstate=active"
     "mitigations=off"
     "panic=1"
     "nowatchdog"
