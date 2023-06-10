@@ -290,6 +290,7 @@ with lib;
 
   systemd.services.polkit.restartIfChanged = false;
   systemd.services.NetworkManager-wait-online.wantedBy = mkForce [];
+  systemd.user.services.pipewire-pulse.wantedBy = [ "default.target" ];
 
   systemd.services.zswap = {
     description = "zswap";
