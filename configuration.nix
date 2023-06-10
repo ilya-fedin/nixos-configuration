@@ -144,6 +144,9 @@ with lib;
   hardware.bluetooth.enable = true;
   hardware.usbWwan.enable = true;
 
+  hardware.logitech.wireless.enable = true;
+  hardware.logitech.wireless.enableGraphical = true;
+
   hardware.opengl.enable = true;
 
   hardware.sane.enable = true;
