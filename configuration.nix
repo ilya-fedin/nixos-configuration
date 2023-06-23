@@ -121,7 +121,8 @@ with lib;
     "nmi_watchdog=0"
     "quiet"
     "rd.systemd.show_status=auto"
-    "rd.udev.log_priority=3" ];
+    "rd.udev.log_priority=3"
+  ];
   boot.kernelModules = [ "kvm-amd" "bfq" ];
 
   boot.initrd.includeDefaultModules = false;
