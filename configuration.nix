@@ -303,18 +303,6 @@ with lib;
     '';
   };
 
-  systemd.services.enable-hdmi-sound = {
-    description = "enable-hdmi-sound";
-    wantedBy = [ "multi-user.target" ];
-    serviceConfig = {
-      Type = "oneshot";
-      RemainAfterExit = true;
-    };
-    script = ''
-      ${pkgs.alsa-utils}/bin/amixer -c HDMI sset IEC958 on || true
-    '';
-  };
-
   services.udev.optimalSchedulers = true;
   services.fstrim.enable = true;
   services.logind.killUserProcesses = true;
@@ -415,6 +403,7 @@ with lib;
     }).fd
   ];
 
+  sound.enable = true;
   security.rtkit.enable = true;
   services.pipewire = {
     enable = true;
