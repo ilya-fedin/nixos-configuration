@@ -65,13 +65,6 @@ with lib;
     }
   ];
 
-  system.activationScripts = {
-    enableLingering = ''
-      mkdir -p /var/lib/systemd/linger
-      touch /var/lib/systemd/linger/ilya
-    '';
-  };
-
   nix.package = pkgs.nixUnstable;
   nix.nixPath = mkForce [
     "nixpkgs=/etc/static/nixpkgs"
