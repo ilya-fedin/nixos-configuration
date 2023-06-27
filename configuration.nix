@@ -394,6 +394,7 @@ with lib;
   virtualisation.lxc.enable = true;
 
   virtualisation.libvirtd.enable = true;
+  virtualisation.libvirtd.onShutdown = "shutdown";
   virtualisation.spiceUSBRedirection.enable = true;
   virtualisation.libvirtd.qemu.package = pkgs.qemu_kvm;
   virtualisation.libvirtd.qemu.ovmf.packages = [
