@@ -329,15 +329,18 @@ with lib;
 
   services.avahi.enable = true;
   services.avahi.nssmdns = true;
+  services.avahi.publish.enable = true;
+  services.avahi.publish.addresses = true;
+  services.avahi.publish.domain = true;
+  services.avahi.publish.userServices = true;
 
   services.samba.enable = true;
+  services.samba.package = pkgs.sambaFull;
   services.samba.nsswins = true;
+  services.samba-wsdd.enable = true;
 
   services.samba.extraConfig = ''
     workgroup = WORKGROUP
-    server min protocol = NT1
-    client min protocol = NT1
-    ntlm auth = yes
     map to guest = bad user
     guest account = ilya
 
