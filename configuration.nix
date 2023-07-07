@@ -80,13 +80,7 @@ with lib;
     experimental-features = nix-command flakes
   '';
 
-  nix.settings.substituters = [
-    "https://ilya-fedin.cachix.org"
-  ];
-
-  nix.settings.trusted-public-keys = [
-    "ilya-fedin.cachix.org-1:QveU24a5ePPMh82mAFSxLk1P+w97pRxqe9rh+MJqlag="
-  ];
+  nur.ilya-fedin.cache.enable = true;
 
   fileSystems."/" = {
     device = "/dev/disk/by-partlabel/nixos";
