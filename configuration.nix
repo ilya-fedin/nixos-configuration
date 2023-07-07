@@ -44,7 +44,9 @@ in
 
 with lib;
 {
-  imports = attrValues nur-no-pkgs.repos.ilya-fedin.modules;
+  imports = [
+    inputs.chaotic.nixosModules.default
+  ] ++ attrValues nur-no-pkgs.repos.ilya-fedin.modules;
 
   nixpkgs.config = {
     allowUnfree = true;
@@ -98,7 +100,7 @@ with lib;
 
   boot.loader.systemd-boot.enable = true;
 
-  boot.kernelPackages = pkgs.linuxPackages_zen;
+  boot.kernelPackages = inputs.chaotic.packages.${system}.linuxPackages_cachyos;
   boot.kernelParams = [
     "zswap.enabled=1"
     "amd_pstate=active"
