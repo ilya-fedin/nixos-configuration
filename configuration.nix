@@ -296,6 +296,9 @@ with lib;
     '';
   };
 
+  services.ananicy.enable = true;
+  services.ananicy.package = pkgs.ananicy-cpp;
+  services.irqbalance.enable = true;
   services.udev.optimalSchedulers = true;
   services.fstrim.enable = true;
   services.logind.killUserProcesses = true;
