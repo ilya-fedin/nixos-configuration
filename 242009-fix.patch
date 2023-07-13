@@ -1,0 +1,120 @@
+diff --git a/nixos/modules/services/x11/display-managers/sddm.nix b/nixos/modules/services/x11/display-managers/sddm.nix
+index 56ae3193895b..2fa2975548db 100644
+--- a/nixos/modules/services/x11/display-managers/sddm.nix
++++ b/nixos/modules/services/x11/display-managers/sddm.nix
+@@ -33,6 +33,10 @@ let
+ 
+       # Implementation is done via pkgs/applications/display-managers/sddm/sddm-default-session.patch
+       DefaultSession = optionalString (dmcfg.defaultSession != null) "${dmcfg.defaultSession}.desktop";
++    } // lib.optionalAttrs cfg.enableKwinWayland {
++      GreeterEnvironment = "QT_PLUGIN_PATH=${pkgs.plasma5Packages.layer-shell-qt}/${pkgs.plasma5Packages.qtbase.qtPluginPrefix},QT_WAYLAND_SHELL_INTEGRATION=layer-shell";
++      DisplayServer = "wayland";
++      InputMethod = "";
+     };
+ 
+     Theme = {
+@@ -62,6 +66,8 @@ let
+     Wayland = {
+       EnableHiDPI = cfg.enableHidpi;
+       SessionDir = "${dmcfg.sessionData.desktops}/share/wayland-sessions";
++    } // lib.optionalAttrs cfg.enableKwinWayland {
++      CompositorCommand = "${pkgs.kwin}/bin/kwin_wayland --no-global-shortcuts --no-lockscreen --locale1";
+     };
+   } // lib.optionalAttrs dmcfg.autoLogin.enable {
+     Autologin = {
+@@ -69,13 +75,6 @@ let
+       Session = autoLoginSessionName;
+       Relogin = cfg.autoLogin.relogin;
+     };
+-  } // lib.optionalAttrs cfg.enableKwinWayland {
+-    General = {
+-      GreeterEnvironment = "QT_PLUGIN_PATH=${pkgs.plasma5Packages.layer-shell-qt}/${pkgs.plasma5Packages.qtbase.qtPluginPrefix},QT_WAYLAND_SHELL_INTEGRATION=layer-shell";
+-      DisplayServer = "wayland";
+-      InputMethod = "";
+-    };
+-    Wayland.CompositorCommand = "${pkgs.kwin}/bin/kwin_wayland --no-global-shortcuts --no-lockscreen --locale1";
+   };
+ 
+   cfgFile =
+diff --git a/pkgs/applications/display-managers/sddm/default.nix b/pkgs/applications/display-managers/sddm/default.nix
+index 04826274bb69..669fd9f692fd 100644
+--- a/pkgs/applications/display-managers/sddm/default.nix
++++ b/pkgs/applications/display-managers/sddm/default.nix
+@@ -16,6 +16,7 @@ mkDerivation rec {
+   patches = [
+     ./sddm-ignore-config-mtime.patch
+     ./sddm-default-session.patch
++    ./sddm-greeter-environment.patch
+   ];
+ 
+   postPatch = ''
+diff --git a/pkgs/applications/display-managers/sddm/sddm-greeter-environment.patch b/pkgs/applications/display-managers/sddm/sddm-greeter-environment.patch
+new file mode 100644
+index 000000000000..0c738e5241bd
+--- /dev/null
++++ b/pkgs/applications/display-managers/sddm/sddm-greeter-environment.patch
+@@ -0,0 +1,64 @@
++diff --git a/src/helper/Backend.cpp b/src/helper/Backend.cpp
++index 47b6938..5a1dd60 100644
++--- a/src/helper/Backend.cpp
+++++ b/src/helper/Backend.cpp
++@@ -59,10 +59,10 @@ namespace SDDM {
++     }
++ 
++     bool Backend::openSession() {
+++        QProcessEnvironment env = m_app->session()->processEnvironment();
++         struct passwd *pw;
++         pw = getpwnam(qPrintable(qobject_cast<HelperApp*>(parent())->user()));
++         if (pw) {
++-            QProcessEnvironment env = m_app->session()->processEnvironment();
++             env.insert(QStringLiteral("HOME"), QString::fromLocal8Bit(pw->pw_dir));
++             env.insert(QStringLiteral("PWD"), QString::fromLocal8Bit(pw->pw_dir));
++             env.insert(QStringLiteral("SHELL"), QString::fromLocal8Bit(pw->pw_shell));
++@@ -104,9 +104,21 @@ namespace SDDM {
++             QProcessEnvironment::systemEnvironment().insert(savedEnv);
++         }
++ #endif
++-            // TODO: I'm fairly sure this shouldn't be done for PAM sessions, investigate!
++-            m_app->session()->setProcessEnvironment(env);
++         }
+++        if (env.value(QStringLiteral("XDG_SESSION_CLASS")) == QLatin1String("greeter")) {
+++            // Qt internally may load the xdg portal system early on, prevent this, we do not have a functional session running.
+++            env.insert(QStringLiteral("QT_NO_XDG_DESKTOP_PORTAL"), QStringLiteral("1"));
+++            for (const auto &entry : mainConfig.GreeterEnvironment.get()) {
+++                const int index = entry.indexOf(QLatin1Char('='));
+++                if (index < 0) {
+++                    qWarning() << "Malformed environment variable" << entry;
+++                    continue;
+++                }
+++                env.insert(entry.left(index), entry.mid(index + 1));
+++            }
+++        }
+++        // TODO: I'm fairly sure this shouldn't be done for PAM sessions, investigate!
+++        m_app->session()->setProcessEnvironment(env);
++         return m_app->session()->start();
++     }
++ 
++diff --git a/src/helper/HelperApp.cpp b/src/helper/HelperApp.cpp
++index 9951e46..14cf276 100644
++--- a/src/helper/HelperApp.cpp
+++++ b/src/helper/HelperApp.cpp
++@@ -167,19 +167,6 @@ namespace SDDM {
++         m_user = m_backend->userName();
++         QProcessEnvironment env = authenticated(m_user);
++ 
++-        if (env.value(QStringLiteral("XDG_SESSION_CLASS")) == QLatin1String("greeter")) {
++-            // Qt internally may load the xdg portal system early on, prevent this, we do not have a functional session running.
++-            env.insert(QStringLiteral("QT_NO_XDG_DESKTOP_PORTAL"), QStringLiteral("1"));
++-            for (const auto &entry : mainConfig.GreeterEnvironment.get()) {
++-                const int index = entry.indexOf(QLatin1Char('='));
++-                if (index < 0) {
++-                    qWarning() << "Malformed environment variable" << entry;
++-                    continue;
++-                }
++-                env.insert(entry.left(index), entry.mid(index + 1));
++-            }
++-        }
++-
++         if (!m_session->path().isEmpty()) {
++             env.insert(m_session->processEnvironment());
++             m_session->setProcessEnvironment(env);

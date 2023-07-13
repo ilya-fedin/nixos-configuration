@@ -24,7 +24,7 @@
     }).applyPatches {
       name = "nixpkgs";
       src = inputs.nixpkgs;
-      patches = [ ./allow-no-password.patch ];
+      patches = [ ./allow-no-password.patch ./242009.patch ./242009-fix.patch ];
     } + "/flake.nix")).outputs { self = nixpkgs; };
   in rec {
     nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {

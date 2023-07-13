@@ -1,0 +1,42 @@
+From 25877fedd689b0236acf0f94c9141a4f2b7e249d Mon Sep 17 00:00:00 2001
+From: K900 <me@0upti.me>
+Date: Sat, 8 Jul 2023 12:00:23 +0300
+Subject: [PATCH] nixos/sddm: add option to enable Wayland support via KWin
+
+---
+ .../services/x11/display-managers/sddm.nix        | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
+
+diff --git a/nixos/modules/services/x11/display-managers/sddm.nix b/nixos/modules/services/x11/display-managers/sddm.nix
+index c04edd0d4b7a7..56ae3193895b8 100644
+--- a/nixos/modules/services/x11/display-managers/sddm.nix
++++ b/nixos/modules/services/x11/display-managers/sddm.nix
+@@ -69,6 +69,13 @@ let
+       Session = autoLoginSessionName;
+       Relogin = cfg.autoLogin.relogin;
+     };
++  } // lib.optionalAttrs cfg.enableKwinWayland {
++    General = {
++      GreeterEnvironment = "QT_PLUGIN_PATH=${pkgs.plasma5Packages.layer-shell-qt}/${pkgs.plasma5Packages.qtbase.qtPluginPrefix},QT_WAYLAND_SHELL_INTEGRATION=layer-shell";
++      DisplayServer = "wayland";
++      InputMethod = "";
++    };
++    Wayland.CompositorCommand = "${pkgs.kwin}/bin/kwin_wayland --no-global-shortcuts --no-lockscreen --locale1";
+   };
+ 
+   cfgFile =
+@@ -113,6 +120,14 @@ in
+         '';
+       };
+ 
++      enableKwinWayland = mkOption {
++        type = types.bool;
++        default = false;
++        description = lib.mdDoc ''
++          Whether to enable running the greeter under KWin Wayland (experimental!).
++        '';
++      };
++
+       settings = mkOption {
+         type = iniFmt.type;
+         default = { };
