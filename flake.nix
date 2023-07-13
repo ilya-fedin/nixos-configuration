@@ -1,6 +1,5 @@
 {
   inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
-  inputs.chaotic.url = "github:chaotic-cx/nyx/nyxpkgs-unstable";
   inputs.nur.url = "github:nix-community/NUR";
   inputs.nur-repo-override.url = "git+file:///home/ilya/nur-repository";
   inputs.nur-repo-override.inputs.flake-compat.follows = "flake-compat";
