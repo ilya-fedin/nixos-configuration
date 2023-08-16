@@ -144,6 +144,7 @@ with lib;
 
   networking.hostName = "nixos";
   networking.dhcpcd.enable = false;
+  networking.interfaces.eth0.wakeOnLan.enable = true;
 
   networking.networkmanager.enable = true;
   networking.networkmanager.plugins = mkForce [];
