@@ -130,7 +130,7 @@ with lib;
 
   hardware.firmware = with pkgs; [ linux-firmware ];
   hardware.bluetooth.enable = true;
-  hardware.usbWwan.enable = true;
+  hardware.usb-modeswitch.enable = true;
 
   hardware.logitech.wireless.enable = true;
   hardware.logitech.wireless.enableGraphical = true;
@@ -451,7 +451,7 @@ with lib;
   services.xserver.desktopManager.plasma5.useQtScaling = true;
   services.xserver.desktopManager.plasma5.phononBackend = "vlc";
 
-  fonts.fonts = with pkgs; mkForce [
+  fonts.packages = with pkgs; mkForce [
     nur.repos.ilya-fedin.exo2
     nur.repos.ilya-fedin.cascadia-code-powerline
     nur.repos.ilya-fedin.ttf-croscore
@@ -463,7 +463,7 @@ with lib;
     nur.repos.ilya-fedin.nerd-fonts-symbols
   ];
 
-  fonts.enableDefaultFonts = false;
+  fonts.enableDefaultPackages = false;
 
   fonts.fontconfig.hinting.enable = false;
   fonts.fontconfig.subpixel.rgba = "none";
