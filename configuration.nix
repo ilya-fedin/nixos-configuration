@@ -241,6 +241,11 @@ with lib;
   programs.command-not-found.dbPath = "${builtins.fetchTarball "https://channels.nixos.org/nixos-unstable/nixexprs.tar.xz"}/programs.sqlite";
 
   programs.fish.enable = true;
+
+  programs.fish.shellInit = ''
+    ${config.programs.direnv.package}/bin/direnv hook fish | source
+  '';
+
   programs.fish.interactiveShellInit = with pkgs; ''
     eval (${coreutils}/bin/dircolors -c)
   '';
@@ -262,6 +267,7 @@ with lib;
 
   programs.ssh.askPassword = "${pkgs.ksshaskpass}/bin/ksshaskpass";
   programs.adb.enable = true;
+  programs.direnv.enable = true;
   programs.system-config-printer.enable = false;
 
   programs.ssh.extraConfig = ''
