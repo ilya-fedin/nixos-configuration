@@ -96,9 +96,7 @@
     },
     "nur-repo-override": {
       "inputs": {
-        "flake-compat": [
-          "flake-compat"
-        ],
+        "flake-compat": "flake-compat",
         "nixpkgs": "nixpkgs_2",
         "nixpkgs-croscore": "nixpkgs-croscore"
       },
@@ -130,7 +128,6 @@
     },
     "root": {
       "inputs": {
-        "flake-compat": "flake-compat",
         "mozilla": "mozilla",
         "nixpkgs": "nixpkgs",
         "nur": "nur",

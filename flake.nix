@@ -2,13 +2,7 @@
   inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
   inputs.nur.url = "github:nix-community/NUR";
   inputs.nur-repo-override.url = "git+file:///home/ilya/nur-repository";
-  inputs.nur-repo-override.inputs.flake-compat.follows = "flake-compat";
   inputs.mozilla.url = "github:mozilla/nixpkgs-mozilla";
-
-  inputs.flake-compat = {
-    url = github:edolstra/flake-compat;
-    flake = false;
-  };
 
   inputs.passwords = {
     url = "file+file:///etc/nixos/passwords.nix";

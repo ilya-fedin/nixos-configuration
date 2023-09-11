@@ -69,7 +69,6 @@ with lib;
   nix.nixPath = mkForce [
     "nixpkgs=/etc/static/nixpkgs"
     "nixos-config=/etc/nixos/configuration.nix"
-    "nixpkgs-overlays=/etc/nixos/overlays-compat"
   ];
   nix.settings.cores = 9;
   nix.settings.trusted-users = [ "root" "@wheel" ];
