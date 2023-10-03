@@ -216,11 +216,7 @@ with lib;
     bustle
     qemu_kvm
     virt-manager
-    (gnome.gnome-boxes.override {
-      qemu-utils = qemu-utils.override {
-        qemu = qemu_kvm;
-      };
-    })
+    gnome.gnome-boxes
     neochat
     p7zip
     vscode
