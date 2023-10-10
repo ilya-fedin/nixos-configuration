@@ -112,7 +112,7 @@ with lib;
   boot.kernelModules = [ "kvm-amd" "bfq" ];
 
   boot.initrd.includeDefaultModules = false;
-  boot.initrd.availableKernelModules = [ "sd_mod" "nvme" "ext4" "i8042" "atkbd" "amdgpu" ];
+  boot.initrd.availableKernelModules = [ "sd_mod" "nvme" "ahci" "ext4" "i8042" "atkbd" "xhci_pci" "usbhid" "amdgpu" ];
   boot.blacklistedKernelModules = [ "iTCO_wdt" "sp5100_tco" "uvcvideo" ];
 
   boot.tmp.cleanOnBoot = true;
