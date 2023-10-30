@@ -101,11 +101,11 @@
         "nixpkgs-croscore": "nixpkgs-croscore"
       },
       "locked": {
-        "lastModified": 1696297512,
-        "narHash": "sha256-R0ldrHPYBVRNh+iVpekdRsBDxWROgMaq0KY13MHhiFE=",
+        "lastModified": 1696360315,
+        "narHash": "sha256-o53ncQsdVsEjYZjw3Oo33ZDFZLZrdVHHbxPC8H1NYBw=",
         "ref": "refs/heads/master",
-        "rev": "a04970a4f7a27dbc2c3c5a076c16a074406b8b26",
-        "revCount": 654,
+        "rev": "8e8c2f84fddf94a3a40255f3aca98a7560161e54",
+        "revCount": 655,
         "type": "git",
         "url": "file:///home/ilya/nur-repository"
       },
