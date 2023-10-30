@@ -399,6 +399,24 @@ with lib;
     }).fd
   ];
 
+  virtualisation.libvirtd.hooks.qemu.win10 = pkgs.writeShellScript "win10" ''
+    if [ "$1" != "win10" ]; then
+      exit
+    fi
+
+    case $2 in
+      prepare)
+        systemctl stop display-manager
+        systemctl stop user@\*
+        modprobe -r amdgpu
+        ;;
+      release)
+        modprobe amdgpu
+        systemctl start display-manager
+        ;;
+      esac
+  '';
+
   sound.enable = true;
   security.rtkit.enable = true;
   services.pipewire = {
