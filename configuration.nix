@@ -460,7 +460,7 @@ with lib;
   services.xserver.libinput.enable = true;
 
   services.xserver.displayManager.sddm.enable = true;
-  services.xserver.displayManager.sddm.enableKwinWayland = true;
+  services.xserver.displayManager.sddm.wayland.enable = true;
   services.xserver.displayManager.autoLogin.enable = true;
   services.xserver.displayManager.autoLogin.user = "ilya";
   services.xserver.displayManager.defaultSession = "plasmawayland";
