@@ -65,7 +65,6 @@ with lib;
     }
   ];
 
-  nix.package = pkgs.nixUnstable;
   nix.nixPath = mkForce [
     "nixpkgs=/etc/static/nixpkgs"
     "nixos-config=/etc/nixos/configuration.nix"
