@@ -143,7 +143,11 @@ with lib;
 
   networking.hostName = "nixos";
   networking.dhcpcd.enable = false;
-  networking.interfaces.eth0.wakeOnLan.enable = true;
+
+  systemd.network.links."40-eth0" = {
+    matchConfig.OriginalName = "eth0";
+    linkConfig.WakeOnLan = "magic";
+  };
 
   networking.networkmanager.enable = true;
   networking.networkmanager.plugins = mkForce [];
