@@ -306,7 +306,6 @@ with lib;
   services.journald.extraConfig = "SystemMaxUse=100M";
   services.resolved.enable = true;
   services.resolved.dnssec = "false";
-  services.teamviewer.enable = true;
   services.gnome.at-spi2-core.enable = mkForce false;
   services.gnome.gnome-keyring.enable = mkForce false;
   services.gvfs.enable = true;
