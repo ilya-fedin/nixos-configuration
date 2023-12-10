@@ -508,7 +508,25 @@ with lib;
   users.users.ilya = {
     description = "Илья Федин";
     hashedPassword = "";
-    extraGroups = [ "wheel" "input" "audio" "dialout" "networkmanager" "docker" "libvirtd" "vboxusers" "adbusers" "sambashare" ];
+    extraGroups = [
+      "wheel"
+      "audio"
+      "dialout"
+      "disk"
+      "input"
+      "kmem"
+      "kvm"
+      "render"
+      "tty"
+      "users"
+      "video"
+      "networkmanager"
+      "docker"
+      "libvirtd"
+      "vboxusers"
+      "adbusers"
+      "sambashare"
+    ];
     uid = 1000;
     isNormalUser = true;
   };
