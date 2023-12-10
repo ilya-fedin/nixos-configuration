@@ -387,9 +387,8 @@ with lib;
 
   virtualisation.docker.enable = true;
   virtualisation.docker.enableOnBoot = false;
-
   virtualisation.lxc.enable = true;
-
+  virtualisation.lxd.enable = true;
   virtualisation.libvirtd.enable = true;
   virtualisation.libvirtd.onShutdown = "shutdown";
   virtualisation.spiceUSBRedirection.enable = true;
@@ -522,6 +521,7 @@ with lib;
       "video"
       "networkmanager"
       "docker"
+      "lxd"
       "libvirtd"
       "vboxusers"
       "adbusers"
