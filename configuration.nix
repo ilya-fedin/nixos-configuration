@@ -150,8 +150,9 @@ with lib;
 
   networking.networkmanager.enable = true;
   networking.networkmanager.plugins = mkForce [];
-  networking.networkmanager.wifi.backend = "iwd";
+  networking.networkmanager.unmanaged = [ "type:wifi" ];
   networking.wireless.iwd.enable = true;
+  networking.wireless.iwd.settings.General.EnableNetworkConfiguration = true;
   networking.firewall.enable = false;
   networking.usePredictableInterfaceNames = false;
 
@@ -276,6 +277,7 @@ with lib;
 
   systemd.packages = with pkgs; [
     dconf
+    iwgtk
   ];
 
   systemd.services.polkit.restartIfChanged = false;
@@ -293,6 +295,8 @@ with lib;
       echo z3fold > /sys/module/zswap/parameters/zpool
     '';
   };
+
+  systemd.user.services.iwgtk.wantedBy = [ "graphical-session.target" ];
 
   services.ananicy.enable = true;
   services.ananicy.package = pkgs.ananicy-cpp;
