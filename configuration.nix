@@ -73,7 +73,6 @@ with lib;
   nix.settings.trusted-users = [ "root" "@wheel" ];
   nix.registry.self.flake = inputs.self;
   nix.extraOptions = ''
-    sandbox = false
     tarball-ttl = 604800
     experimental-features = nix-command flakes
   '';
