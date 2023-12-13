@@ -414,6 +414,7 @@ with lib;
       release)
         modprobe amdgpu
         systemctl start display-manager
+        systemctl restart systemd-vconsole-setup
         ;;
       esac
   '';
