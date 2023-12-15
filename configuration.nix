@@ -98,6 +98,7 @@ with lib;
   boot.kernelPackages = pkgs.linuxPackages_lqx;
   boot.kernelParams = [
     "zswap.enabled=1"
+    "pcie_acs_override=downstream,multifunction"
     "amd_pstate=active"
     "mitigations=off"
     "panic=1"
