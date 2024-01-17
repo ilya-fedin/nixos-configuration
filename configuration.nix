@@ -184,6 +184,7 @@ with lib;
     adapta-kde-theme
     git
     libsForQt5.qtstyleplugin-kvantum
+    remmina
     yakuake
     go-mtpfs
     latest.firefox-beta-bin
