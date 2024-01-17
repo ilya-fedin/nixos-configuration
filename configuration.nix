@@ -221,7 +221,7 @@ with lib;
     qemu_kvm
     virt-manager
     gnome.gnome-boxes
-    neochat
+    element-desktop
     p7zip
     vscode
     nur.repos.ilya-fedin.nixos-collect-garbage
