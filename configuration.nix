@@ -1,24 +1,5 @@
 { config, lib, pkgs, inputs, system, hostname, ... }:
 
-let
-  silverConfig = pkgs.writeText "silver.toml" ''
-    [[left]]
-    name = "status"
-    color.background = "black"
-    color.foreground = "none"
-
-    [[left]]
-    name = "dir"
-    color.background = "blue"
-    color.foreground = "black"
-
-    [[left]]
-    name = "git"
-    color.background = "green"
-    color.foreground = "black"
-  '';
-in
-
 with lib;
 {
   imports = attrValues inputs.nur-no-pkgs.${system}.repos.ilya-fedin.modules;
@@ -217,7 +198,24 @@ with lib;
     eval (${coreutils}/bin/dircolors -c)
   '';
 
-  programs.fish.promptInit = with pkgs; with nur.repos.ilya-fedin; ''
+  programs.fish.promptInit = with pkgs; with nur.repos.ilya-fedin; let
+    silverConfig = writeText "silver.toml" ''
+      [[left]]
+      name = "status"
+      color.background = "black"
+      color.foreground = "none"
+
+      [[left]]
+      name = "dir"
+      color.background = "blue"
+      color.foreground = "black"
+
+      [[left]]
+      name = "git"
+      color.background = "green"
+      color.foreground = "black"
+    '';
+  in ''
     function fish_greeting
         ${neofetch}/bin/neofetch
     end
