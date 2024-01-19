@@ -1,28 +1,7 @@
-{ config, lib, pkgs, inputs, system, ... }:
+{ config, lib, pkgs, inputs, system, hostname, ... }:
 
 let
   passwords = import inputs.passwords;
-
-  nur-no-pkgs = import inputs.nur {
-    nurpkgs = import inputs.nixpkgs {
-      inherit system;
-      overlays = [];
-    };
-
-    repoOverrides = {
-      ilya-fedin = import inputs.nur-repo-override {};
-    };
-  };
-
-  nurOverlay = self: super: {
-    nur = import inputs.nur {
-      nurpkgs = super;
-      pkgs = super;
-      repoOverrides = {
-        ilya-fedin = import inputs.nur-repo-override {};
-      };
-    };
-  };
 
   silverConfig = pkgs.writeText "silver.toml" ''
     [[left]]
@@ -44,19 +23,7 @@ in
 
 with lib;
 {
-  imports = attrValues nur-no-pkgs.repos.ilya-fedin.modules;
-
-  nixpkgs.config = {
-    allowUnfree = true;
-    oraclejdk.accept_license = true;
-    joypixels.acceptLicense = true;
-  };
-
-  nixpkgs.overlays = [
-    nurOverlay
-    inputs.mozilla.overlays.firefox
-    nur-no-pkgs.repos.ilya-fedin.overlays.portal
-  ];
+  imports = attrValues inputs.nur-no-pkgs.${system}.repos.ilya-fedin.modules;
 
   system.replaceRuntimeDependencies = [
     {
@@ -141,7 +108,7 @@ with lib;
     sane-airscan
   ];
 
-  networking.hostName = "nixos";
+  networking.hostName = hostname;
   networking.dhcpcd.enable = false;
 
   systemd.network.links."40-eth0" = {
@@ -171,7 +138,7 @@ with lib;
 
   time.timeZone = "Europe/Saratov";
 
-  environment.etc.nixpkgs.source = builtins.storePath ("/nix/store/" + (concatStringsSep "-" (remove 0 (splitString "-" (elemAt (splitString "/" (toString pkgs.path)) 3)))));
+  environment.etc.nixpkgs.source = inputs.nixpkgs.${system};
 
   environment.systemPackages = with pkgs; [
     file
