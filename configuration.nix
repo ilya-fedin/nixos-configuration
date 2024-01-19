@@ -222,7 +222,7 @@ with lib;
 
   environment.sessionVariables = rec {
     NIXPKGS_ALLOW_UNFREE = "1";
-    EDITOR = "micro";
+    EDITOR = "${pkgs.micro}/bin/micro";
     VISUAL = EDITOR;
     SYSTEMD_EDITOR = EDITOR;
   } // optionalAttrs (hostname == "asus-x421da" || hostname == "ms-7c94") {
