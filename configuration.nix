@@ -111,6 +111,11 @@ with lib;
     sane-airscan
   ];
 
+  services.saned = optionalAttrs (hostname == "beelink-ser5") {
+    enable = true;
+    extraConfig = "0.0.0.0/0";
+  };
+
   networking.hostName = hostname;
   networking.dhcpcd.enable = false;
 
