@@ -529,5 +529,5 @@ with lib;
     sambashare = {};
   };
 
-  system.stateVersion = "21.05";
+  system.stateVersion = "24.05";
 }
