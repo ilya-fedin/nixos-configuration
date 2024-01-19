@@ -187,6 +187,7 @@ with lib;
     htop
     ix
     docker-compose
+    config.boot.kernelPackages.usbip
     nur.repos.ilya-fedin.nixos-collect-garbage
   ] ++ optionals (hostname == "asus-x421da" || hostname == "ms-7c94") [
     adapta-gtk-theme
@@ -403,7 +404,9 @@ with lib;
   ];
 
   services.printing.enable = true;
-  services.printing.startWhenNeeded = true;
+  services.printing.startWhenNeeded = hostname == "asus-x421da" || hostname == "ms-7c94";
+  services.printing.listenAddresses = optional (hostname == "beelink-ser5") "*:631";
+  services.printing.defaultShared = hostname == "beelink-ser5";
   services.printing.drivers = with pkgs; [
     gutenprint
     hplip
