@@ -334,7 +334,8 @@ with lib;
   services.openssh.settings.X11Forwarding = true;
 
   services.avahi.enable = true;
-  services.avahi.nssmdns = true;
+  services.avahi.nssmdns4 = true;
+  services.avahi.nssmdns6 = true;
   services.avahi.publish.enable = true;
   services.avahi.publish.addresses = true;
   services.avahi.publish.domain = true;
