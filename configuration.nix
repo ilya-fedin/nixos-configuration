@@ -290,11 +290,22 @@ with lib;
     dconf
     iwgtk
   ] ++ optionals (hostname == "beelink-ser5") [
+    udevil
     qbittorrent-nox
   ];
 
   systemd.services.polkit.restartIfChanged = false;
   systemd.services.NetworkManager-wait-online.wantedBy = mkForce [];
+  systemd.services."devmon@ilya" = optionalAttrs (hostname == "beelink-ser5") {
+    environment = {
+      PATH = mkForce "/run/current-system/sw/bin:${pkgs.udevil}/bin";
+    };
+    overrideStrategy = "asDropin";
+    wantedBy = [ "multi-user.target" ];
+    serviceConfig = {
+      EnvironmentFile = "";
+    };
+  };
   systemd.services."qbittorrent-nox@ilya" = optionalAttrs (hostname == "beelink-ser5") {
     overrideStrategy = "asDropin";
     wantedBy = [ "multi-user.target" ];
@@ -321,6 +332,13 @@ with lib;
   services.ananicy.package = pkgs.ananicy-cpp;
   services.irqbalance.enable = true;
   services.udev.optimalSchedulers = true;
+  services.udev.extraRules = optionalString (hostname == "beelink-ser5") ''
+    # UDISKS_FILESYSTEM_SHARED
+    # ==1: mount filesystem to a shared directory (/media/VolumeName)
+    # ==0: mount filesystem to a private directory (/run/media/$USER/VolumeName)
+    # See udisks(8)
+    ENV{ID_FS_USAGE}=="filesystem|other|crypto", ENV{UDISKS_FILESYSTEM_SHARED}="1"
+  '';
   services.fstrim.enable = true;
   services.logind.killUserProcesses = true;
   services.logind.extraConfig = "UserStopDelaySec=0";
@@ -329,9 +347,35 @@ with lib;
   services.resolved.enable = true;
   services.resolved.dnssec = "false";
   security.polkit.enable = true;
+  security.polkit.extraConfig = optionalString (hostname == "beelink-ser5") ''
+    polkit.addRule(function(action, subject) {
+      var YES = polkit.Result.YES;
+      var permission = {
+        // required for udisks1:
+        "org.freedesktop.udisks.filesystem-mount": YES,
+        "org.freedesktop.udisks.luks-unlock": YES,
+        "org.freedesktop.udisks.drive-eject": YES,
+        "org.freedesktop.udisks.drive-detach": YES,
+        // required for udisks2:
+        "org.freedesktop.udisks2.filesystem-mount": YES,
+        "org.freedesktop.udisks2.encrypted-unlock": YES,
+        "org.freedesktop.udisks2.eject-media": YES,
+        "org.freedesktop.udisks2.power-off-drive": YES,
+        // required for udisks2 if using udiskie from another seat (e.g. systemd):
+        "org.freedesktop.udisks2.filesystem-mount-other-seat": YES,
+        "org.freedesktop.udisks2.filesystem-unmount-others": YES,
+        "org.freedesktop.udisks2.encrypted-unlock-other-seat": YES,
+        "org.freedesktop.udisks2.encrypted-unlock-system": YES,
+        "org.freedesktop.udisks2.eject-media-other-seat": YES,
+        "org.freedesktop.udisks2.power-off-drive-other-seat": YES
+      };
+      if (subject.isInGroup("wheel")) {
+        return permission[action.id];
+      }
+    });
+  '';
   services.udisks2.enable = true;
   services.upower.enable = true;
-  services.devmon.enable = hostname == "beelink-ser5";
   services.gnome.at-spi2-core.enable = mkForce false;
   services.gnome.gnome-keyring.enable = mkForce false;
   services.gvfs.enable = hostname == "asus-x421da" || hostname == "ms-7c94";
