@@ -321,6 +321,10 @@ with lib;
   services.journald.extraConfig = "SystemMaxUse=100M";
   services.resolved.enable = true;
   services.resolved.dnssec = "false";
+  security.polkit.enable = true;
+  services.udisks2.enable = true;
+  services.upower.enable = true;
+  services.devmon.enable = hostname == "beelink-ser5";
   services.gnome.at-spi2-core.enable = mkForce false;
   services.gnome.gnome-keyring.enable = mkForce false;
   services.gvfs.enable = hostname == "asus-x421da" || hostname == "ms-7c94";
@@ -367,6 +371,11 @@ with lib;
     usershare owner only = yes
   '';
 
+  services.nfs.server.enable = hostname == "beelink-ser5";
+  services.rpcbind.enable = hostname == "beelink-ser5";
+  services.plex.enable = hostname == "beelink-ser5";
+  services.node-red.enable = hostname == "beelink-ser5";
+
   services.yggdrasil.enable = true;
   services.yggdrasil.settings = {
     Peers = [
@@ -401,7 +410,7 @@ with lib;
   };
 
   virtualisation.docker.enable = true;
-  virtualisation.docker.enableOnBoot = false;
+  virtualisation.docker.enableOnBoot = hostname == "beelink-ser5";
   virtualisation.lxc.enable = hostname == "ms-7c94";
   virtualisation.lxd.enable = hostname == "asus-x421da";
   virtualisation.spiceUSBRedirection.enable = true;
