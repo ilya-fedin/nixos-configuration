@@ -10,7 +10,15 @@
 
     hosts = [
       {
-        hostname = "nixos";
+        hostname = "asus-x421da";
+        system = "x86_64-linux";
+      }
+      {
+        hostname = "ms-7c94";
+        system = "x86_64-linux";
+      }
+      {
+        hostname = "beelink-ser5";
         system = "x86_64-linux";
       }
     ];

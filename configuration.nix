@@ -15,7 +15,13 @@ with lib;
     "nixpkgs=/etc/static/nixpkgs"
     "nixos-config=/etc/nixos/configuration.nix"
   ];
-  nix.settings.cores = 9;
+  nix.settings.cores = if hostname == "asus-x421da"
+    then 9
+    else if hostname == "ms-7c94"
+    then 33
+    else if hostname == "beelink-ser5"
+    then 13
+    else null;
   nix.settings.trusted-users = [ "root" "@wheel" ];
   nix.registry.self.flake = inputs.self;
   nix.extraOptions = ''
@@ -35,9 +41,9 @@ with lib;
     fsType = "vfat";
   };
 
-  swapDevices = [
-    { device = "/dev/disk/by-partlabel/swap"; }
-  ];
+  swapDevices = optional (hostname == "asus-x421da" || hostname == "ms-7c94") {
+    device = "/dev/disk/by-partlabel/swap";
+  };
 
   boot.loader.systemd-boot.enable = true;
 
@@ -57,7 +63,9 @@ with lib;
   boot.kernelModules = [ "kvm-amd" "bfq" ];
 
   boot.initrd.includeDefaultModules = false;
-  boot.initrd.availableKernelModules = [ "sd_mod" "nvme" "ahci" "ext4" "i8042" "atkbd" "xhci_pci" "usbhid" "amdgpu" ];
+  boot.initrd.availableKernelModules = [ "sd_mod" "ext4" "amdgpu" ]
+   ++ optionals (hostname == "asus-x421da" || hostname == "beelink-ser5") [ "nvme" "i8042" "atkbd" ]
+   ++ optionals (hostname == "ms-7c94") [ "ahci" "xhci_pci" "usbhid" ];
   boot.blacklistedKernelModules = [ "iTCO_wdt" "sp5100_tco" "uvcvideo" ];
 
   boot.tmp.cleanOnBoot = true;
@@ -76,8 +84,10 @@ with lib;
   hardware.bluetooth.enable = true;
   hardware.usb-modeswitch.enable = true;
 
-  hardware.logitech.wireless.enable = true;
-  hardware.logitech.wireless.enableGraphical = true;
+  hardware.logitech.wireless = optionalAttrs (hostname == "ms-7c94") {
+    enable = true;
+    enableGraphical = true;
+  };
 
   hardware.opengl.enable = true;
 
@@ -90,9 +100,11 @@ with lib;
   networking.hostName = hostname;
   networking.dhcpcd.enable = false;
 
-  systemd.network.links."40-eth0" = {
-    matchConfig.OriginalName = "eth0";
-    linkConfig.WakeOnLan = "magic";
+  systemd.network.links = optionalAttrs (hostname == "ms-7c94" || hostname == "beelink-ser5") {
+    "40-eth0" = {
+      matchConfig.OriginalName = "eth0";
+      linkConfig.WakeOnLan = "magic";
+    };
   };
 
   networking.networkmanager.enable = true;
@@ -117,7 +129,38 @@ with lib;
 
   time.timeZone = "Europe/Saratov";
 
-  environment.etc.nixpkgs.source = inputs.nixpkgs.${system};
+  environment.etc = {
+    nixpkgs.source = inputs.nixpkgs.${system};
+  } // optionalAttrs (hostname == "ms-7c94") {
+    "wireplumber/main.lua.d/51-alsa-custom.lua".text = ''
+      rules = {
+        {
+          matches = {
+            {
+              { "device.name", "matches", "alsa_card.pci-0000_2d_00.1" },
+            },
+          },
+          apply_properties = {
+            ["api.alsa.use-acp"] = false,
+          },
+        },
+        {
+          matches = {
+            {
+              { "node.name", "matches", "alsa_output.pci-0000_2d_00.1.playback.*" },
+            },
+          },
+          apply_properties = {
+            ["session.suspend-timeout-seconds"] = 0,
+          },
+        },
+      }
+
+      for _,v in ipairs(rules) do
+          table.insert(alsa_monitor.rules, v)
+      end
+    '';
+  };
 
   environment.systemPackages = with pkgs; [
     file
@@ -126,9 +169,13 @@ with lib;
     pciutils
     usbutils
     micro
+    git
+    htop
+    ix
+    nur.repos.ilya-fedin.nixos-collect-garbage
+  ] ++ optionals (hostname == "asus-x421da" || hostname == "ms-7c94") [
     adapta-gtk-theme
     adapta-kde-theme
-    git
     libsForQt5.qtstyleplugin-kvantum
     remmina
     yakuake
@@ -154,7 +201,6 @@ with lib;
     unrar
     gnome.dconf-editor
     xclip
-    htop
     xsettingsd
     plasma5Packages.kio
     plasma5Packages.kio-extras
@@ -162,7 +208,6 @@ with lib;
     plasma5Packages.kdegraphics-thumbnailers
     plasma5Packages.ffmpegthumbs
     plasma5Packages.kglobalaccel
-    ix
     dfeet
     bustle
     qemu_kvm
@@ -171,7 +216,6 @@ with lib;
     element-desktop
     p7zip
     vscode
-    nur.repos.ilya-fedin.nixos-collect-garbage
   ];
 
   environment.defaultPackages = [];
@@ -181,6 +225,7 @@ with lib;
     EDITOR = "micro";
     VISUAL = EDITOR;
     SYSTEMD_EDITOR = EDITOR;
+  } // optionalAttrs (hostname == "asus-x421da" || hostname == "ms-7c94") {
     GTK_USE_PORTAL = "1";
     MOZ_DISABLE_CONTENT_SANDBOX = "1";
     CUPS_SERVER = "rpi4";
@@ -240,7 +285,7 @@ with lib;
     ServerAliveInterval 100
   '';
 
-  systemd.packages = with pkgs; [
+  systemd.packages = with pkgs; optionals (hostname == "asus-x421da" || hostname == "ms-7c94") [
     dconf
     iwgtk
   ];
@@ -261,7 +306,9 @@ with lib;
     '';
   };
 
-  systemd.user.services.iwgtk.wantedBy = [ "graphical-session.target" ];
+  systemd.user.services = optionalAttrs (hostname == "asus-x421da" || hostname == "ms-7c94") {
+    iwgtk.wantedBy = [ "graphical-session.target" ];
+  };
 
   services.ananicy.enable = true;
   services.ananicy.package = pkgs.ananicy-cpp;
@@ -279,10 +326,10 @@ with lib;
   services.gvfs.enable = true;
   services.gvfs.package = pkgs.gvfs;
   services.flatpak.enable = true;
-  services.sysprof.enable = true;
+  services.sysprof.enable = hostname == "asus-x421da" || hostname == "ms-7c94";
 
   services.dbus.implementation = "broker";
-  services.dbus.packages = with pkgs; [
+  services.dbus.packages = with pkgs; optionals (hostname == "asus-x421da" || hostname == "ms-7c94") [
     dconf
   ];
 
@@ -309,7 +356,7 @@ with lib;
   services.samba.nsswins = true;
   services.samba-wsdd.enable = true;
 
-  services.samba.extraConfig = ''
+  services.samba.extraConfig = optionalString (hostname == "asus-x421da" || hostname == "ms-7c94") ''
     workgroup = WORKGROUP
     map to guest = bad user
     guest account = ilya
@@ -340,129 +387,109 @@ with lib;
     Bridge = "obfs4 137.220.35.35:443 75B34B8458A1C93714BFF9393E09F7CBC04A2F59 cert=GglhKh0UwOjkfQPN0aH3gs8ZdnE6T4qU9uU/fmiYbJ69Dpk4nxS9o82UBnAxVZJytOulfA iat-mode=0";
   };
 
-  xdg.icons.icons = with pkgs; [
-    papirus-icon-theme
-    (getBin breeze-qt5)
-  ];
+  xdg = optionalAttrs (hostname == "asus-x421da" || hostname == "ms-7c94") {
+    icons.icons = with pkgs; [
+      papirus-icon-theme
+      (getBin breeze-qt5)
+    ];
 
-  xdg.portal.enable = true;
-  xdg.portal.extraPortals = with pkgs; [
-    xdg-desktop-portal-gtk
-    xdg-desktop-portal-kde
-  ];
+    portal.enable = true;
+    portal.extraPortals = with pkgs; [
+      xdg-desktop-portal-gtk
+      xdg-desktop-portal-kde
+    ];
+  };
 
   virtualisation.docker.enable = true;
   virtualisation.docker.enableOnBoot = false;
-  virtualisation.lxc.enable = true;
-  virtualisation.lxd.enable = true;
-  virtualisation.libvirtd.enable = true;
-  virtualisation.libvirtd.onShutdown = "shutdown";
+  virtualisation.lxc.enable = hostname == "ms-7c94";
+  virtualisation.lxd.enable = hostname == "asus-x421da";
   virtualisation.spiceUSBRedirection.enable = true;
-  virtualisation.libvirtd.qemu.package = pkgs.qemu_kvm;
-  virtualisation.libvirtd.qemu.ovmf.packages = [
-    (pkgs.OVMF.override {
-      secureBoot = true;
-      tpmSupport = true;
-    }).fd
-  ];
 
-  virtualisation.libvirtd.hooks.qemu.win10 = pkgs.writeShellScript "win10" ''
-    if [ "$1" != "win10" ]; then
-      exit
-    fi
+  virtualisation.libvirtd = optionalAttrs (hostname == "ms-7c94") {
+    enable = true;
+    onShutdown = "shutdown";
+    qemu.package = pkgs.qemu_kvm;
+    qemu.ovmf.packages = [
+      (pkgs.OVMF.override {
+        secureBoot = true;
+        tpmSupport = true;
+      }).fd
+    ];
 
-    case $2 in
-      prepare)
-        systemctl stop display-manager
-        systemctl stop user@\*
-        modprobe -r amdgpu
-        ;;
-      release)
-        modprobe amdgpu
-        systemctl start display-manager
-        systemctl restart systemd-vconsole-setup
-        ;;
-      esac
-  '';
+    hooks.qemu.win10 = pkgs.writeShellScript "win10" ''
+      if [ "$1" != "win10" ]; then
+        exit
+      fi
 
-  sound.enable = true;
-  security.rtkit.enable = true;
-  services.pipewire = {
+      case $2 in
+        prepare)
+          systemctl stop display-manager
+          systemctl stop user@\*
+          modprobe -r amdgpu
+          ;;
+        release)
+          modprobe amdgpu
+          systemctl start display-manager
+          systemctl restart systemd-vconsole-setup
+          ;;
+        esac
+    '';
+  };
+
+  sound.enable = hostname == "asus-x421da" || hostname == "ms-7c94";
+  security.rtkit.enable = hostname == "asus-x421da" || hostname == "ms-7c94";
+  services.pipewire = optionalAttrs (hostname == "asus-x421da" || hostname == "ms-7c94") {
     enable = true;
     alsa.enable = true;
     pulse.enable = true;
   };
 
-  environment.etc."wireplumber/main.lua.d/51-alsa-custom.lua".text = ''
-    rules = {
-      {
-        matches = {
-          {
-            { "device.name", "matches", "alsa_card.pci-0000_2d_00.1" },
-          },
-        },
-        apply_properties = {
-          ["api.alsa.use-acp"] = false,
-        },
-      },
-      {
-        matches = {
-          {
-            { "node.name", "matches", "alsa_output.pci-0000_2d_00.1.playback.*" },
-          },
-        },
-        apply_properties = {
-          ["session.suspend-timeout-seconds"] = 0,
-        },
-      },
-    }
+  services.xserver = optionalAttrs (hostname == "asus-x421da" || hostname == "ms-7c94") {
+    enable = true;
+    layout = "us,ru";
+    xkbOptions = "grp:win_space_toggle";
+    videoDrivers = [ "modesetting" ];
+    libinput.enable = true;
 
-    for _,v in ipairs(rules) do
-        table.insert(alsa_monitor.rules, v)
-    end
-  '';
+    displayManager.sddm.enable = true;
+    displayManager.sddm.wayland.enable = true;
+    displayManager.autoLogin.enable = true;
+    displayManager.autoLogin.user = "ilya";
+    displayManager.defaultSession = "plasmawayland";
 
-  services.xserver.enable = true;
-  services.xserver.layout = "us,ru";
-  services.xserver.xkbOptions = "grp:win_space_toggle";
-  services.xserver.videoDrivers = [ "modesetting" ];
-  services.xserver.libinput.enable = true;
+    desktopManager.plasma5.enable = true;
+    desktopManager.plasma5.runUsingSystemd = true;
+    desktopManager.plasma5.useQtScaling = true;
+    desktopManager.plasma5.phononBackend = "vlc";
+  };
 
-  services.xserver.displayManager.sddm.enable = true;
-  services.xserver.displayManager.sddm.wayland.enable = true;
-  services.xserver.displayManager.autoLogin.enable = true;
-  services.xserver.displayManager.autoLogin.user = "ilya";
-  services.xserver.displayManager.defaultSession = "plasmawayland";
+  fonts = optionalAttrs (hostname == "asus-x421da" || hostname == "ms-7c94") {
+    packages = with pkgs; mkForce [
+      nur.repos.ilya-fedin.exo2
+      nur.repos.ilya-fedin.cascadia-code-powerline
+      nur.repos.ilya-fedin.ttf-croscore
+      carlito
+      caladea
+      unifont
+      symbola
+      joypixels
+      nur.repos.ilya-fedin.nerd-fonts-symbols
+    ];
 
-  services.xserver.desktopManager.plasma5.enable = true;
-  services.xserver.desktopManager.plasma5.runUsingSystemd = true;
-  services.xserver.desktopManager.plasma5.useQtScaling = true;
-  services.xserver.desktopManager.plasma5.phononBackend = "vlc";
+    enableDefaultPackages = false;
 
-  fonts.packages = with pkgs; mkForce [
-    nur.repos.ilya-fedin.exo2
-    nur.repos.ilya-fedin.cascadia-code-powerline
-    nur.repos.ilya-fedin.ttf-croscore
-    carlito
-    caladea
-    unifont
-    symbola
-    joypixels
-    nur.repos.ilya-fedin.nerd-fonts-symbols
-  ];
+    fontconfig.hinting.enable = false;
+    fontconfig.subpixel.rgba = "none";
+    fontconfig.subpixel.lcdfilter = "none";
 
-  fonts.enableDefaultPackages = false;
+    fontconfig.crOSMaps = true;
 
-  fonts.fontconfig.hinting.enable = false;
-  fonts.fontconfig.subpixel.rgba = "none";
-  fonts.fontconfig.subpixel.lcdfilter = "none";
-
-  fonts.fontconfig.crOSMaps = true;
-
-  fonts.fontconfig.defaultFonts.sansSerif = [ "Exo 2" "Symbols Nerd Font" ];
-  fonts.fontconfig.defaultFonts.serif = [ "Tinos" "Symbols Nerd Font" ];
-  fonts.fontconfig.defaultFonts.monospace = [ "Cascadia Code PL" "Symbols Nerd Font" ];
-  fonts.fontconfig.defaultFonts.emoji = [ "JoyPixels" ];
+    fontconfig.defaultFonts.sansSerif = [ "Exo 2" "Symbols Nerd Font" ];
+    fontconfig.defaultFonts.serif = [ "Tinos" "Symbols Nerd Font" ];
+    fontconfig.defaultFonts.monospace = [ "Cascadia Code PL" "Symbols Nerd Font" ];
+    fontconfig.defaultFonts.emoji = [ "JoyPixels" ];
+  };
 
   users.mutableUsers = false;
   users.defaultUserShell = pkgs.fish;
@@ -498,7 +525,9 @@ with lib;
     isNormalUser = true;
   };
 
-  users.groups.sambashare = {};
+  users.groups = optionalAttrs (hostname == "asus-x421da" || hostname == "ms-7c94") {
+    sambashare = {};
+  };
 
   system.stateVersion = "21.05";
 }
