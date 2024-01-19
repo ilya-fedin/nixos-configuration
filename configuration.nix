@@ -172,6 +172,7 @@ with lib;
     git
     htop
     ix
+    docker-compose
     nur.repos.ilya-fedin.nixos-collect-garbage
   ] ++ optionals (hostname == "asus-x421da" || hostname == "ms-7c94") [
     adapta-gtk-theme
