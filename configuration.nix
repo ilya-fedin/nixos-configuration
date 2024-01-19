@@ -1,8 +1,6 @@
 { config, lib, pkgs, inputs, system, hostname, ... }:
 
 let
-  passwords = import inputs.passwords;
-
   silverConfig = pkgs.writeText "silver.toml" ''
     [[left]]
     name = "status"
@@ -333,7 +331,7 @@ with lib;
       tcp://188.226.125.64:54321
       tcp://78.155.207.12:32320
     ];
-  } // passwords.yggdrasil-keys;
+  } // inputs.passwords.yggdrasil-keys;
 
   services.tor.enable = true;
   services.tor.client.enable = true;

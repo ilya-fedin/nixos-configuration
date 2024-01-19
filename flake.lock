@@ -115,15 +115,15 @@
       }
     },
     "passwords": {
-      "flake": false,
       "locked": {
-        "narHash": "sha256-EraqreIncZXWkP04Z7GbIBGt9auAPNFQdxaZ5Yl3j6A=",
-        "type": "file",
-        "url": "file:///etc/nixos/passwords.nix"
+        "lastModified": 0,
+        "narHash": "sha256-07PbxcGdEQXRNXtyXRiBCoMtk8qB4U8jgdWoVEO0XFA=",
+        "path": "/etc/nixos/passwords",
+        "type": "path"
       },
       "original": {
-        "type": "file",
-        "url": "file:///etc/nixos/passwords.nix"
+        "path": "/etc/nixos/passwords",
+        "type": "path"
       }
     },
     "root": {
