@@ -31,14 +31,28 @@ with lib;
 
   nur.ilya-fedin.cache.enable = true;
 
-  fileSystems."/" = {
-    device = "/dev/disk/by-partlabel/nixos";
-    fsType = "ext4";
-  };
+  fileSystems = {
+    "/" = {
+      device = "/dev/disk/by-partlabel/nixos";
+      fsType = "ext4";
+    };
 
-  fileSystems."/boot" = {
-    device = "/dev/disk/by-partlabel/boot";
-    fsType = "vfat";
+    "/boot" = {
+      device = "/dev/disk/by-partlabel/boot";
+      fsType = "vfat";
+    };
+  } // optionalAttrs (hostname == "beelink-ser5") {
+    "/srv/nfs/media" = {
+      device = "/media";
+      fsType = "none";
+      options = [ "bind" ];
+    };
+
+    "/srv/nfs/videos" = {
+      device = "/home/ilya/videos";
+      fsType = "none";
+      options = [ "bind" ];
+    };
   };
 
   swapDevices = optional (hostname == "asus-x421da" || hostname == "ms-7c94") {
@@ -411,18 +425,51 @@ with lib;
   services.samba.nsswins = true;
   services.samba-wsdd.enable = true;
 
-  services.samba.extraConfig = optionalString (hostname == "asus-x421da" || hostname == "ms-7c94") ''
+  services.samba.extraConfig = ''
     workgroup = WORKGROUP
     map to guest = bad user
     guest account = ilya
-
+  '' + optionalString (hostname == "asus-x421da" || hostname == "ms-7c94") ''
     usershare path = /var/lib/samba/usershares
     usershare max shares = 100
     usershare allow guests = yes
     usershare owner only = yes
+  '' + optionalString (hostname == "beelink-ser5") ''
+    [media]
+    path = /media
+    available = yes
+    browsable = yes
+    public = yes
+    writable = yes
+    create mask = 0777
+    directory mask = 0777
+
+  [videos]
+    path = /home/ilya/videos
+    available = yes
+    browsable = yes
+    public = yes
+    writable = yes
+    create mask = 0777
+    directory mask = 0777
+
+  [PS2]
+    path = /home/ilya/PS2
+    available = yes
+    browsable = yes
+    public = yes
+    writable = yes
+    create mask = 0777
+    directory mask = 0777
   '';
 
   services.nfs.server.enable = hostname == "beelink-ser5";
+  services.nfs.server.exports = optionalString (hostname == "beelink-ser5") ''
+    /srv/nfs     *(rw,sync,crossmnt,fsid=0)
+    /srv/nfs/media *(rw,sync,all_squash,insecure,anonuid=1000,anongid=1000)
+    /srv/nfs/videos *(rw,sync,all_squash,insecure,anonuid=1000,anongid=1000)
+  '';
+
   services.rpcbind.enable = hostname == "beelink-ser5";
   services.plex.enable = hostname == "beelink-ser5";
   services.node-red.enable = hostname == "beelink-ser5";
