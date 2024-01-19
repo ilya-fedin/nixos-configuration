@@ -323,9 +323,9 @@ with lib;
   services.resolved.dnssec = "false";
   services.gnome.at-spi2-core.enable = mkForce false;
   services.gnome.gnome-keyring.enable = mkForce false;
-  services.gvfs.enable = true;
+  services.gvfs.enable = hostname == "asus-x421da" || hostname == "ms-7c94";
   services.gvfs.package = pkgs.gvfs;
-  services.flatpak.enable = true;
+  services.flatpak.enable = hostname == "asus-x421da" || hostname == "ms-7c94";
   services.sysprof.enable = hostname == "asus-x421da" || hostname == "ms-7c94";
 
   services.dbus.implementation = "broker";
