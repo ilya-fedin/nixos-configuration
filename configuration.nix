@@ -288,10 +288,16 @@ with lib;
   systemd.packages = with pkgs; optionals (hostname == "asus-x421da" || hostname == "ms-7c94") [
     dconf
     iwgtk
+  ] ++ optionals (hostname == "beelink-ser5") [
+    qbittorrent-nox
   ];
 
   systemd.services.polkit.restartIfChanged = false;
   systemd.services.NetworkManager-wait-online.wantedBy = mkForce [];
+  systemd.services."qbittorrent-nox@ilya" = optionalAttrs (hostname == "beelink-ser5") {
+    overrideStrategy = "asDropin";
+    wantedBy = [ "multi-user.target" ];
+  };
 
   systemd.services.zswap = {
     description = "zswap";
