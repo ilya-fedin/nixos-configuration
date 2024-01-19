@@ -415,7 +415,7 @@ with lib;
   virtualisation.lxd.enable = hostname == "asus-x421da";
   virtualisation.spiceUSBRedirection.enable = true;
 
-  virtualisation.libvirtd = optionalAttrs (hostname == "ms-7c94") {
+  virtualisation.libvirtd = optionalAttrs (hostname == "asus-x421da" || hostname == "ms-7c94") {
     enable = true;
     onShutdown = "shutdown";
     qemu.package = pkgs.qemu_kvm;
@@ -425,7 +425,7 @@ with lib;
         tpmSupport = true;
       }).fd
     ];
-
+  } // optionalAttrs (hostname == "ms-7c94") {
     hooks.qemu.win10 = pkgs.writeShellScript "win10" ''
       if [ "$1" != "win10" ]; then
         exit
