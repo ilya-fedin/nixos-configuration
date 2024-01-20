@@ -45,13 +45,13 @@ with lib;
     "/srv/nfs/media" = {
       device = "/media";
       fsType = "none";
-      options = [ "bind" ];
+      options = [ "bind,x-systemd.automount" ];
     };
 
     "/srv/nfs/videos" = {
       device = "/home/ilya/videos";
       fsType = "none";
-      options = [ "bind" ];
+      options = [ "bind,x-systemd.automount" ];
     };
   };
 
