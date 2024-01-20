@@ -320,7 +320,8 @@ with lib;
 
     zswap = {
       description = "zswap";
-      wantedBy = [ "multi-user.target" ];
+      wantedBy = [ "sysinit.target" ];
+      unitConfig.DefaultDependencies = false;
       serviceConfig = {
         Type = "oneshot";
         RemainAfterExit = true;
