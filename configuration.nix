@@ -74,7 +74,7 @@ with lib;
     "rd.systemd.show_status=auto"
     "rd.udev.log_priority=3"
   ];
-  boot.kernelModules = [ "kvm-amd" "bfq" ];
+  boot.kernelModules = [ "kvm-amd" "bfq" ] ++ optional (hostname == "beelink-ser5") "vhci-hcd";
 
   boot.initrd.includeDefaultModules = false;
   boot.initrd.availableKernelModules = [ "sd_mod" "ext4" "amdgpu" ]
@@ -347,6 +347,8 @@ with lib;
       overrideStrategy = "asDropin";
       wantedBy = [ "multi-user.target" ];
     };
+
+    node-red.path = [ "/run/wrappers" config.system.path ];
   };
 
   systemd.user.services = optionalAttrs (hostname == "asus-x421da" || hostname == "ms-7c94") {
@@ -399,6 +401,15 @@ with lib;
       }
     });
   '';
+  security.sudo.extraRules = optional (hostname == "beelink-ser5") {
+    users = [ "node-red" ];
+    commands = [
+      {
+        command = "ALL";
+        options = [ "NOPASSWD" ] ++ config.security.sudo.defaultOptions;
+      }
+    ];
+  };
   services.udisks2.enable = true;
   services.upower.enable = true;
   services.gnome.at-spi2-core.enable = mkForce false;
