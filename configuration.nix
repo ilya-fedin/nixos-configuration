@@ -314,34 +314,38 @@ with lib;
     qbittorrent-nox
   ];
 
-  systemd.services.polkit.restartIfChanged = false;
-  systemd.services.NetworkManager-wait-online.wantedBy = mkForce [];
-  systemd.services."devmon@ilya" = optionalAttrs (hostname == "beelink-ser5") {
-    environment = {
-      PATH = mkForce "/run/current-system/sw/bin:${pkgs.udevil}/bin";
-    };
-    overrideStrategy = "asDropin";
-    wantedBy = [ "multi-user.target" ];
-    serviceConfig = {
-      EnvironmentFile = "";
-    };
-  };
-  systemd.services."qbittorrent-nox@ilya" = optionalAttrs (hostname == "beelink-ser5") {
-    overrideStrategy = "asDropin";
-    wantedBy = [ "multi-user.target" ];
-  };
+  systemd.services = {
+    polkit.restartIfChanged = false;
+    NetworkManager-wait-online.wantedBy = mkForce [];
 
-  systemd.services.zswap = {
-    description = "zswap";
-    wantedBy = [ "multi-user.target" ];
-    serviceConfig = {
-      Type = "oneshot";
-      RemainAfterExit = true;
+    zswap = {
+      description = "zswap";
+      wantedBy = [ "multi-user.target" ];
+      serviceConfig = {
+        Type = "oneshot";
+        RemainAfterExit = true;
+      };
+      script = ''
+        echo zstd > /sys/module/zswap/parameters/compressor
+        echo z3fold > /sys/module/zswap/parameters/zpool
+      '';
     };
-    script = ''
-      echo zstd > /sys/module/zswap/parameters/compressor
-      echo z3fold > /sys/module/zswap/parameters/zpool
-    '';
+  } // optionalAttrs (hostname == "beelink-ser5") {
+    "devmon@ilya" = {
+      environment = {
+        PATH = mkForce "/run/current-system/sw/bin:${pkgs.udevil}/bin";
+      };
+      overrideStrategy = "asDropin";
+      wantedBy = [ "multi-user.target" ];
+      serviceConfig = {
+        EnvironmentFile = "";
+      };
+    };
+
+    "qbittorrent-nox@ilya" = {
+      overrideStrategy = "asDropin";
+      wantedBy = [ "multi-user.target" ];
+    };
   };
 
   systemd.user.services = optionalAttrs (hostname == "asus-x421da" || hostname == "ms-7c94") {
