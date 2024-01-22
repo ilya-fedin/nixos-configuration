@@ -537,7 +537,7 @@ with lib;
   virtualisation.lxd.enable = hostname == "asus-x421da";
   virtualisation.spiceUSBRedirection.enable = true;
 
-  virtualisation.libvirtd = optionalAttrs (hostname == "asus-x421da" || hostname == "ms-7c94") {
+  virtualisation.libvirtd = {
     enable = true;
     onShutdown = "shutdown";
     qemu.package = pkgs.qemu_kvm;
@@ -562,6 +562,22 @@ with lib;
         release)
           modprobe amdgpu
           systemctl start display-manager
+          systemctl restart systemd-vconsole-setup
+          ;;
+        esac
+    '';
+  } // optionalAttrs (hostname == "beelink-ser5") {
+    hooks.qemu.win10 = pkgs.writeShellScript "LibreELEC" ''
+      if [ "$1" != "LibreELEC" ]; then
+        exit
+      fi
+
+      case $2 in
+        prepare)
+          modprobe -r amdgpu
+          ;;
+        release)
+          modprobe amdgpu
           systemctl restart systemd-vconsole-setup
           ;;
         esac
