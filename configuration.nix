@@ -95,6 +95,7 @@ with lib;
   powerManagement.cpuFreqGovernor = "schedutil";
 
   hardware.firmware = with pkgs; [ linux-firmware ];
+  hardware.ksm.enable = true;
   hardware.bluetooth.enable = true;
   hardware.usb-modeswitch.enable = true;
 
