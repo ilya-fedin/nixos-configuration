@@ -346,6 +346,7 @@ with lib;
 
     "qbittorrent-nox@ilya" = {
       overrideStrategy = "asDropin";
+      serviceConfig.ExecStartPre = "${pkgs.coreutils}/bin/sleep 5";
       wantedBy = [ "multi-user.target" ];
     };
 
