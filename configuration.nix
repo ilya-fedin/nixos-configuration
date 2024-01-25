@@ -351,11 +351,27 @@ with lib;
     };
 
     node-red.path = [ "/run/wrappers" config.system.path ];
+
+    PowerTunnel = {
+      serviceConfig = {
+        ExecStart = let
+          PowerTunnel = pkgs.fetchurl {
+            url = "https://github.com/krlvm/PowerTunnel/releases/download/v2.5.2/PowerTunnel.jar";
+            name = "PowerTunnel.jar";
+            sha256 = "sha256-UlA2b/wi+zZsjRXR2qjqidh9uHS83YLOgHX3A4Wfzn0=";
+          };
+        in "${pkgs.jre}/bin/java -jar ${PowerTunnel}";
+        WorkingDirectory = "/var/lib/PowerTunnel";
+      };
+      wantedBy = [ "multi-user.target" ];
+    };
   };
 
   systemd.user.services = optionalAttrs (hostname == "asus-x421da" || hostname == "ms-7c94") {
     iwgtk.wantedBy = [ "graphical-session.target" ];
   };
+
+  systemd.tmpfiles.rules = optional (hostname == "beelink-ser5") "d /var/lib/PowerTunnel 0700 root root - -";
 
   services.ananicy.enable = true;
   services.ananicy.package = pkgs.ananicy-cpp;
