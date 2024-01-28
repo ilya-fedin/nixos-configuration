@@ -78,8 +78,10 @@ with lib;
 
   boot.initrd.includeDefaultModules = false;
   boot.initrd.availableKernelModules = [ "sd_mod" "ext4" "amdgpu" ]
-   ++ optionals (hostname == "asus-x421da" || hostname == "beelink-ser5") [ "nvme" "i8042" "atkbd" ]
-   ++ optionals (hostname == "ms-7c94") [ "ahci" "xhci_pci" "usbhid" ];
+   ++ optionals (hostname == "asus-x421da" || hostname == "beelink-ser5") [ "nvme" ]
+   ++ optionals (hostname == "ms-7c94") [ "ahci" ]
+   ++ optionals (hostname == "asus-x421da") [ "i8042" "atkbd" ]
+   ++ optionals (hostname == "ms-7c94" || hostname == "beelink-ser5") [ "xhci_pci" "usbhid" ];
   boot.blacklistedKernelModules = [ "iTCO_wdt" "sp5100_tco" "uvcvideo" ];
 
   boot.tmp.cleanOnBoot = true;
