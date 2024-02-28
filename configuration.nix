@@ -153,35 +153,6 @@ with lib;
 
   environment.etc = {
     nixpkgs.source = inputs.nixpkgs.${system};
-  } // optionalAttrs (hostname == "ms-7c94") {
-    "wireplumber/main.lua.d/51-alsa-custom.lua".text = ''
-      rules = {
-        {
-          matches = {
-            {
-              { "device.name", "matches", "alsa_card.pci-0000_2d_00.1" },
-            },
-          },
-          apply_properties = {
-            ["api.alsa.use-acp"] = false,
-          },
-        },
-        {
-          matches = {
-            {
-              { "node.name", "matches", "alsa_output.pci-0000_2d_00.1.playback.*" },
-            },
-          },
-          apply_properties = {
-            ["session.suspend-timeout-seconds"] = 0,
-          },
-        },
-      }
-
-      for _,v in ipairs(rules) do
-          table.insert(alsa_monitor.rules, v)
-      end
-    '';
   };
 
   environment.systemPackages = with pkgs; [
@@ -610,12 +581,41 @@ with lib;
     enable = true;
     alsa.enable = true;
     pulse.enable = true;
+  } // optionalAttrs (hostname == "ms-7c94") {
+    wireplumber.configPackages = singleton (pkgs.writeTextDir "share/wireplumber/main.lua.d/51-alsa-custom.lua" ''
+      rules = {
+        {
+          matches = {
+            {
+              { "device.name", "matches", "alsa_card.pci-0000_2d_00.1" },
+            },
+          },
+          apply_properties = {
+            ["api.alsa.use-acp"] = false,
+          },
+        },
+        {
+          matches = {
+            {
+              { "node.name", "matches", "alsa_output.pci-0000_2d_00.1.playback.*" },
+            },
+          },
+          apply_properties = {
+            ["session.suspend-timeout-seconds"] = 0,
+          },
+        },
+      }
+
+      for _,v in ipairs(rules) do
+          table.insert(alsa_monitor.rules, v)
+      end
+    '');
   };
 
   services.xserver = optionalAttrs (hostname == "asus-x421da" || hostname == "ms-7c94") {
     enable = true;
-    layout = "us,ru";
-    xkbOptions = "grp:win_space_toggle";
+    xkb.layout = "us,ru";
+    xkb.options = "grp:win_space_toggle";
     videoDrivers = [ "modesetting" ];
     libinput.enable = true;
 
