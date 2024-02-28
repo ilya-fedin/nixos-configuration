@@ -617,12 +617,9 @@ with lib;
   };
 
   fonts = optionalAttrs (hostname == "asus-x421da" || hostname == "ms-7c94") {
-    packages = with pkgs; mkForce [
+    packages = with pkgs; [
       nur.repos.ilya-fedin.exo2
       nur.repos.ilya-fedin.cascadia-code-powerline
-      nur.repos.ilya-fedin.ttf-croscore
-      carlito
-      caladea
       unifont
       symbola
       joypixels
