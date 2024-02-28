@@ -172,18 +172,13 @@ with lib;
     adapta-gtk-theme
     adapta-kde-theme
     libsForQt5.qtstyleplugin-kvantum
+    qt6Packages.qtstyleplugin-kvantum
+    kdePackages.yakuake
+    kdePackages.kcalc
+    okteta
     remmina
-    yakuake
     go-mtpfs
     latest.firefox-beta-bin
-    ark
-    dolphin
-    kate
-    kcalc
-    konsole
-    okteta
-    okular
-    spectacle
     vlc
     gimp
     wget
@@ -197,12 +192,6 @@ with lib;
     gnome.dconf-editor
     xclip
     xsettingsd
-    plasma5Packages.kio
-    plasma5Packages.kio-extras
-    plasma5Packages.dolphin-plugins
-    plasma5Packages.kdegraphics-thumbnailers
-    plasma5Packages.ffmpegthumbs
-    plasma5Packages.kglobalaccel
     dfeet
     bustle
     qemu_kvm
@@ -623,12 +612,9 @@ with lib;
     displayManager.sddm.wayland.enable = true;
     displayManager.autoLogin.enable = true;
     displayManager.autoLogin.user = "ilya";
-    displayManager.defaultSession = "plasmawayland";
+    displayManager.defaultSession = "plasma";
 
-    desktopManager.plasma5.enable = true;
-    desktopManager.plasma5.runUsingSystemd = true;
-    desktopManager.plasma5.useQtScaling = true;
-    desktopManager.plasma5.phononBackend = "vlc";
+    desktopManager.plasma6.enable = true;
   };
 
   fonts = optionalAttrs (hostname == "asus-x421da" || hostname == "ms-7c94") {
