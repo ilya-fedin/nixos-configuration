@@ -181,7 +181,7 @@ with lib;
     vlc
     gimp
     wget
-    nur.repos.ilya-fedin.kotatogram-desktop
+    nur.repos.ilya-fedin.kotatogram-desktop-with-patched-qt
     vokoscreen-ng
     qbittorrent
     libarchive
