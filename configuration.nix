@@ -191,7 +191,7 @@ with lib;
     gnome.dconf-editor
     xclip
     xsettingsd
-    dfeet
+    d-spy
     bustle
     qemu_kvm
     virt-manager
