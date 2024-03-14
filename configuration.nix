@@ -612,8 +612,10 @@ with lib;
     displayManager.autoLogin.enable = true;
     displayManager.autoLogin.user = "ilya";
     displayManager.defaultSession = "plasma";
+  };
 
-    desktopManager.plasma6.enable = true;
+  services.desktopManager.plasma6 = optionalAttrs (hostname == "asus-x421da" || hostname == "ms-7c94") {
+    enable = true;
   };
 
   fonts = optionalAttrs (hostname == "asus-x421da" || hostname == "ms-7c94") {
