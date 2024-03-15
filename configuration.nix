@@ -391,6 +391,7 @@ with lib;
   };
   services.udisks2.enable = true;
   services.upower.enable = true;
+  services.power-profiles-daemon.enable = true;
   services.gnome.at-spi2-core.enable = mkForce false;
   services.gnome.gnome-keyring.enable = mkForce false;
   services.gvfs.enable = hostname == "asus-x421da" || hostname == "ms-7c94";
