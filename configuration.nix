@@ -547,7 +547,7 @@ with lib;
         esac
     '';
   } // optionalAttrs (hostname == "beelink-ser5") {
-    hooks.qemu.win10 = pkgs.writeShellScript "LibreELEC" ''
+    hooks.qemu.LibreELEC = pkgs.writeShellScript "LibreELEC" ''
       if [ "$1" != "LibreELEC" ]; then
         exit
       fi
