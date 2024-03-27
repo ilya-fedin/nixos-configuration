@@ -131,9 +131,8 @@ with lib;
 
   networking.networkmanager.enable = true;
   networking.networkmanager.plugins = mkForce [];
-  networking.networkmanager.unmanaged = [ "type:wifi" ];
+  networking.networkmanager.wifi.backend = "iwd";
   networking.wireless.iwd.enable = true;
-  networking.wireless.iwd.settings.General.EnableNetworkConfiguration = true;
   networking.firewall.enable = false;
   networking.usePredictableInterfaceNames = false;
 
@@ -270,7 +269,6 @@ with lib;
 
   systemd.packages = with pkgs; optionals (hostname == "asus-x421da" || hostname == "ms-7c94") [
     dconf
-    iwgtk
   ] ++ optionals (hostname == "beelink-ser5") [
     udevil
     qbittorrent-nox
@@ -326,10 +324,6 @@ with lib;
       };
       wantedBy = [ "multi-user.target" ];
     };
-  };
-
-  systemd.user.services = optionalAttrs (hostname == "asus-x421da" || hostname == "ms-7c94") {
-    iwgtk.wantedBy = [ "graphical-session.target" ];
   };
 
   systemd.tmpfiles.rules = optional (hostname == "beelink-ser5") "d /var/lib/PowerTunnel 0700 root root - -";
