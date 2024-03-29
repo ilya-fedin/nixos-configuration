@@ -472,17 +472,6 @@ with lib;
   services.plex.enable = hostname == "beelink-ser5";
   services.node-red.enable = hostname == "beelink-ser5";
 
-  services.yggdrasil.enable = true;
-  services.yggdrasil.settings = {
-    Peers = [
-      tcp://194.177.21.156:5066
-      tcp://46.151.26.194:60575
-      tcp://195.211.160.2:5066
-      tcp://188.226.125.64:54321
-      tcp://78.155.207.12:32320
-    ];
-  } // inputs.passwords.yggdrasil-keys;
-
   services.tor.enable = true;
   services.tor.client.enable = true;
   services.tor.settings = {

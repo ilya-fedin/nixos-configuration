@@ -3,7 +3,6 @@
   inputs.nur.url = "github:nix-community/NUR";
   inputs.nur-repo-override.url = "git+file:///home/ilya/nur-repository";
   inputs.mozilla.url = "github:mozilla/nixpkgs-mozilla";
-  inputs.passwords.url = "path:/etc/nixos/passwords";
 
   outputs = inputs: let
     inherit (inputs.nixpkgs) lib;

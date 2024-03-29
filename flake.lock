@@ -114,25 +114,12 @@
         "url": "file:///home/ilya/nur-repository"
       }
     },
-    "passwords": {
-      "locked": {
-        "lastModified": 0,
-        "narHash": "sha256-07PbxcGdEQXRNXtyXRiBCoMtk8qB4U8jgdWoVEO0XFA=",
-        "path": "/etc/nixos/passwords",
-        "type": "path"
-      },
-      "original": {
-        "path": "/etc/nixos/passwords",
-        "type": "path"
-      }
-    },
     "root": {
       "inputs": {
         "mozilla": "mozilla",
         "nixpkgs": "nixpkgs",
         "nur": "nur",
-        "nur-repo-override": "nur-repo-override",
-        "passwords": "passwords"
+        "nur-repo-override": "nur-repo-override"
       }
     }
   },
