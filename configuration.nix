@@ -508,7 +508,6 @@ with lib;
   virtualisation.docker.enable = true;
   virtualisation.docker.enableOnBoot = hostname == "beelink-ser5";
   virtualisation.lxc.enable = hostname == "ms-7c94";
-  virtualisation.lxd.enable = hostname == "asus-x421da";
   virtualisation.spiceUSBRedirection.enable = true;
   virtualisation.virtualbox.host.enable = (hostname == "asus-x421da" || hostname == "ms-7c94");
   virtualisation.virtualbox.host.enableKvm = true;
@@ -660,7 +659,6 @@ with lib;
       "video"
       "networkmanager"
       "docker"
-      "lxd"
       "libvirtd"
       "vboxusers"
       "adbusers"
