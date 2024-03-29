@@ -472,15 +472,6 @@ with lib;
   services.plex.enable = hostname == "beelink-ser5";
   services.node-red.enable = hostname == "beelink-ser5";
 
-  services.tor.enable = true;
-  services.tor.client.enable = true;
-  services.tor.settings = {
-    ExitNodes = "{ua}";
-    UseBridges = true;
-    ClientTransportPlugin = "obfs4 exec ${pkgs.obfs4}/bin/obfs4proxy";
-    Bridge = "obfs4 137.220.35.35:443 75B34B8458A1C93714BFF9393E09F7CBC04A2F59 cert=GglhKh0UwOjkfQPN0aH3gs8ZdnE6T4qU9uU/fmiYbJ69Dpk4nxS9o82UBnAxVZJytOulfA iat-mode=0";
-  };
-
   xdg = optionalAttrs (hostname == "asus-x421da" || hostname == "ms-7c94") {
     icons.icons = with pkgs; [
       papirus-icon-theme
