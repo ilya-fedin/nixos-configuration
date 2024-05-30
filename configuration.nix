@@ -177,24 +177,21 @@ with lib;
     remmina
     go-mtpfs
     latest.firefox-beta-bin
-    vlc
-    gimp
+    haruna
+    krita
     wget
     nur.repos.ilya-fedin.kotatogram-desktop-with-patched-qt
-    vokoscreen-ng
     qbittorrent
     libarchive
     unzip
     zip
     unrar
-    gnome.dconf-editor
     xclip
     xsettingsd
     d-spy
     bustle
     qemu_kvm
     virt-manager
-    gnome.gnome-boxes
     element-desktop
     p7zip
     vscode
@@ -391,7 +388,6 @@ with lib;
   services.gvfs.enable = hostname == "asus-x421da" || hostname == "ms-7c94";
   services.gvfs.package = pkgs.gvfs;
   services.flatpak.enable = hostname == "asus-x421da" || hostname == "ms-7c94";
-  services.sysprof.enable = hostname == "asus-x421da" || hostname == "ms-7c94";
 
   services.dbus.implementation = "broker";
   services.dbus.packages = with pkgs; optionals (hostname == "asus-x421da" || hostname == "ms-7c94") [
