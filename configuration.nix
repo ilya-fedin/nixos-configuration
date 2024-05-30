@@ -61,7 +61,7 @@ with lib;
 
   boot.loader.systemd-boot.enable = true;
 
-  boot.kernelPackages = pkgs.linuxPackages_lqx;
+  boot.kernelPackages = pkgs.linuxPackages_zen;
   boot.kernelParams = [
     "zswap.enabled=1"
     "pcie_acs_override=downstream,multifunction"
