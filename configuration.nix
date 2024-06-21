@@ -171,6 +171,7 @@ with lib;
   ] ++ optionals (hostname == "asus-x421da" || hostname == "ms-7c94") [
     adapta-gtk-theme
     adapta-kde-theme
+    papirus-icon-theme
     libsForQt5.qtstyleplugin-kvantum
     qt6Packages.qtstyleplugin-kvantum
     kdePackages.yakuake
@@ -486,11 +487,6 @@ with lib;
   services.node-red.enable = hostname == "beelink-ser5";
 
   xdg = optionalAttrs (hostname == "asus-x421da" || hostname == "ms-7c94") {
-    icons.icons = with pkgs; [
-      papirus-icon-theme
-      (getBin breeze-qt5)
-    ];
-
     portal.enable = true;
     portal.extraPortals = with pkgs; [
       xdg-desktop-portal-gtk
@@ -591,18 +587,23 @@ with lib;
     '');
   };
 
+  services.libinput = optionalAttrs (hostname == "asus-x421da" || hostname == "ms-7c94") {
+    enable = true;
+  };
+
   services.xserver = optionalAttrs (hostname == "asus-x421da" || hostname == "ms-7c94") {
     enable = true;
     xkb.layout = "us,ru";
     xkb.options = "grp:win_space_toggle";
     videoDrivers = [ "modesetting" ];
-    libinput.enable = true;
+  };
 
-    displayManager.sddm.enable = true;
-    displayManager.sddm.wayland.enable = true;
-    displayManager.autoLogin.enable = true;
-    displayManager.autoLogin.user = "ilya";
-    displayManager.defaultSession = "plasma";
+  services.displayManager = optionalAttrs (hostname == "asus-x421da" || hostname == "ms-7c94") {
+    sddm.enable = true;
+    sddm.wayland.enable = true;
+    autoLogin.enable = true;
+    autoLogin.user = "ilya";
+    defaultSession = "plasma";
   };
 
   services.desktopManager.plasma6 = optionalAttrs (hostname == "asus-x421da" || hostname == "ms-7c94") {
