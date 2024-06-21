@@ -74,7 +74,9 @@ with lib;
     "rd.systemd.show_status=auto"
     "rd.udev.log_priority=3"
   ];
-  boot.kernelModules = [ "kvm-amd" "bfq" ] ++ optional (hostname == "beelink-ser5") "vhci-hcd";
+  boot.kernelModules = [ "kvm-amd" "bfq" ]
+    ++ optional (hostname == "beelink-ser5") "vhci-hcd"
+    ++ optional (hostname == "asus-x421da") "cpufreq_conservative";
 
   boot.initrd.includeDefaultModules = false;
   boot.initrd.availableKernelModules = [ "sd_mod" "ext4" "amdgpu" ]
@@ -382,7 +384,15 @@ with lib;
   };
   services.udisks2.enable = true;
   services.upower.enable = true;
-  services.power-profiles-daemon.enable = true;
+  services.power-profiles-daemon.enable = hostname != "asus-x421da";
+  services.tlp = optionalAttrs (hostname == "asus-x421da") {
+    enable = true;
+    settings = {
+      CPU_SCALING_GOVERNOR_ON_BAT = "conservative";
+      CPU_BOOST_ON_AC= "1";
+      CPU_BOOST_ON_BAT="0";
+    };
+  };
   services.gnome.at-spi2-core.enable = mkForce false;
   services.gnome.gnome-keyring.enable = mkForce false;
   services.gvfs.enable = hostname == "asus-x421da" || hostname == "ms-7c94";
