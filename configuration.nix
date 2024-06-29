@@ -108,7 +108,7 @@ with lib;
     enableGraphical = true;
   };
 
-  hardware.opengl.enable = true;
+  hardware.graphics.enable = true;
 
   hardware.sane.enable = true;
   hardware.sane.extraBackends = with pkgs; [
