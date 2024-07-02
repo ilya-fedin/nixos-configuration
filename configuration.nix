@@ -2,7 +2,9 @@
 
 with lib;
 {
-  imports = attrValues inputs.nur-no-pkgs.${system}.repos.ilya-fedin.modules;
+  imports = [
+    inputs.chaotic.nixosModules.default
+  ] ++ attrValues inputs.nur-no-pkgs.${system}.repos.ilya-fedin.modules;
 
   system.replaceRuntimeDependencies = [
     {
@@ -61,7 +63,7 @@ with lib;
 
   boot.loader.systemd-boot.enable = true;
 
-  boot.kernelPackages = pkgs.linuxPackages_zen;
+  boot.kernelPackages = inputs.chaotic.packages.${system}.linuxPackages_cachyos;
   boot.kernelParams = [
     "zswap.enabled=1"
     "pcie_acs_override=downstream,multifunction"
