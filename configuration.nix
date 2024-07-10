@@ -441,6 +441,9 @@ with lib;
 
   services.samba.extraConfig = ''
     workgroup = WORKGROUP
+    server min protocol = NT1
+    client min protocol = NT1
+    ntlm auth = yes
     map to guest = bad user
     guest account = ilya
   '' + optionalString (hostname == "asus-x421da" || hostname == "ms-7c94") ''
