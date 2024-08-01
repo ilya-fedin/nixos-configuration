@@ -555,7 +555,7 @@ with lib;
     '';
   };
 
-  sound.enable = hostname == "ms-7c94";
+  hardware.alsa.enablePersistence = hostname == "ms-7c94";
   security.rtkit.enable = hostname == "asus-x421da" || hostname == "ms-7c94";
   services.pipewire = optionalAttrs (hostname == "asus-x421da" || hostname == "ms-7c94") {
     enable = true;
