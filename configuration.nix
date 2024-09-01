@@ -200,6 +200,7 @@ with lib;
     element-desktop
     p7zip
     vscode
+    jamesdsp
   ];
 
   environment.defaultPackages = [];
