@@ -330,8 +330,6 @@ with lib;
 
   systemd.tmpfiles.rules = optional (hostname == "beelink-ser5") "d /var/lib/PowerTunnel 0700 root root - -";
 
-  services.ananicy.enable = true;
-  services.ananicy.package = pkgs.ananicy-cpp;
   services.irqbalance.enable = true;
   services.udev.optimalSchedulers = true;
   services.udev.packages = [
