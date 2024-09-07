@@ -170,7 +170,7 @@ with lib;
     ix
     config.boot.kernelPackages.usbip
     nur.repos.ilya-fedin.nixos-collect-garbage
-  ] ++ optionals (hostname == "asus-x421da" || hostname == "ms-7c94") [
+  ] ++ optionals (hostname == "asus-x421da" || hostname == "ms-7c94") ([
     adapta-gtk-theme
     adapta-kde-theme
     papirus-icon-theme
@@ -181,7 +181,6 @@ with lib;
     okteta
     remmina
     go-mtpfs
-    latest.firefox-beta-bin
     haruna
     krita
     wget
@@ -201,7 +200,7 @@ with lib;
     p7zip
     vscode
     jamesdsp
-  ];
+  ] ++ config.programs.firefox.nativeMessagingHosts.packages);
 
   environment.defaultPackages = [];
 
@@ -269,6 +268,16 @@ with lib;
     Host *
     ServerAliveInterval 100
   '';
+
+  programs.firefox = {
+    enable = true;
+    package = pkgs.latest.firefox-beta-bin;
+    languagePacks = [ "ru" ];
+    nativeMessagingHosts.packages = with pkgs; [
+      firefoxpwa
+      vdhcoapp
+    ];
+  };
 
   systemd.packages = with pkgs; optionals (hostname == "asus-x421da" || hostname == "ms-7c94") [
     dconf
