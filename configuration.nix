@@ -62,6 +62,7 @@ with lib;
   };
 
   boot.loader.systemd-boot.enable = true;
+  boot.loader.timeout = 0;
 
   boot.kernelPackages = inputs.chaotic.packages.${system}.linuxPackages_cachyos;
   boot.kernelParams = [
