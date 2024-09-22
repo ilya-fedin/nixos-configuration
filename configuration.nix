@@ -449,46 +449,51 @@ with lib;
   services.samba.nsswins = true;
   services.samba-wsdd.enable = true;
 
-  services.samba.extraConfig = ''
-    workgroup = WORKGROUP
-    server min protocol = NT1
-    client min protocol = NT1
-    ntlm auth = yes
-    map to guest = bad user
-    guest account = ilya
-  '' + optionalString (hostname == "asus-x421da" || hostname == "ms-7c94") ''
-    usershare path = /var/lib/samba/usershares
-    usershare max shares = 100
-    usershare allow guests = yes
-    usershare owner only = yes
-  '' + optionalString (hostname == "beelink-ser5") ''
-    [media]
-    path = /media
-    available = yes
-    browsable = yes
-    public = yes
-    writable = yes
-    create mask = 0777
-    directory mask = 0777
+  services.samba.settings = {
+    global = {
+      workgroup = "WORKGROUP";
+      "server min protocol" = "NT1";
+      "client min protocol" = "NT1";
+      "ntlm auth" = "yes";
+      "map to guest" = "bad user";
+      "guest account" = "ilya";
+    } // optionalAttrs (hostname == "asus-x421da" || hostname == "ms-7c94") {
+      "usershare path" = "/var/lib/samba/usershares";
+      "usershare max shares" = "100";
+      "usershare allow guests" = "yes";
+      "usershare owner only" = "yes";
+    };
+  } // optionalAttrs (hostname == "beelink-ser5") {
+    media = {
+      path = "/media";
+      available = "yes";
+      browsable = "yes";
+      public = "yes";
+      writable = "yes";
+      "create mask" = "0777";
+      "directory mask" = "0777";
+    };
 
-  [videos]
-    path = /home/ilya/videos
-    available = yes
-    browsable = yes
-    public = yes
-    writable = yes
-    create mask = 0777
-    directory mask = 0777
+    videos = {
+      path = "/home/ilya/videos";
+      available = "yes";
+      browsable = "yes";
+      public = "yes";
+      writable = "yes";
+      "create mask" = "0777";
+      "directory mask" = "0777";
+    };
 
-  [PS2]
-    path = /home/ilya/PS2
-    available = yes
-    browsable = yes
-    public = yes
-    writable = yes
-    create mask = 0777
-    directory mask = 0777
-  '';
+    PS2 = {
+      path = "/home/ilya/PS2";
+      available = "yes";
+      browsable = "yes";
+      public = "yes";
+      writable = "yes";
+      "create mask" = "0777";
+      "directory mask" = "0777";
+    };
+  };
 
   services.nfs.server.enable = hostname == "beelink-ser5";
   services.nfs.server.exports = optionalString (hostname == "beelink-ser5") ''
