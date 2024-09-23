@@ -92,6 +92,7 @@ with lib;
   boot.tmp.cleanOnBoot = true;
   boot.consoleLogLevel = 3;
   boot.initrd.verbose = false;
+  boot.initrd.systemd.enable = true;
 
   boot.kernel.sysctl = {
     "kernel.sysrq" = 1;
