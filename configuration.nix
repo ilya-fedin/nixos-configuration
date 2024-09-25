@@ -306,6 +306,8 @@ with lib;
       '';
     };
   } // optionalAttrs (hostname == "beelink-ser5") {
+    power-profiles-daemon.wantedBy = [ "multi-user.target" ];
+  
     "devmon@ilya" = {
       environment = {
         PATH = mkForce "/run/current-system/sw/bin:${pkgs.udevil}/bin";
