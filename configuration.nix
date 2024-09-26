@@ -521,8 +521,8 @@ with lib;
       }).fd
     ];
   } // optionalAttrs (hostname == "ms-7c94") {
-    hooks.qemu.win10 = pkgs.writeShellScript "win10" ''
-      if [ "$1" != "win10" ]; then
+    hooks.qemu.win11 = pkgs.writeShellScript "win11" ''
+      if [ "$1" != "win11" ]; then
         exit
       fi
 
