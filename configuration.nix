@@ -112,8 +112,6 @@ with lib;
     enableGraphical = true;
   };
 
-  hardware.graphics.enable = true;
-
   hardware.sane.enable = true;
   hardware.sane.extraBackends = with pkgs; [
     nur.repos.ilya-fedin.hplipWithPlugin
@@ -156,9 +154,7 @@ with lib;
 
   time.timeZone = "Europe/Saratov";
 
-  environment.etc = {
-    nixpkgs.source = inputs.nixpkgs.${system};
-  };
+  environment.etc.nixpkgs.source = inputs.nixpkgs.${system};
 
   environment.systemPackages = with pkgs; [
     file
@@ -193,7 +189,6 @@ with lib;
     zip
     unrar
     xclip
-    xsettingsd
     d-spy
     bustle
     qemu_kvm
@@ -264,7 +259,6 @@ with lib;
   programs.ssh.askPassword = "${pkgs.ksshaskpass}/bin/ksshaskpass";
   programs.adb.enable = true;
   programs.direnv.enable = true;
-  programs.system-config-printer.enable = false;
 
   programs.ssh.extraConfig = ''
     Host *
@@ -416,8 +410,6 @@ with lib;
       USB_AUTOSUSPEND = "0";
     };
   };
-  services.gnome.at-spi2-core.enable = mkForce false;
-  services.gnome.gnome-keyring.enable = mkForce false;
   services.gvfs.enable = hostname == "asus-x421da" || hostname == "ms-7c94";
   services.gvfs.package = pkgs.gvfs;
   services.flatpak.enable = hostname == "asus-x421da" || hostname == "ms-7c94";
@@ -509,14 +501,6 @@ with lib;
   services.plex.enable = hostname == "beelink-ser5";
   services.node-red.enable = hostname == "beelink-ser5";
 
-  xdg = optionalAttrs (hostname == "asus-x421da" || hostname == "ms-7c94") {
-    portal.enable = true;
-    portal.extraPortals = with pkgs; [
-      xdg-desktop-portal-gtk
-      xdg-desktop-portal-kde
-    ];
-  };
-
   virtualisation.docker.enable = true;
   virtualisation.docker.enableOnBoot = hostname == "beelink-ser5";
   virtualisation.lxc.enable = hostname == "ms-7c94";
@@ -575,11 +559,7 @@ with lib;
 
   hardware.alsa.enablePersistence = hostname == "ms-7c94";
   security.rtkit.enable = hostname == "asus-x421da" || hostname == "ms-7c94";
-  services.pipewire = optionalAttrs (hostname == "asus-x421da" || hostname == "ms-7c94") {
-    enable = true;
-    alsa.enable = true;
-    pulse.enable = true;
-  } // optionalAttrs (hostname == "ms-7c94") {
+  services.pipewire = optionalAttrs (hostname == "ms-7c94") {
     wireplumber.configPackages = singleton (pkgs.writeTextDir "share/wireplumber/main.lua.d/51-alsa-custom.lua" ''
       rules = {
         {
@@ -610,15 +590,9 @@ with lib;
     '');
   };
 
-  services.libinput = optionalAttrs (hostname == "asus-x421da" || hostname == "ms-7c94") {
-    enable = true;
-  };
-
   services.xserver = optionalAttrs (hostname == "asus-x421da" || hostname == "ms-7c94") {
-    enable = true;
     xkb.layout = "us,ru";
     xkb.options = "grp:win_space_toggle";
-    videoDrivers = [ "modesetting" ];
   };
 
   services.displayManager = optionalAttrs (hostname == "asus-x421da" || hostname == "ms-7c94") {
