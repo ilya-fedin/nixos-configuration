@@ -136,6 +136,7 @@ with lib;
   networking.networkmanager.enable = true;
   networking.networkmanager.plugins = mkForce [];
   networking.networkmanager.wifi.backend = "iwd";
+  networking.networkmanager.settings.connectivity.uri = "http://nmcheck.gnome.org/check_network_status.txt";
   networking.wireless.iwd.enable = true;
   networking.firewall.enable = false;
   networking.usePredictableInterfaceNames = false;
