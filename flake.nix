@@ -48,7 +48,6 @@
           };
         })
         inputs.mozilla.overlays.firefox
-        inputs.nur-no-pkgs.${system}.repos.ilya-fedin.overlays.portal
       ];
     });
   in {
