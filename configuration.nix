@@ -322,22 +322,11 @@ with lib;
 
     node-red.path = [ "/run/wrappers" config.system.path ];
 
-    PowerTunnel = {
-      serviceConfig = {
-        ExecStart = let
-          PowerTunnel = pkgs.fetchurl {
-            url = "https://github.com/krlvm/PowerTunnel/releases/download/v2.5.2/PowerTunnel.jar";
-            name = "PowerTunnel.jar";
-            sha256 = "sha256-UlA2b/wi+zZsjRXR2qjqidh9uHS83YLOgHX3A4Wfzn0=";
-          };
-        in "${pkgs.jre}/bin/java -jar ${PowerTunnel}";
-        WorkingDirectory = "/var/lib/PowerTunnel";
-      };
+    byedpi = {
+      serviceConfig.ExecStart = "${pkgs.byedpi}/bin/ciadpi -N -Ktls -d1 -r25+s";
       wantedBy = [ "multi-user.target" ];
     };
   };
-
-  systemd.tmpfiles.rules = optional (hostname == "beelink-ser5") "d /var/lib/PowerTunnel 0700 root root - -";
 
   services.irqbalance.enable = true;
   services.udev.optimalSchedulers = true;
@@ -501,6 +490,14 @@ with lib;
   services.rpcbind.enable = hostname == "beelink-ser5";
   services.plex.enable = hostname == "beelink-ser5";
   services.node-red.enable = hostname == "beelink-ser5";
+
+  services.privoxy = optionalAttrs (hostname == "beelink-ser5") {
+    enable = true;
+    settings = {
+      listen-address = "0.0.0.0:8118";
+      forward-socks4 = "/ 127.0.0.1:1080 .";
+    };
+  };
 
   virtualisation.docker.enable = true;
   virtualisation.docker.enableOnBoot = hostname == "beelink-ser5";
