@@ -6,7 +6,7 @@ with lib;
     inputs.chaotic.nixosModules.default
   ] ++ attrValues inputs.nur-no-pkgs.${system}.repos.ilya-fedin.modules;
 
-  system.replaceRuntimeDependencies = [
+  system.replaceDependencies.replacements = [
     {
       original = pkgs.glibcLocales;
       replacement = config.i18n.glibcLocales;
