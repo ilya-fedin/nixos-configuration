@@ -397,7 +397,7 @@ with lib;
       CPU_SCALING_GOVERNOR_ON_BAT = "conservative";
       CPU_BOOST_ON_AC = "0";
       CPU_BOOST_ON_BAT = "0";
-      USB_AUTOSUSPEND = "0";
+      RUNTIME_PM_ON_BAT = "on";
     };
   };
   services.gvfs.enable = hostname == "asus-x421da" || hostname == "ms-7c94";
