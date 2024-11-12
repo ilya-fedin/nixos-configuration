@@ -284,6 +284,7 @@ with lib;
 
   systemd.services = {
     polkit.restartIfChanged = false;
+  } // optionalAttrs (hostname != "beelink-ser5") {
     NetworkManager-wait-online.wantedBy = mkForce [];
   } // optionalAttrs (hostname == "beelink-ser5") {
     power-profiles-daemon.wantedBy = [ "multi-user.target" ];
