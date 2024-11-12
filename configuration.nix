@@ -518,8 +518,8 @@ with lib;
           ;;
         release)
           modprobe amdgpu
-          systemctl start display-manager
-          systemctl restart systemd-vconsole-setup
+          systemctl --no-block restart systemd-vconsole-setup
+          systemctl --no-block start display-manager
           ;;
         esac
     '';
@@ -535,7 +535,7 @@ with lib;
           ;;
         release)
           modprobe amdgpu
-          systemctl restart systemd-vconsole-setup
+          systemctl --no-block restart systemd-vconsole-setup
           ;;
         esac
     '';
