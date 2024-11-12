@@ -355,14 +355,18 @@ with lib;
       '');
       destination = "/etc/udev/rules.d/95-udisks-mount.rules";
     })
+    (pkgs.writeTextFile {
+      name = "99-udisks2.rules";
+      text = ''
+        # UDISKS_FILESYSTEM_SHARED
+        # ==1: mount filesystem to a shared directory (/media/VolumeName)
+        # ==0: mount filesystem to a private directory (/run/media/$USER/VolumeName)
+        # See udisks(8)
+        ENV{ID_FS_USAGE}=="filesystem|other|crypto", ENV{UDISKS_FILESYSTEM_SHARED}="1"
+      '';
+      destination = "/etc/udev/rules.d/99-udisks2.rules";
+    })
   ];
-  services.udev.extraRules = optionalString (hostname == "beelink-ser5") ''
-    # UDISKS_FILESYSTEM_SHARED
-    # ==1: mount filesystem to a shared directory (/media/VolumeName)
-    # ==0: mount filesystem to a private directory (/run/media/$USER/VolumeName)
-    # See udisks(8)
-    ENV{ID_FS_USAGE}=="filesystem|other|crypto", ENV{UDISKS_FILESYSTEM_SHARED}="1"
-  '';
   services.fstrim.enable = true;
   services.logind.killUserProcesses = true;
   services.logind.extraConfig = "UserStopDelaySec=0";
