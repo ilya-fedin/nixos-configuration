@@ -279,7 +279,6 @@ with lib;
   systemd.packages = with pkgs; optionals (hostname == "asus-x421da" || hostname == "ms-7c94") [
     dconf
   ] ++ optionals (hostname == "beelink-ser5") [
-    udevil
     qbittorrent-nox
   ];
 
@@ -290,14 +289,14 @@ with lib;
     power-profiles-daemon.wantedBy = [ "multi-user.target" ];
     plex.serviceConfig.KillSignal = mkForce null;
   
-    "devmon@ilya" = {
-      environment = {
-        PATH = mkForce "/run/current-system/sw/bin:${pkgs.udevil}/bin";
-      };
-      overrideStrategy = "asDropin";
-      wantedBy = [ "multi-user.target" ];
-      serviceConfig = {
-        EnvironmentFile = "";
+    "udisks-mount@" = {
+      requires = [ "udisks2.service" ];
+      after = [ "udisks2.service" ];
+      serviceConfig = with pkgs; {
+        Type = "oneshot";
+        ExecStart = "${udisks}/bin/udisksctl mount -b %I";
+        ExecStop = "${udisks}/bin/udisksctl unmount -b %I";
+        RemainAfterExit = "yes";
       };
     };
 
@@ -323,6 +322,38 @@ with lib;
       printf "SUBSYSTEM==\"usb\", TAG+=\"uaccess\", TAG+=\"udev-acl\", SYMLINK+=\"bitbox02_%%n\", ATTRS{idVendor}==\"03eb\", ATTRS{idProduct}==\"2403\"\n" > $out/etc/udev/rules.d/53-hid-bitbox02.rules && printf "KERNEL==\"hidraw*\", SUBSYSTEM==\"hidraw\", ATTRS{idVendor}==\"03eb\", ATTRS{idProduct}==\"2403\", TAG+=\"uaccess\", TAG+=\"udev-acl\", SYMLINK+=\"bitbox02_%%n\"\n" > $out/etc/udev/rules.d/54-hid-bitbox02.rules
       printf "SUBSYSTEM==\"usb\", TAG+=\"uaccess\", TAG+=\"udev-acl\", SYMLINK+=\"dbb%%n\", ATTRS{idVendor}==\"03eb\", ATTRS{idProduct}==\"2402\"\n" > $out/etc/udev/rules.d/51-hid-digitalbitbox.rules && printf "KERNEL==\"hidraw*\", SUBSYSTEM==\"hidraw\", ATTRS{idVendor}==\"03eb\", ATTRS{idProduct}==\"2402\", TAG+=\"uaccess\", TAG+=\"udev-acl\", SYMLINK+=\"dbbf%%n\"\n" > $out/etc/udev/rules.d/52-hid-digitalbitbox.rules
     '')
+  ] ++ optionals (hostname == "beelink-ser5") [
+    (pkgs.writeTextFile {
+      name = "95-udisks-mount.rules";
+      text = (with pkgs; ''
+        # check for blockdevices, /dev/sd*, /dev/sr*, /dev/mmc*, and /dev/nvme*
+        SUBSYSTEM!="block", KERNEL!="sd*|sr*|mmc*|nvme*", GOTO="exit"
+
+        # check for special partitions we dont want mount
+        IMPORT{builtin}="blkid"
+        ENV{ID_FS_LABEL}=="EFI|BOOT|Recovery|RECOVERY|SETTINGS|boot|root0|share0", GOTO="exit"
+
+        # /dev/sd*, /dev/mmc*, and /dev/nvme* with partitions/disk and filesystems only, and /dev/sr* disks only
+        KERNEL=="sd*|mmc*|nvme*", ENV{DEVTYPE}=="partition|disk", ENV{ID_FS_USAGE}=="filesystem", GOTO="harddisk"
+        KERNEL=="sr*", ENV{DEVTYPE}=="disk", GOTO="optical"
+        GOTO="exit"
+
+        # mount or umount for hdds
+        LABEL="harddisk"
+        ACTION=="add", PROGRAM="${bash}/bin/sh -c '${coreutils}/bin/grep -E ^/dev/%k\  /proc/mounts || true'", RESULT=="", RUN+="${systemd}/bin/systemctl --no-block restart udisks-mount@/dev/%k.service"
+        ACTION=="remove", RUN+="${systemd}/bin/systemctl --no-block stop udisks-mount@/dev/%k.service"
+        GOTO="exit"
+
+        # mount or umount for opticals
+        LABEL="optical"
+        ACTION=="add|change", RUN+="${systemd}/bin/systemctl --no-block restart udisks-mount@/dev/%k.service"
+        GOTO="exit"
+
+        # Exit
+        LABEL="exit"
+      '');
+      destination = "/etc/udev/rules.d/95-udisks-mount.rules";
+    })
   ];
   services.udev.extraRules = optionalString (hostname == "beelink-ser5") ''
     # UDISKS_FILESYSTEM_SHARED
