@@ -286,20 +286,6 @@ with lib;
   systemd.services = {
     polkit.restartIfChanged = false;
     NetworkManager-wait-online.wantedBy = mkForce [];
-
-    zswap = {
-      description = "zswap";
-      wantedBy = [ "sysinit.target" ];
-      unitConfig.DefaultDependencies = false;
-      serviceConfig = {
-        Type = "oneshot";
-        RemainAfterExit = true;
-      };
-      script = ''
-        echo zstd > /sys/module/zswap/parameters/compressor
-        echo z3fold > /sys/module/zswap/parameters/zpool
-      '';
-    };
   } // optionalAttrs (hostname == "beelink-ser5") {
     power-profiles-daemon.wantedBy = [ "multi-user.target" ];
   
