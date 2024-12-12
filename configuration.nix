@@ -310,7 +310,7 @@ with lib;
     node-red.path = [ "/run/wrappers" config.system.path ];
 
     byedpi = {
-      serviceConfig.ExecStart = "${pkgs.byedpi}/bin/ciadpi -N -Ktls -d1 -r25+s";
+      serviceConfig.ExecStart = "${pkgs.byedpi}/bin/ciadpi -N -Ktls -s1 -q1 -Y -At -T5 -b1000 -S -f-1 -r1+sm -As";
       wantedBy = [ "multi-user.target" ];
     };
   };
