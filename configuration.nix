@@ -17,13 +17,6 @@ with lib;
     "nixpkgs=/etc/static/nixpkgs"
     "nixos-config=/etc/nixos/configuration.nix"
   ];
-  nix.settings.cores = if hostname == "asus-x421da"
-    then 9
-    else if hostname == "ms-7c94"
-    then 33
-    else if hostname == "beelink-ser5"
-    then 13
-    else null;
   nix.settings.trusted-users = [ "root" "@wheel" ];
   nix.registry.self.flake = inputs.self;
   nix.extraOptions = ''
