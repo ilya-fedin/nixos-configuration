@@ -57,7 +57,7 @@ with lib;
   boot.loader.systemd-boot.enable = true;
   boot.loader.timeout = 0;
 
-  boot.kernelPackages = inputs.chaotic.packages.${system}.linuxPackages_cachyos;
+  boot.kernelPackages = inputs.chaotic.legacyPackages.${system}.linuxPackages_cachyos;
   boot.kernelParams = [
     "zswap.enabled=1"
     "pcie_acs_override=downstream,multifunction"
@@ -567,7 +567,7 @@ with lib;
     '';
   };
 
-  hardware.alsa.enablePersistence = hostname == "ms-7c94";
+  hardware.alsa.enable = hostname == "ms-7c94";
   security.rtkit.enable = hostname == "asus-x421da" || hostname == "ms-7c94";
   services.pipewire = optionalAttrs (hostname == "ms-7c94") {
     wireplumber.configPackages = singleton (pkgs.writeTextDir "share/wireplumber/main.lua.d/51-alsa-custom.lua" ''
