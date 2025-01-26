@@ -567,36 +567,36 @@ with lib;
     '';
   };
 
-  hardware.alsa.enable = hostname == "ms-7c94";
+  hardware.alsa.enablePersistence = hostname == "ms-7c94";
   security.rtkit.enable = hostname == "asus-x421da" || hostname == "ms-7c94";
   services.pipewire = optionalAttrs (hostname == "ms-7c94") {
-    wireplumber.configPackages = singleton (pkgs.writeTextDir "share/wireplumber/main.lua.d/51-alsa-custom.lua" ''
-      rules = {
+    wireplumber.configPackages = singleton (pkgs.writeTextDir "share/wireplumber/wireplumber.conf.d/51-alsa-custom.conf" ''
+      monitor.alsa.rules = [
         {
-          matches = {
+          matches = [
             {
-              { "device.name", "matches", "alsa_card.pci-0000_2d_00.1" },
-            },
-          },
-          apply_properties = {
-            ["api.alsa.use-acp"] = false,
-          },
-        },
+              device.name = "alsa_card.pci-0000_2d_00.1"
+            }
+          ]
+          actions = {
+            update-props = {
+              api.alsa.use-acp = false
+            }
+          }
+        }
         {
-          matches = {
+          matches = [
             {
-              { "node.name", "matches", "alsa_output.pci-0000_2d_00.1.playback.*" },
-            },
-          },
-          apply_properties = {
-            ["session.suspend-timeout-seconds"] = 0,
-          },
-        },
-      }
-
-      for _,v in ipairs(rules) do
-          table.insert(alsa_monitor.rules, v)
-      end
+              node.name = "~alsa_output.pci-0000_2d_00.1.playback.*"
+            }
+          ]
+          actions = {
+            update-props = {
+              session.suspend-timeout-seconds = 0
+            }
+          }
+        }
+      ]
     '');
   };
 
