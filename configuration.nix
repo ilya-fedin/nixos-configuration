@@ -4,6 +4,7 @@ with lib;
 {
   imports = [
     inputs.chaotic.nixosModules.default
+    inputs.vscode-server.nixosModules.default
   ] ++ attrValues inputs.nur-no-pkgs.${system}.repos.ilya-fedin.modules;
 
   system.replaceDependencies.replacements = [
@@ -514,6 +515,8 @@ with lib;
       forward-socks4 = "/ 127.0.0.1:1080 .";
     };
   };
+
+  services.vscode-server.enable = true;
 
   virtualisation.docker.enable = true;
   virtualisation.docker.enableOnBoot = hostname == "beelink-ser5";
