@@ -172,7 +172,11 @@ with lib;
     kdePackages.yakuake
     kdePackages.kcalc
     okteta
-    remmina
+    (remmina.override {
+      freerdp3 = freerdp3.override {
+        openh264 = null;
+      };
+    })
     go-mtpfs
     haruna
     krita
