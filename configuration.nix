@@ -309,6 +309,7 @@ with lib;
     };
   };
 
+  services.nixseparatedebuginfod.enable = true;
   services.irqbalance.enable = true;
   services.udev.optimalSchedulers = true;
   services.udev.packages = [
