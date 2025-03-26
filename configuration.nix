@@ -171,6 +171,7 @@ with lib;
     qt6Packages.qtstyleplugin-kvantum
     kdePackages.yakuake
     kdePackages.kcalc
+    kdePackages.kdeconnect-kde
     okteta
     (remmina.override {
       freerdp3 = freerdp3.override {
