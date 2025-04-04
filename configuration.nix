@@ -174,7 +174,7 @@ with lib;
     kdePackages.kdeconnect-kde
     okteta
     (remmina.override {
-      freerdp3 = freerdp3.override {
+      freerdp = freerdp.override {
         openh264 = null;
       };
     })
