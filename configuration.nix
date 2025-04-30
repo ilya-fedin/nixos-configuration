@@ -259,7 +259,8 @@ with lib;
     set -x VIRTUAL_ENV_DISABLE_PROMPT 1
   '';
 
-  programs.ssh.askPassword = "${pkgs.ksshaskpass}/bin/ksshaskpass";
+  programs.ssh.startAgent = true;
+  programs.ssh.enableAskPassword = true;
   programs.adb.enable = true;
   programs.direnv.enable = true;
 
@@ -446,6 +447,9 @@ with lib;
 
   services.openssh.enable = true;
   services.openssh.settings.X11Forwarding = true;
+  services.openssh.extraConfig = ''
+    AllowAgentForwarding yes
+  '';
 
   services.avahi.enable = true;
   services.avahi.nssmdns4 = true;
