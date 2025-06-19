@@ -95,6 +95,8 @@ with lib;
     "kernel.sysrq" = 1;
     "kernel.printk" = "3 3 3 3";
     "net.ipv4.conf.all.rp_filter" = 1;
+    "net.core.default_qdisc" = "fq";
+    "net.ipv4.tcp_congestion_control" = "bbr";
   };
 
   powerManagement.cpuFreqGovernor = "schedutil";
