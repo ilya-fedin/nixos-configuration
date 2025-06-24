@@ -313,11 +313,6 @@ with lib;
     };
 
     node-red.path = [ "/run/wrappers" config.system.path ];
-
-    byedpi = {
-      serviceConfig.ExecStart = "${pkgs.byedpi}/bin/ciadpi -N -Ktls -s1 -q1 -Y -At -T5 -b1000 -S -f-1 -r1+sm -As";
-      wantedBy = [ "multi-user.target" ];
-    };
   };
 
   services.nixseparatedebuginfod.enable = true;
@@ -522,14 +517,6 @@ with lib;
   services.rpcbind.enable = hostname == "beelink-ser5";
   services.plex.enable = hostname == "beelink-ser5";
   services.node-red.enable = hostname == "beelink-ser5";
-
-  services.privoxy = optionalAttrs (hostname == "beelink-ser5") {
-    enable = true;
-    settings = {
-      listen-address = "0.0.0.0:8118";
-      forward-socks4 = "/ 127.0.0.1:1080 .";
-    };
-  };
 
   services.vscode-server.enable = true;
 
