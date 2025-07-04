@@ -4,7 +4,7 @@
   inputs.chaotic.url = "github:chaotic-cx/nyx/nyxpkgs-unstable";
   inputs.nur.url = "github:nix-community/NUR";
   inputs.nur-repo-override.url = "git+file:///home/ilya/nur-repository";
-  inputs.mozilla.url = "github:mozilla/nixpkgs-mozilla";
+  inputs.firefox.url = "github:nix-community/flake-firefox-nightly";
 
   outputs = inputs: let
     inherit (inputs.nixpkgs) lib;
@@ -48,7 +48,6 @@
             };
           };
         })
-        inputs.mozilla.overlays.firefox
       ];
     });
   in {
