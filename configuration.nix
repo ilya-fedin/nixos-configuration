@@ -663,6 +663,7 @@ with lib;
       "tty"
       "users"
       "video"
+      "pipewire"
       "networkmanager"
       "docker"
       "libvirtd"
