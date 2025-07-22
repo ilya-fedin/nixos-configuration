@@ -162,7 +162,7 @@ with lib;
     inetutils
     pciutils
     usbutils
-    micro
+    micro-with-wl-clipboard
     git
     htop
     nur.repos.ilya-fedin.termbin
@@ -193,7 +193,6 @@ with lib;
     unzip
     zip
     unrar
-    xclip
     d-spy
     bustle
     qemu_kvm
