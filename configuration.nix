@@ -55,15 +55,12 @@ with lib;
     device = "/dev/disk/by-partlabel/swap";
   };
 
-  zramSwap.enable = hostname == "beelink-ser5";
-
   boot.loader.systemd-boot.enable = true;
   boot.loader.timeout = 0;
 
   boot.kernelPackages = inputs.chaotic.legacyPackages.${system}.linuxPackages_cachyos;
-  boot.kernelParams = optionals (hostname == "asus-x421da" || hostname == "ms-7c94") [
+  boot.kernelParams = [
     "zswap.enabled=1"
-  ] ++ [
     "pcie_acs_override=downstream,multifunction"
     "amd_pstate=active"
     "mitigations=off"
