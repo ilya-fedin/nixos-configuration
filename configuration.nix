@@ -371,6 +371,7 @@ with lib;
   services.logind.killUserProcesses = true;
   services.logind.extraConfig = "UserStopDelaySec=0";
   services.earlyoom.enable = true;
+  systemd.oomd.enable = false;
   services.journald.extraConfig = "SystemMaxUse=100M";
   services.resolved.enable = true;
   services.resolved.dnssec = "false";
