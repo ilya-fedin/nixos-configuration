@@ -184,7 +184,7 @@ with lib;
     haruna
     krita
     wget
-    nur.repos.ilya-fedin.kotatogram-desktop-with-patched-qt
+    kotatogram-desktop
     qbittorrent
     libarchive
     unzip
@@ -365,8 +365,10 @@ with lib;
     })
   ];
   services.fstrim.enable = true;
-  services.logind.killUserProcesses = true;
-  services.logind.extraConfig = "UserStopDelaySec=0";
+  services.logind.settings.Login = {
+    KillUserProcesses = true;
+    UserStopDelaySec = 0;
+  };
   services.earlyoom.enable = true;
   systemd.oomd.enable = false;
   services.journald.extraConfig = "SystemMaxUse=100M";
