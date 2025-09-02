@@ -413,7 +413,8 @@ with lib;
   };
   services.udisks2.enable = true;
   services.upower.enable = true;
-  services.power-profiles-daemon.enable = hostname != "asus-x421da";
+  services.power-profiles-daemon.enable = false;
+  services.tuned.enable = hostname != "asus-x421da";
   services.tlp = optionalAttrs (hostname == "asus-x421da") {
     enable = true;
     settings = {
