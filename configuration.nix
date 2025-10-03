@@ -213,6 +213,7 @@ with lib;
     CUPS_SERVER = "beelink-ser5";
   };
 
+  programs.command-not-found.enable = true;
   programs.command-not-found.dbPath = "${builtins.fetchTarball "https://channels.nixos.org/nixos-unstable/nixexprs.tar.xz"}/programs.sqlite";
 
   programs.fish.enable = true;
