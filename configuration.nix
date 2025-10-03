@@ -458,7 +458,7 @@ with lib;
   services.avahi.publish.userServices = true;
 
   services.samba.enable = true;
-  services.samba.package = pkgs.sambaFull;
+  services.samba.package = pkgs.nur.repos.ilya-fedin.sambaWithMDNS;
   services.samba.nsswins = true;
   services.samba-wsdd.enable = true;
 
