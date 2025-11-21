@@ -278,6 +278,11 @@ with lib;
     ];
   };
 
+  programs.digitalbitbox = optionalAttrs (hostname == "asus-x421da" || hostname == "ms-7c94") {
+    enable = true;
+    package = pkgs.bitbox;
+  };
+
   systemd.packages = with pkgs; optionals (hostname == "asus-x421da" || hostname == "ms-7c94") [
     dconf
   ] ++ optionals (hostname == "beelink-ser5") [
@@ -315,13 +320,7 @@ with lib;
   services.nixseparatedebuginfod.enable = true;
   services.irqbalance.enable = true;
   services.udev.optimalSchedulers = true;
-  services.udev.packages = [
-    (pkgs.runCommand "bitbox02-udev" {} ''
-      mkdir -p $out/etc/udev/rules.d
-      printf "SUBSYSTEM==\"usb\", TAG+=\"uaccess\", TAG+=\"udev-acl\", SYMLINK+=\"bitbox02_%%n\", ATTRS{idVendor}==\"03eb\", ATTRS{idProduct}==\"2403\"\n" > $out/etc/udev/rules.d/53-hid-bitbox02.rules && printf "KERNEL==\"hidraw*\", SUBSYSTEM==\"hidraw\", ATTRS{idVendor}==\"03eb\", ATTRS{idProduct}==\"2403\", TAG+=\"uaccess\", TAG+=\"udev-acl\", SYMLINK+=\"bitbox02_%%n\"\n" > $out/etc/udev/rules.d/54-hid-bitbox02.rules
-      printf "SUBSYSTEM==\"usb\", TAG+=\"uaccess\", TAG+=\"udev-acl\", SYMLINK+=\"dbb%%n\", ATTRS{idVendor}==\"03eb\", ATTRS{idProduct}==\"2402\"\n" > $out/etc/udev/rules.d/51-hid-digitalbitbox.rules && printf "KERNEL==\"hidraw*\", SUBSYSTEM==\"hidraw\", ATTRS{idVendor}==\"03eb\", ATTRS{idProduct}==\"2402\", TAG+=\"uaccess\", TAG+=\"udev-acl\", SYMLINK+=\"dbbf%%n\"\n" > $out/etc/udev/rules.d/52-hid-digitalbitbox.rules
-    '')
-  ] ++ optionals (hostname == "beelink-ser5") [
+  services.udev.packages = optionals (hostname == "beelink-ser5") [
     (pkgs.writeTextFile {
       name = "95-udisks-mount.rules";
       text = (with pkgs; ''
