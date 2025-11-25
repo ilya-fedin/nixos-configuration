@@ -317,7 +317,7 @@ with lib;
     node-red.path = [ "/run/wrappers" config.system.path ];
   };
 
-  services.nixseparatedebuginfod.enable = true;
+  services.nixseparatedebuginfod2.enable = true;
   services.irqbalance.enable = true;
   services.udev.optimalSchedulers = true;
   services.udev.packages = optionals (hostname == "beelink-ser5") [
@@ -529,12 +529,6 @@ with lib;
     enable = true;
     onShutdown = "shutdown";
     qemu.package = pkgs.qemu_kvm;
-    qemu.ovmf.packages = [
-      (pkgs.OVMF.override {
-        secureBoot = true;
-        tpmSupport = true;
-      }).fd
-    ];
   } // optionalAttrs (hostname == "ms-7c94") {
     hooks.qemu.win11 = pkgs.writeShellScript "win11" ''
       if [ "$1" != "win11" ]; then
