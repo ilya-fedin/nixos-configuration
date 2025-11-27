@@ -113,6 +113,7 @@ with lib;
     nur.repos.ilya-fedin.hplipWithPlugin
     sane-airscan
   ];
+  hardware.sane.disabledDefaultBackends = optionals (hostname == "beelink-ser5") [ "net" ];
 
   services.saned = optionalAttrs (hostname == "beelink-ser5") {
     enable = true;
@@ -151,7 +152,15 @@ with lib;
 
   time.timeZone = "Europe/Saratov";
 
-  environment.etc.nixpkgs.source = inputs.nixpkgs.${system};
+  environment.etc = {
+    nixpkgs.source = inputs.nixpkgs.${system};
+  } // optionalAttrs (hostname == "beelink-ser5") {
+    "default/airsane".source = pkgs.runCommand "airsane.default" {} ''
+      cp ${pkgs.nur.repos.ilya-fedin.airsane + "/etc/default/airsane"} $out
+      substituteInPlace $out --replace-fail LISTEN_PORT=8090 LISTEN_PORT=8091
+    '';
+    airsane.source = pkgs.nur.repos.ilya-fedin.airsane + "/etc/airsane";
+  };
 
   environment.systemPackages = with pkgs; [
     file
@@ -286,6 +295,7 @@ with lib;
   systemd.packages = with pkgs; optionals (hostname == "asus-x421da" || hostname == "ms-7c94") [
     dconf
   ] ++ optionals (hostname == "beelink-ser5") [
+    nur.repos.ilya-fedin.airsane
     qbittorrent-nox
   ];
 
@@ -295,6 +305,18 @@ with lib;
     NetworkManager-wait-online.wantedBy = mkForce [];
   } // optionalAttrs (hostname == "beelink-ser5") {
     plex.serviceConfig.KillSignal = mkForce null;
+
+    airsaned = {
+      environment = {
+        SANE_CONFIG_DIR = "/etc/sane-config";
+        LD_LIBRARY_PATH = "/etc/sane-libs";
+      };
+      serviceConfig = {
+        User = "scanner";
+        Group = "scanner";
+      };
+      wantedBy = [ "multi-user.target" ];
+    };
   
     "udisks-mount@" = {
       requires = [ "udisks2.service" ];
