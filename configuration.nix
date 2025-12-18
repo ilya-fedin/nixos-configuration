@@ -3,7 +3,6 @@
 with lib;
 {
   imports = [
-    inputs.chaotic.nixosModules.default
     inputs.vscode-server.nixosModules.default
   ] ++ attrValues inputs.nur-no-pkgs.${system}.repos.ilya-fedin.modules;
 
@@ -58,7 +57,7 @@ with lib;
   boot.loader.systemd-boot.enable = true;
   boot.loader.timeout = 0;
 
-  boot.kernelPackages = inputs.chaotic.legacyPackages.${system}.linuxPackages_cachyos;
+  boot.kernelPackages = pkgs.linuxPackages_xanmod_latest;
   boot.kernelParams = [
     "zswap.enabled=1"
     "pcie_acs_override=downstream,multifunction"
