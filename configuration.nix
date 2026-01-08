@@ -268,7 +268,6 @@ with lib;
 
   programs.ssh.startAgent = true;
   programs.ssh.enableAskPassword = true;
-  programs.adb.enable = true;
   programs.direnv.enable = true;
 
   programs.ssh.extraConfig = ''
@@ -681,7 +680,6 @@ with lib;
       "networkmanager"
       "docker"
       "libvirtd"
-      "adbusers"
       "sambashare"
     ];
     uid = 1000;
