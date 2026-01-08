@@ -302,6 +302,7 @@ with lib;
   } // optionalAttrs (hostname != "beelink-ser5") {
     NetworkManager-wait-online.wantedBy = mkForce [];
   } // optionalAttrs (hostname == "beelink-ser5") {
+    power-profiles-daemon.wantedBy = [ "multi-user.target" ];
     plex.serviceConfig.KillSignal = mkForce null;
 
     airsaned = {
@@ -432,8 +433,7 @@ with lib;
   };
   services.udisks2.enable = true;
   services.upower.enable = true;
-  services.power-profiles-daemon.enable = false;
-  services.tuned.enable = hostname != "asus-x421da";
+  services.power-profiles-daemon.enable = hostname != "asus-x421da";
   services.tlp = optionalAttrs (hostname == "asus-x421da") {
     enable = true;
     pd.enable = true;
