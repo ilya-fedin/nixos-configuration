@@ -681,7 +681,6 @@ with lib;
       "networkmanager"
       "docker"
       "libvirtd"
-      "vboxusers"
       "adbusers"
       "sambashare"
     ];
