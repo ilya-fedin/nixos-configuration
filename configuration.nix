@@ -436,6 +436,7 @@ with lib;
   services.tuned.enable = hostname != "asus-x421da";
   services.tlp = optionalAttrs (hostname == "asus-x421da") {
     enable = true;
+    pd.enable = true;
     settings = {
       CPU_SCALING_GOVERNOR_ON_BAT = "conservative";
       CPU_BOOST_ON_AC = "0";
