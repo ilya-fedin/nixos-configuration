@@ -411,6 +411,18 @@ with lib;
       '';
       destination = "/etc/udev/rules.d/99-udisks2.rules";
     })
+    (pkgs.writeTextFile {
+      name = "99-xiaomi-rc.hwdb";
+      text = ''
+        id-input:modalias:input:b0005v2717p32B9e0003-e0,1,2,3,4,*
+         ID_INPUT_TABLET=
+         ID_INPUT_TABLET_PAD=
+
+        evdev:input:b0005v2717p32B9e0003*
+         KEYBOARD_KEY_c0041=enter
+      '';
+      destination = "/etc/udev/hwdb.d/99-xiaomi-rc.hwdb";
+    })
   ];
   services.fstrim.enable = true;
   services.logind.settings.Login = {
