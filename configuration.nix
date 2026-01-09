@@ -334,6 +334,34 @@ with lib;
       wantedBy = [ "multi-user.target" ];
     };
 
+    display-manager = {
+      description = "Kodi standalone (GBM)";
+      after = [
+        "remote-fs.target"
+        "systemd-user-sessions.service"
+        "network-online.target"
+        "nss-lookup.target"
+        "sound.target"
+        "bluetooth.target"
+        "polkit.service"
+        "upower.service"
+        "mysqld.service"
+        "lircd.service"
+      ];
+      wants = [ "network-online.target" "polkit.service" "upower.service" ];
+      conflicts = [ "autovt@tty1.service" ];
+      restartIfChanged = false;
+      serviceConfig = with pkgs; {
+        User = "ilya";
+        PAMName = "login";
+        TTYPath = "/dev/tty1";
+        ExecStart = "${kodi-gbm}/lib/kodi/kodi.bin --standalone";
+        Restart = "always";
+        StandardInput = "tty";
+        StandardOutput = "journal";
+      };
+    };
+
     node-red.path = [ "/run/wrappers" config.system.path ];
   };
 
@@ -568,26 +596,10 @@ with lib;
           ;;
         esac
     '';
-  } // optionalAttrs (hostname == "beelink-ser5") {
-    hooks.qemu.LibreELEC = pkgs.writeShellScript "LibreELEC" ''
-      if [ "$1" != "LibreELEC" ]; then
-        exit
-      fi
-
-      case $2 in
-        prepare)
-          modprobe -r amdgpu
-          ;;
-        release)
-          modprobe amdgpu
-          systemctl --no-block restart systemd-vconsole-setup
-          ;;
-        esac
-    '';
   };
 
   hardware.alsa.enablePersistence = hostname == "ms-7c94";
-  security.rtkit.enable = hostname == "asus-x421da" || hostname == "ms-7c94";
+  security.rtkit.enable = true;
   services.pipewire = optionalAttrs (hostname == "ms-7c94") {
     wireplumber.configPackages = singleton (pkgs.writeTextDir "share/wireplumber/wireplumber.conf.d/51-alsa-custom.conf" ''
       monitor.alsa.rules = [
@@ -618,6 +630,8 @@ with lib;
       ]
     '');
   };
+
+  services.graphical-desktop.enable = true;
 
   services.xserver = optionalAttrs (hostname == "asus-x421da" || hostname == "ms-7c94") {
     xkb.layout = "us,ru";
