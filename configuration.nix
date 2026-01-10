@@ -173,6 +173,8 @@ with lib;
     nur.repos.ilya-fedin.termbin
     config.boot.kernelPackages.usbip
     nur.repos.ilya-fedin.nixos-collect-garbage
+  ] ++ optionals (hostname == "beelink-ser5") [
+    connman
   ] ++ optionals (hostname == "asus-x421da" || hostname == "ms-7c94") ([
     adapta-gtk-theme
     adapta-kde-theme
@@ -334,6 +336,28 @@ with lib;
       wantedBy = [ "multi-user.target" ];
     };
 
+    connman = {
+      description = "Connection service";
+      wantedBy = [ "multi-user.target" ];
+      after = [ "iwd.service" ];
+      requires = [ "iwd.service" ];
+      serviceConfig = {
+        Type = "dbus";
+        BusName = "net.connman";
+        Restart = "on-failure";
+        ExecStart = toString (
+          with pkgs; [
+            "${connman}/sbin/connmand"
+            "--noplugin=ethernet"
+            "--wifi=iwd_agent"
+            "--nodaemon"
+            "--nodnsproxy"
+          ]
+        );
+        StandardOutput = "null";
+      };
+    };
+
     display-manager = {
       description = "Kodi standalone (GBM)";
       after = [
@@ -355,7 +379,19 @@ with lib;
         User = "ilya";
         PAMName = "login";
         TTYPath = "/dev/tty1";
-        ExecStart = "${kodi-gbm}/lib/kodi/kodi.bin --standalone";
+        ExecStart = (with kodi-gbm.pythonPackages; (pkgs: runCommand "kodi-gbm" {} ''
+          . ${makeWrapper}/nix-support/setup-hook
+          mkdir -p $out/bin
+          for exe in kodi{,-standalone}
+          do
+            makeWrapper ${kodi-gbm}/bin/$exe $out/bin/$exe \
+              --prefix PYTHONPATH : "${makePythonPath pkgs}"
+          done
+        '') [
+          dbus-python
+          (callPackage ./dbussy.nix {})
+          requests
+        ]) + "/bin/kodi-standalone";
         Restart = "always";
         StandardInput = "tty";
         StandardOutput = "journal";
