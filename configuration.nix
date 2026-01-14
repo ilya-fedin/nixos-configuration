@@ -57,7 +57,7 @@ with lib;
   boot.loader.systemd-boot.enable = true;
   boot.loader.timeout = 0;
 
-  boot.kernelPackages = pkgs.linuxPackages_xanmod_latest;
+  boot.kernelPackages = if hostname == "asus-x421da" then pkgs.linuxPackages_xanmod else pkgs.linuxPackages_xanmod_latest;
   boot.kernelParams = [
     "zswap.enabled=1"
     "zswap.max_pool_percent=90"
