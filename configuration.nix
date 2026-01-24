@@ -470,7 +470,7 @@ with lib;
   systemd.oomd.enable = false;
   services.journald.extraConfig = "SystemMaxUse=100M";
   services.resolved.enable = true;
-  services.resolved.dnssec = "false";
+  services.resolved.settings.Resolve.DNSSEC = false;
   security.polkit.enable = true;
   security.polkit.extraConfig = optionalString (hostname == "beelink-ser5") ''
     polkit.addRule(function(action, subject) {
