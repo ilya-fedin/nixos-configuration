@@ -469,7 +469,7 @@ with lib;
     KillUserProcesses = true;
     UserStopDelaySec = 0;
   };
-  services.earlyoom.enable = true;
+  services.nohang.enable = true;
   systemd.oomd.enable = false;
   services.journald.extraConfig = "SystemMaxUse=100M";
   services.resolved.enable = true;
