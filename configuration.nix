@@ -402,9 +402,9 @@ with lib;
   };
 
   services.nixseparatedebuginfod2.enable = true;
-  services.ananicy.enable = true;
-  services.ananicy.package = pkgs.ananicy-cpp;
-  services.ananicy.rulesProvider = pkgs.ananicy-rules-cachyos;
+  services.scx.enable = true;
+  services.scx.scheduler = "scx_lavd";
+  services.scx.extraArgs = [ "--performance" ];
   services.irqbalance.enable = true;
   services.udev.optimalSchedulers = true;
   services.udev.packages = optionals (hostname == "beelink-ser5") [
