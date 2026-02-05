@@ -54,13 +54,16 @@ with lib;
     device = "/dev/disk/by-partlabel/swap";
   };
 
+  zramSwap = {
+    enable = true;
+    memoryPercent = 100;
+  };
+
   boot.loader.systemd-boot.enable = true;
   boot.loader.timeout = 0;
 
   boot.kernelPackages = if hostname == "asus-x421da" then pkgs.linuxPackages_xanmod else pkgs.linuxPackages_xanmod_latest;
   boot.kernelParams = [
-    "zswap.enabled=1"
-    "zswap.max_pool_percent=90"
     "pcie_acs_override=downstream,multifunction"
     "amd_pstate=active"
     "mitigations=off"
