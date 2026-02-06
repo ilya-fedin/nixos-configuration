@@ -707,11 +707,11 @@ with lib;
   fonts = optionalAttrs (hostname == "asus-x421da" || hostname == "ms-7c94") {
     packages = with pkgs; [
       nur.repos.ilya-fedin.exo2
-      nur.repos.ilya-fedin.cascadia-code-powerline
+      cascadia-code
       unifont
       symbola
       joypixels
-      nur.repos.ilya-fedin.nerd-fonts-symbols
+      nerd-fonts.symbols-only
     ];
 
     enableDefaultPackages = false;
