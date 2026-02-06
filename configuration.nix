@@ -287,7 +287,6 @@ with lib;
     languagePacks = [ "ru" ];
     nativeMessagingHosts.packages = with pkgs; [
       firefoxpwa
-      vdhcoapp
     ];
   };
 
