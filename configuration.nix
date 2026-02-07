@@ -706,7 +706,7 @@ with lib;
 
   fonts = optionalAttrs (hostname == "asus-x421da" || hostname == "ms-7c94") {
     packages = with pkgs; [
-      (google-fonts.override { fonts = [ "Exo2" ]; })
+      (google-fonts.override { fonts = [ "Manrope" ]; })
       cascadia-code
       unifont
       symbola
@@ -717,7 +717,7 @@ with lib;
     enableDefaultPackages = false;
 
     fontconfig.crOSMaps = true;
-    fontconfig.defaultFonts.sansSerif = [ "Exo 2" "Symbols Nerd Font" ];
+    fontconfig.defaultFonts.sansSerif = [ "Manrope" "Symbols Nerd Font" ];
     fontconfig.defaultFonts.serif = [ "Tinos" "Symbols Nerd Font" ];
     fontconfig.defaultFonts.monospace = [ "Cascadia Code PL" "Symbols Nerd Font" ];
     fontconfig.defaultFonts.emoji = [ "JoyPixels" ];
