@@ -245,11 +245,11 @@
         "nixpkgs": "nixpkgs_4"
       },
       "locked": {
-        "lastModified": 1769652082,
-        "narHash": "sha256-mpH0BhpOwLtmM72T7YUMkfC+Am0Roc/mjgSMzG1FOxo=",
+        "lastModified": 1771314114,
+        "narHash": "sha256-BAfxa48hH+L0HvbjEVlK6TEIWskYiHF6lSmaNzPVsv4=",
         "ref": "refs/heads/master",
-        "rev": "acd8a96ba6ea9ce9e624d1cf03d878660623595c",
-        "revCount": 1022,
+        "rev": "c9525c76b4d092ea0646024f78eeafeafff0d71b",
+        "revCount": 1024,
         "type": "git",
         "url": "file:///home/ilya/nur-repository"
       },
