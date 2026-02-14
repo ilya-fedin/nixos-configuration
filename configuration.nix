@@ -175,7 +175,6 @@ with lib;
     git
     htop
     nur.repos.ilya-fedin.termbin
-    config.boot.kernelPackages.usbip
     nur.repos.ilya-fedin.nixos-collect-garbage
   ] ++ optionals (hostname == "beelink-ser5") [
     connman
@@ -400,8 +399,6 @@ with lib;
         StandardOutput = "journal";
       };
     };
-
-    node-red.path = [ "/run/wrappers" config.system.path ];
   };
 
   services.nixseparatedebuginfod2.enable = true;
@@ -504,15 +501,6 @@ with lib;
       }
     });
   '';
-  security.sudo.extraRules = optional (hostname == "beelink-ser5") {
-    users = [ "node-red" ];
-    commands = [
-      {
-        command = "ALL";
-        options = [ "NOPASSWD" ] ++ config.security.sudo.defaultOptions;
-      }
-    ];
-  };
   services.udisks2.enable = true;
   services.upower.enable = true;
   services.power-profiles-daemon.enable = hostname != "asus-x421da";
@@ -618,7 +606,25 @@ with lib;
 
   services.rpcbind.enable = hostname == "beelink-ser5";
   services.plex.enable = hostname == "beelink-ser5";
-  services.node-red.enable = hostname == "beelink-ser5";
+  services.webhook = optionalAttrs (hostname == "beelink-ser5") {
+    enable = true;
+    user = "root";
+    group = "root";
+    urlPrefix = "";
+    hooks = {
+      usbip-attach = {
+        execute-command = "${pkgs.systemd}/bin/systemd-run";
+        pass-arguments-to-command = [
+          { source = "string"; name = "${config.boot.kernelPackages.usbip}/bin/usbip"; }
+          { source = "string"; name = "attach"; }
+          { source = "string"; name = "-r"; }
+          { source = "url"; name = "ip"; }
+          { source = "string"; name = "-b"; }
+          { source = "url"; name = "busid"; }
+        ];
+      };
+    };
+  };
 
   services.vscode-server.enable = true;
 
