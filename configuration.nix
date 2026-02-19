@@ -334,7 +334,8 @@ with lib;
 
     "qbittorrent-nox@ilya" = {
       overrideStrategy = "asDropin";
-      serviceConfig.ExecStartPre = "${pkgs.coreutils}/bin/sleep 10";
+      after = [ "systemd-udev-settle.service" ];
+      requires = [ "systemd-udev-settle.service" ];
       wantedBy = [ "multi-user.target" ];
     };
 
