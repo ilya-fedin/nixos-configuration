@@ -3,6 +3,7 @@
 with lib;
 {
   imports = [
+    inputs.nix-index-database.nixosModules.default
     inputs.vscode-server.nixosModules.default
   ] ++ attrValues inputs.nur-no-pkgs.${system}.repos.ilya-fedin.modules;
 
@@ -226,8 +227,7 @@ with lib;
     CUPS_SERVER = "beelink-ser5";
   };
 
-  programs.command-not-found.enable = true;
-  programs.command-not-found.dbPath = "${builtins.fetchTarball "https://channels.nixos.org/nixos-unstable/nixexprs.tar.xz"}/programs.sqlite";
+  programs.nix-index-database.comma.enable = true;
 
   programs.fish.enable = true;
 
