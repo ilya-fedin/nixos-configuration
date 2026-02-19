@@ -45,7 +45,10 @@
             nurpkgs = super;
             pkgs = super;
             repoOverrides = {
-              ilya-fedin = import inputs.nur-repo-override {};
+              ilya-fedin = inputs.nur-repo-override.packages.${system} // {
+                inherit (inputs.nur-repo-override) overlays;
+                modules = inputs.nur-repo-override.nixosModules;
+              };
             };
           };
         })
@@ -81,7 +84,10 @@
       };
 
       repoOverrides = {
-        ilya-fedin = import inputs.nur-repo-override {};
+        ilya-fedin = inputs.nur-repo-override.packages.${system} // {
+          inherit (inputs.nur-repo-override) overlays;
+          modules = inputs.nur-repo-override.nixosModules;
+        };
       };
     });
   });
