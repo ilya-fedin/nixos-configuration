@@ -351,7 +351,7 @@ with lib;
         ExecStart = toString (
           with pkgs; [
             "${connman}/sbin/connmand"
-            "--noplugin=ethernet"
+            "--noplugin=loopback,ethernet"
             "--wifi=iwd_agent"
             "--nodaemon"
             "--nodnsproxy"
