@@ -426,7 +426,7 @@ with lib;
 
         # mount or umount for hdds
         LABEL="harddisk"
-        ACTION=="add", PROGRAM="${bash}/bin/sh -c '${coreutils}/bin/grep -E ^/dev/%k\  /proc/mounts || true'", RESULT=="", RUN+="${systemd}/bin/systemctl --no-block restart udisks-mount@/dev/%k.service"
+        ACTION=="add", PROGRAM="${bash}/bin/sh -c '${gnugrep}/bin/grep -E ^/dev/%k\  /proc/mounts || true'", RESULT=="", RUN+="${systemd}/bin/systemctl --no-block restart udisks-mount@/dev/%k.service"
         ACTION=="remove", RUN+="${systemd}/bin/systemctl --no-block stop udisks-mount@/dev/%k.service"
         GOTO="exit"
 
