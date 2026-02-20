@@ -9,14 +9,14 @@
 
 buildPythonPackage rec {
   pname = "dbussy";
-  version = "1.3";
+  version = "1.3-unstable-2024-08-31";
   pyproject = true;
 
   src = fetchFromGitLab {
     owner = "ldo";
     repo = "dbussy";
-    rev = "v${version}";
-    hash = "sha256-FSJpbsOGHfpafy9hfOENDyPDmolmjFDDpJEKnI4pkFc=";
+    rev = "35726d27fd0142ca13fb59e4e0a32e9d85b06659";
+    hash = "sha256-aS8XvUirb50N8UHaedVP4It5SXhUq4m4Bo1fHTGWBgw=";
   };
 
   postPatch = ''
