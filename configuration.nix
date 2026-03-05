@@ -360,46 +360,6 @@ with lib;
         StandardOutput = "null";
       };
     };
-
-    display-manager = {
-      description = "Kodi standalone (GBM)";
-      after = [
-        "remote-fs.target"
-        "systemd-user-sessions.service"
-        "network-online.target"
-        "nss-lookup.target"
-        "sound.target"
-        "bluetooth.target"
-        "polkit.service"
-        "upower.service"
-        "mysqld.service"
-        "lircd.service"
-      ];
-      wants = [ "network-online.target" "polkit.service" "upower.service" ];
-      conflicts = [ "autovt@tty1.service" ];
-      restartIfChanged = false;
-      serviceConfig = with pkgs; {
-        User = "ilya";
-        PAMName = "login";
-        TTYPath = "/dev/tty1";
-        ExecStart = (with kodi-gbm.pythonPackages; (pkgs: runCommand "kodi-gbm" {} ''
-          . ${makeWrapper}/nix-support/setup-hook
-          mkdir -p $out/bin
-          for exe in kodi{,-standalone}
-          do
-            makeWrapper ${kodi-gbm}/bin/$exe $out/bin/$exe \
-              --prefix PYTHONPATH : "${makePythonPath pkgs}"
-          done
-        '') [
-          dbus-python
-          (callPackage ./dbussy.nix {})
-          requests
-        ]) + "/bin/kodi-standalone";
-        Restart = "always";
-        StandardInput = "tty";
-        StandardOutput = "journal";
-      };
-    };
   };
 
   services.nixseparatedebuginfod2.enable = true;
@@ -697,6 +657,31 @@ with lib;
   services.xserver = optionalAttrs (hostname == "asus-x421da" || hostname == "ms-7c94") {
     xkb.layout = "us,ru";
     xkb.options = "grp:win_space_toggle";
+  };
+
+
+  services.greetd = optionalAttrs (hostname == "beelink-ser5") {
+    enable = true;
+    restart = true;
+    settings = rec {
+      default_session = {
+        user = "ilya";
+        command = (with pkgs; with kodi-gbm.pythonPackages; (pkgs: runCommand "kodi-gbm" {} ''
+          . ${makeWrapper}/nix-support/setup-hook
+          mkdir -p $out/bin
+          for exe in kodi{,-standalone}
+          do
+            makeWrapper ${kodi-gbm}/bin/$exe $out/bin/$exe \
+              --prefix PYTHONPATH : "${makePythonPath pkgs}"
+          done
+        '') [
+          dbus-python
+          (callPackage ./dbussy.nix {})
+          requests
+        ]) + "/bin/kodi-standalone";
+      };
+      initial_session = default_session;
+    };
   };
 
   services.displayManager = optionalAttrs (hostname == "asus-x421da" || hostname == "ms-7c94") {
