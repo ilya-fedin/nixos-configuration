@@ -63,7 +63,7 @@ with lib;
   boot.loader.systemd-boot.enable = true;
   boot.loader.timeout = 0;
 
-  boot.kernelPackages = if hostname == "asus-x421da" then pkgs.linuxPackages_xanmod else pkgs.linuxPackages_xanmod_latest;
+  boot.kernelPackages = if hostname == "asus-x421da" then pkgs.linuxPackages_6_12 else pkgs.linuxPackages_xanmod_latest;
   boot.kernelParams = [
     "pcie_acs_override=downstream,multifunction"
     "amd_pstate=active"
