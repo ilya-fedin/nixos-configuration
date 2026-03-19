@@ -258,7 +258,7 @@ with lib;
     '';
   in ''
     function fish_greeting
-        ${neofetch}/bin/neofetch
+        ${fastfetch}/bin/fastfetch
     end
 
     function fish_prompt
