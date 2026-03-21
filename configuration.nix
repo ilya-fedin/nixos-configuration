@@ -433,6 +433,7 @@ with lib;
   systemd.oomd.enable = false;
   services.journald.extraConfig = "SystemMaxUse=100M";
   services.resolved.enable = true;
+  services.resolved.settings.Resolve.MulticastDNS = "resolve";
   services.resolved.settings.Resolve.DNSSEC = false;
   security.polkit.enable = true;
   security.polkit.extraConfig = optionalString (hostname == "beelink-ser5") ''
