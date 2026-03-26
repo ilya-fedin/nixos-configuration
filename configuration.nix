@@ -68,6 +68,7 @@ with lib;
     "pcie_acs_override=downstream,multifunction"
     "amd_pstate=active"
     "mitigations=off"
+    "fbcon=nodefer"
     "panic=1"
     "nowatchdog"
     "nmi_watchdog=0"
