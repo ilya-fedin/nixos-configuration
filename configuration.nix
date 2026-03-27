@@ -687,8 +687,7 @@ with lib;
   };
 
   services.displayManager = optionalAttrs (hostname == "asus-x421da" || hostname == "ms-7c94") {
-    sddm.enable = true;
-    sddm.wayland.enable = true;
+    plasma-login-manager.enable = true;
     autoLogin.enable = true;
     autoLogin.user = "ilya";
     defaultSession = "plasma";
