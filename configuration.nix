@@ -199,7 +199,8 @@ with lib;
     haruna
     krita
     wget
-    kotatogram-desktop
+    telegram-desktop
+    crow-translate
     qbittorrent
     libarchive
     unzip
