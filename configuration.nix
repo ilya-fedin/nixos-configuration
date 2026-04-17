@@ -344,8 +344,9 @@ with lib;
     connman = {
       description = "Connection service";
       wantedBy = [ "multi-user.target" ];
+      before = [ "NetworkManager.service" ];
       after = [ "iwd.service" ];
-      requires = [ "iwd.service" ];
+      wants = [ "iwd.service" "NetworkManager.service" ];
       serviceConfig = {
         Type = "dbus";
         BusName = "net.connman";
