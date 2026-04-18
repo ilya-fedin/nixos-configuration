@@ -337,9 +337,8 @@ with lib;
 
     "qbittorrent-nox@ilya" = {
       overrideStrategy = "asDropin";
-      after = [ "systemd-udev-settle.service" ];
-      requires = [ "systemd-udev-settle.service" ];
       wantedBy = [ "multi-user.target" ];
+      serviceConfig.ExecStartPre = "-${getExe' pkgs.systemd "udevadm"} settle --timeout=180";
     };
 
     connman = {
