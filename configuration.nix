@@ -178,8 +178,6 @@ with lib;
     htop
     nur.repos.ilya-fedin.termbin
     nur.repos.ilya-fedin.nixos-collect-garbage
-  ] ++ optionals (hostname == "beelink-ser5") [
-    connman
   ] ++ optionals (hostname == "asus-x421da" || hostname == "ms-7c94") ([
     adapta-gtk-theme
     adapta-kde-theme
@@ -339,29 +337,6 @@ with lib;
       overrideStrategy = "asDropin";
       wantedBy = [ "multi-user.target" ];
       serviceConfig.ExecStartPre = "-${getExe' pkgs.systemd "udevadm"} settle --timeout=180";
-    };
-
-    connman = {
-      description = "Connection service";
-      wantedBy = [ "multi-user.target" ];
-      before = [ "NetworkManager.service" ];
-      after = [ "iwd.service" ];
-      wants = [ "iwd.service" "NetworkManager.service" ];
-      serviceConfig = {
-        Type = "dbus";
-        BusName = "net.connman";
-        Restart = "on-failure";
-        ExecStart = toString (
-          with pkgs; [
-            "${connman}/sbin/connmand"
-            "--noplugin=loopback,ethernet"
-            "--wifi=iwd_agent"
-            "--nodaemon"
-            "--nodnsproxy"
-          ]
-        );
-        StandardOutput = "null";
-      };
     };
   };
 
