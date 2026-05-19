@@ -197,8 +197,7 @@ with lib;
     haruna
     krita
     wget
-    telegram-desktop
-    crow-translate
+    ayugram-desktop
     qbittorrent
     libarchive
     unzip
