@@ -447,6 +447,7 @@ with lib;
     enable = true;
     pd.enable = true;
     settings = {
+      TLP_PROFILE_BAT = "SAV";
       CPU_SCALING_GOVERNOR_ON_BAT = "conservative";
       CPU_BOOST_ON_AC = "0";
       CPU_BOOST_ON_BAT = "0";
