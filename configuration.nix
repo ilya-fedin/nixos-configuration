@@ -4,7 +4,6 @@ with lib;
 {
   imports = [
     inputs.nix-index-database.nixosModules.default
-    inputs.vscode-server.nixosModules.default
   ] ++ attrValues inputs.nur-no-pkgs.${system}.repos.ilya-fedin.modules;
 
   system.replaceDependencies.replacements = [
@@ -226,6 +225,8 @@ with lib;
     MOZ_DISABLE_CONTENT_SANDBOX = "1";
     CUPS_SERVER = "beelink-ser5";
   };
+
+  programs.nix-ld.enable = true;
 
   programs.nix-index-database.comma.enable = true;
 
@@ -565,8 +566,6 @@ with lib;
       };
     };
   };
-
-  services.vscode-server.enable = true;
 
   virtualisation.docker.enable = true;
   virtualisation.docker.enableOnBoot = hostname == "beelink-ser5";
