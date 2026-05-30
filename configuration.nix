@@ -56,7 +56,7 @@ with lib;
 
   zramSwap = {
     enable = true;
-    memoryPercent = 100;
+    memoryPercent = 400;
   };
 
   boot.loader.systemd-boot.enable = true;
