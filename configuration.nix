@@ -51,11 +51,12 @@ in {
     }
   ];
 
-  nix.nixPath = mkForce [
+  nix.nixPath = [
     "nixpkgs=flake:nixpkgs"
     "nixos-config=/etc/nixos/configuration.nix"
   ];
   nix.settings.trusted-users = [ "root" "@wheel" ];
+  nix.channel.enable = false;
   nix.registry.self.flake = inputs.self;
   nix.registry.nixpkgs.flake = inputs.nixpkgs;
   nix.extraOptions = ''
