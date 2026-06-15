@@ -52,7 +52,7 @@ in {
   ];
 
   nix.nixPath = mkForce [
-    "nixpkgs=/etc/static/nixpkgs"
+    "nixpkgs=flake:nixpkgs"
     "nixos-config=/etc/nixos/configuration.nix"
   ];
   nix.settings.trusted-users = [ "root" "@wheel" ];
@@ -195,9 +195,7 @@ in {
 
   time.timeZone = "Europe/Saratov";
 
-  environment.etc = {
-    nixpkgs.source = inputs.nixpkgs;
-  } // optionalAttrs (hostname == "beelink-ser5") {
+  environment.etc = optionalAttrs (hostname == "beelink-ser5") {
     "default/airsane".source = pkgs.runCommand "airsane.default" {} ''
       cp ${pkgs.nur.repos.ilya-fedin.airsane + "/etc/default/airsane"} $out
       substituteInPlace $out --replace-fail LISTEN_PORT=8090 LISTEN_PORT=8091
