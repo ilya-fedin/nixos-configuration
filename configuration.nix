@@ -1,10 +1,48 @@
 { config, lib, pkgs, inputs, system, hostname, ... }:
 
 with lib;
-{
+let
+  nur-no-pkgs = import inputs.nur {
+    nurpkgs = import inputs.nixpkgs {
+      inherit system;
+      overlays = [];
+    };
+
+    repoOverrides = {
+      ilya-fedin = inputs.nur-repo-override.packages.${system} // {
+        inherit (inputs.nur-repo-override) overlays;
+        modules = inputs.nur-repo-override.nixosModules;
+      };
+    };
+  };
+in {
   imports = [
     inputs.nix-index-database.nixosModules.default
-  ] ++ attrValues inputs.nur-no-pkgs.${system}.repos.ilya-fedin.modules;
+  ] ++ attrValues nur-no-pkgs.repos.ilya-fedin.modules;
+
+  nixpkgs.config = {
+    allowUnfree = true;
+    oraclejdk.accept_license = true;
+    joypixels.acceptLicense = true;
+  };
+
+  nixpkgs.overlays = [
+    (self: super: {
+      nur = import inputs.nur {
+        nurpkgs = super;
+        pkgs = super;
+        repoOverrides = {
+          ilya-fedin = inputs.nur-repo-override.packages.${system} // {
+            inherit (inputs.nur-repo-override) overlays;
+            modules = inputs.nur-repo-override.nixosModules;
+          };
+        };
+      };
+    })
+  ];
+
+  nixpkgs.flake.setFlakeRegistry = false;
+  nixpkgs.flake.setNixPath = false;
 
   system.replaceDependencies.replacements = [
     {
@@ -19,6 +57,7 @@ with lib;
   ];
   nix.settings.trusted-users = [ "root" "@wheel" ];
   nix.registry.self.flake = inputs.self;
+  nix.registry.nixpkgs.flake = inputs.nixpkgs;
   nix.extraOptions = ''
     tarball-ttl = 604800
     experimental-features = nix-command flakes
@@ -157,7 +196,7 @@ with lib;
   time.timeZone = "Europe/Saratov";
 
   environment.etc = {
-    nixpkgs.source = inputs.nixpkgs.${system};
+    nixpkgs.source = inputs.nixpkgs;
   } // optionalAttrs (hostname == "beelink-ser5") {
     "default/airsane".source = pkgs.runCommand "airsane.default" {} ''
       cp ${pkgs.nur.repos.ilya-fedin.airsane + "/etc/default/airsane"} $out

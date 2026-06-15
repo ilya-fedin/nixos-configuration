@@ -26,43 +26,7 @@
 
     forAllSystems = f: lib.genAttrs (lib.unique (map (host: host.system) hosts)) f;
     forAllHosts = f: lib.listToAttrs (map (host: lib.nameValuePair host.hostname (f host)) hosts);
-  in (inputs: let
-    inherit (inputs) lib;
-
-    pkgs = forAllSystems (system: import inputs.nixpkgs.${system} {
-      inherit system;
-
-      config = {
-        allowUnfree = true;
-        oraclejdk.accept_license = true;
-        joypixels.acceptLicense = true;
-      };
-
-      overlays = [
-        (self: super: {
-          nur = import inputs.nur {
-            nurpkgs = super;
-            pkgs = super;
-            repoOverrides = {
-              ilya-fedin = inputs.nur-repo-override.packages.${system} // {
-                inherit (inputs.nur-repo-override) overlays;
-                modules = inputs.nur-repo-override.nixosModules;
-              };
-            };
-          };
-        })
-      ];
-    });
-  in {
-    nixosConfigurations = forAllHosts ({ hostname, system }: lib.${system}.nixosSystem {
-      inherit system;
-      pkgs = pkgs.${system};
-      modules = [ ./configuration.nix ];
-      specialArgs = { inherit inputs system hostname; };
-    });
-
-    legacyPackages = pkgs;
-  }) (inputs // rec {
+  in let
     nixpkgs = forAllSystems (system: (import inputs.nixpkgs {
       inherit system;
       overlays = [];
@@ -75,19 +39,11 @@
     lib = forAllSystems (system: ((import (nixpkgs.${system} + "/flake.nix")).outputs {
       self = nixpkgs.${system};
     }).lib);
-
-    nur-no-pkgs = forAllSystems (system: import inputs.nur {
-      nurpkgs = import nixpkgs.${system} {
-        inherit system;
-        overlays = [];
-      };
-
-      repoOverrides = {
-        ilya-fedin = inputs.nur-repo-override.packages.${system} // {
-          inherit (inputs.nur-repo-override) overlays;
-          modules = inputs.nur-repo-override.nixosModules;
-        };
-      };
+  in {
+    nixosConfigurations = forAllHosts ({ hostname, system }: lib.${system}.nixosSystem {
+      inherit system;
+      modules = [ ./configuration.nix ];
+      specialArgs = { inherit inputs system hostname; };
     });
-  });
+  };
 }
