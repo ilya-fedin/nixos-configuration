@@ -55,6 +55,8 @@ in {
     "nixpkgs=flake:nixpkgs"
     "nixos-config=/etc/nixos/configuration.nix"
   ];
+  nix.settings.substituters = [ "https://attic.xuyh0120.win/lantian" ];
+  nix.settings.trusted-public-keys = [ "lantian:EeAUQ+W+6r7EtwnmYjeVwx5kOGEBpjlBfPlzGlTNvHc=" ];
   nix.settings.trusted-users = [ "root" "@wheel" ];
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
   nix.channel.enable = false;
@@ -99,7 +101,7 @@ in {
   boot.loader.systemd-boot.enable = true;
   boot.loader.timeout = 0;
 
-  boot.kernelPackages = if hostname == "asus-x421da" then pkgs.linuxPackages_6_12 else pkgs.linuxPackages_xanmod_latest;
+  boot.kernelPackages = inputs.nix-cachyos-kernel.legacyPackages.${system}.linuxPackages-cachyos-bore-lto-x86_64-v3;
   boot.kernelParams = [
     "pcie_acs_override=downstream,multifunction"
     "amd_pstate=active"
@@ -376,9 +378,9 @@ in {
   };
 
   services.nixseparatedebuginfod2.enable = true;
-  services.scx.enable = true;
-  services.scx.scheduler = "scx_lavd";
-  services.scx.extraArgs = [ "--performance" ];
+  services.ananicy.enable = true;
+  services.ananicy.package = pkgs.ananicy-cpp;
+  services.ananicy.rulesProvider = pkgs.ananicy-rules-cachyos;
   services.irqbalance.enable = true;
   services.udev.optimalSchedulers = true;
   services.udev.packages = optionals (hostname == "beelink-ser5") [
