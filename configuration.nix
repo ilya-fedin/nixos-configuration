@@ -56,13 +56,10 @@ in {
     "nixos-config=/etc/nixos/configuration.nix"
   ];
   nix.settings.trusted-users = [ "root" "@wheel" ];
+  nix.settings.experimental-features = [ "nix-command" "flakes" ];
   nix.channel.enable = false;
   nix.registry.self.flake = inputs.self;
   nix.registry.nixpkgs.flake = inputs.nixpkgs;
-  nix.extraOptions = ''
-    tarball-ttl = 604800
-    experimental-features = nix-command flakes
-  '';
 
   nur.ilya-fedin.cache.enable = true;
 
