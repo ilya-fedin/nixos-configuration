@@ -345,7 +345,6 @@ in {
     NetworkManager-wait-online.wantedBy = mkForce [];
   } // optionalAttrs (hostname == "beelink-ser5") {
     power-profiles-daemon.wantedBy = [ "multi-user.target" ];
-    plex.serviceConfig.KillSignal = mkForce null;
 
     airsaned = {
       environment = {
@@ -357,6 +356,11 @@ in {
         Group = "scanner";
       };
       wantedBy = [ "multi-user.target" ];
+    };
+
+    plex.serviceConfig = {
+      KillSignal = mkForce null;
+      TimeoutStopSec = 10;
     };
   
     "udisks-mount@" = {
