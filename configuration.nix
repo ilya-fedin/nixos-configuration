@@ -127,6 +127,11 @@ in {
    ++ optionals (hostname == "ms-7c94" || hostname == "beelink-ser5") [ "xhci_pci" "usbhid" ];
   boot.blacklistedKernelModules = [ "iTCO_wdt" "sp5100_tco" "uvcvideo" ];
 
+  boot.extraModprobeConfig = ''
+    options kvm halt_poll_ns=0
+    options kvm_amd avic=1
+  '';
+
   boot.tmp.cleanOnBoot = true;
   boot.consoleLogLevel = 3;
   boot.initrd.verbose = false;
