@@ -326,7 +326,7 @@ in {
 
   programs.firefox = optionalAttrs (hostname == "asus-x421da" || hostname == "ms-7c94") {
     enable = true;
-    package = inputs.firefox.packages.${pkgs.system}.firefox-beta-bin;
+    package = inputs.firefox.packages.${pkgs.system}.firefox-devedition-bin;
     languagePacks = [ "ru" ];
     nativeMessagingHosts.packages = with pkgs; [
       firefoxpwa
