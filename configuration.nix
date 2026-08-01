@@ -681,7 +681,7 @@ in {
 
   services.xserver = optionalAttrs (hostname == "asus-x421da" || hostname == "ms-7c94") {
     xkb.layout = "us,ru";
-    xkb.options = "grp:win_space_toggle";
+    xkb.options = "grp:win_space_toggle,lv3:ralt_switch,misc:typo";
   };
 
 
