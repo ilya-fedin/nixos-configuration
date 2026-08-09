@@ -81,12 +81,6 @@ in {
       fsType = "none";
       options = [ "bind,x-systemd.automount" ];
     };
-
-    "/srv/nfs/videos" = {
-      device = "/home/ilya/videos";
-      fsType = "none";
-      options = [ "bind,x-systemd.automount" ];
-    };
   };
 
   swapDevices = optional (hostname == "asus-x421da" || hostname == "ms-7c94") {
@@ -563,33 +557,12 @@ in {
       "create mask" = "0777";
       "directory mask" = "0777";
     };
-
-    videos = {
-      path = "/home/ilya/videos";
-      available = "yes";
-      browsable = "yes";
-      public = "yes";
-      writable = "yes";
-      "create mask" = "0777";
-      "directory mask" = "0777";
-    };
-
-    PS2 = {
-      path = "/home/ilya/PS2";
-      available = "yes";
-      browsable = "yes";
-      public = "yes";
-      writable = "yes";
-      "create mask" = "0777";
-      "directory mask" = "0777";
-    };
   };
 
   services.nfs.server.enable = hostname == "beelink-ser5";
   services.nfs.server.exports = optionalString (hostname == "beelink-ser5") ''
     /srv/nfs     *(rw,sync,crossmnt,fsid=0)
     /srv/nfs/media *(rw,sync,all_squash,insecure,anonuid=1000,anongid=1000)
-    /srv/nfs/videos *(rw,sync,all_squash,insecure,anonuid=1000,anongid=1000)
   '';
 
   services.rpcbind.enable = hostname == "beelink-ser5";
