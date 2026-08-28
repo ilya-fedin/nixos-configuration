@@ -278,21 +278,22 @@ in {
   '';
 
   programs.fish.promptInit = with pkgs; with nur.repos.ilya-fedin; let
-    silverConfig = writeText "silver.toml" ''
-      [[left]]
-      name = "status"
-      color.background = "black"
-      color.foreground = "none"
+    silverConfig = writeText "silver.yml" ''
+      left:
+        - name: status
+          color:
+            background: black
+            foreground: none
 
-      [[left]]
-      name = "dir"
-      color.background = "blue"
-      color.foreground = "black"
+        - name: dir
+          color:
+            background: blue
+            foreground: black
 
-      [[left]]
-      name = "git"
-      color.background = "green"
-      color.foreground = "black"
+        - name: git
+          color:
+            background: green
+            foreground: black
     '';
   in ''
     function fish_greeting
