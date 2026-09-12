@@ -712,6 +712,34 @@ in {
     fontconfig.defaultFonts.serif = [ "Tinos" "Symbols Nerd Font" ];
     fontconfig.defaultFonts.monospace = [ "Cascadia Code PL" "Symbols Nerd Font" ];
     fontconfig.defaultFonts.emoji = [ "JoyPixels" ];
+    fontconfig.localConf = ''
+      <?xml version="1.0"?>
+      <!DOCTYPE fontconfig SYSTEM "urn:fontconfig:fonts.dtd">
+      <fontconfig>
+        <match target="font">
+          <test name="family" compare="contains"><string>Unifont</string></test>
+          <edit name="matrix" mode="assign">
+            <times><name>matrix</name>
+              <matrix>
+                <if><less><name>pixelsize</name><double>24</double></less>
+                  <divide><double>16</double><name>pixelsize</name></divide>
+                  <divide><times><round><divide><name>pixelsize</name><double>16</double></divide></round><double>16</double></times><name>pixelsize</name></divide>
+                </if>
+                <double>0</double> <double>0</double>
+                <if><less><name>pixelsize</name><double>24</double></less>
+                  <divide><double>16</double><name>pixelsize</name></divide>
+                  <divide><times><round><divide><name>pixelsize</name><double>16</double></divide></round><double>16</double></times><name>pixelsize</name></divide>
+                </if>
+              </matrix>
+            </times>
+          </edit>
+          <edit name="antialias" mode="assign"><bool>false</bool></edit>
+          <edit name="rgba" mode="assign"><const>none</const></edit>
+          <edit name="hinting" mode="assign"><bool>false</bool></edit>
+          <edit name="hintstyle" mode="assign"><const>hintnone</const></edit>
+        </match>
+      </fontconfig>
+    '';
   };
 
   users.mutableUsers = false;
