@@ -148,7 +148,6 @@ in {
 
   hardware.logitech.wireless = optionalAttrs (hostname == "ms-7c94") {
     enable = true;
-    enableGraphical = true;
   };
 
   hardware.sane.enable = true;
@@ -319,6 +318,10 @@ in {
     ServerAliveInterval 100
   '';
 
+  programs.solaar = optionalAttrs (hostname == "ms-7c94") {
+    enable = true;
+  };
+
   programs.firefox = optionalAttrs (hostname == "asus-x421da" || hostname == "ms-7c94") {
     enable = true;
     package = inputs.firefox.packages.${pkgs.system}.firefox-devedition-bin;
@@ -470,7 +473,7 @@ in {
   };
   services.nohang.enable = true;
   systemd.oomd.enable = false;
-  services.journald.extraConfig = "SystemMaxUse=100M";
+  services.journald.settings.Journal.SystemMaxUse = "100M";
   services.resolved.enable = true;
   services.resolved.settings.Resolve.MulticastDNS = "resolve";
   services.resolved.settings.Resolve.DNSSEC = false;
