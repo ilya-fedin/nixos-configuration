@@ -95,7 +95,7 @@ in {
   boot.loader.systemd-boot.enable = true;
   boot.loader.timeout = 0;
 
-  boot.kernelPackages = inputs.nix-cachyos-kernel.legacyPackages.${system}.linuxPackages-cachyos-bore-lto-x86_64-v3;
+  boot.kernelPackages = if hostname == "asus-x421da" then pkgs.linuxPackages_6_12 else inputs.nix-cachyos-kernel.legacyPackages.${system}.linuxPackages-cachyos-bore-lto-x86_64-v3;
   boot.kernelParams = [
     "tsc=reliable"
     "pcie_acs_override=downstream,multifunction"
@@ -395,9 +395,16 @@ in {
   };
 
   services.nixseparatedebuginfod2.enable = true;
-  services.ananicy.enable = true;
-  services.ananicy.package = pkgs.ananicy-cpp;
-  services.ananicy.rulesProvider = pkgs.ananicy-rules-cachyos;
+  services.scx = optionalAttrs (hostname == "asus-x421da") {
+    enable = true;
+    scheduler = "scx_lavd";
+    extraArgs = [ "--performance" ];
+  };
+  services.ananicy = optionalAttrs (hostname != "asus-x421da") {
+    enable = true;
+    package = pkgs.ananicy-cpp;
+    rulesProvider = pkgs.ananicy-rules-cachyos;
+  };
   services.irqbalance.enable = true;
   services.udev.optimalSchedulers = true;
   services.udev.packages = optionals (hostname == "beelink-ser5") [
