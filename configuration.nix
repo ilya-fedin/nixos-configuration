@@ -382,6 +382,18 @@ in {
     };
   };
 
+  systemd.user.services.ssh-add = {
+    description = "Add SSH keys to the agent";
+    wantedBy = [ "graphical-session.target" ];
+    after = [ "ssh-agent.service" "graphical-session.target" ];
+    requires = [ "ssh-agent.service" ];
+    unitConfig.ConditionPathExistsGlob = "%h/.ssh/id_*";
+    serviceConfig = {
+      Type = "oneshot";
+      ExecStart = "${config.programs.ssh.package}/bin/ssh-add";
+    };
+  };
+
   services.nixseparatedebuginfod2.enable = true;
   services.ananicy.enable = true;
   services.ananicy.package = pkgs.ananicy-cpp;
