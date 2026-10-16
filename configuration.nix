@@ -195,7 +195,26 @@ in {
 
   time.timeZone = "Europe/Saratov";
 
-  environment.etc = optionalAttrs (hostname == "beelink-ser5") {
+  environment.etc = optionalAttrs (hostname == "asus-x421da" || hostname == "ms-7c94") {
+    "firefox/defaults/pref/firefox-prefs.js".source = ./firefox-prefs.js;
+    "firefox/userChrome.css".text = ''
+      @-moz-document url-prefix("chrome://") {
+      ${builtins.readFile ./firefox-userChrome.css}
+      }
+    '';
+    "firefox/mozilla.cfg".text = ''
+      // load userChrome.css from this directory for all profiles
+      try {
+        const file = Services.dirsvc.get("SysConfD", Components.interfaces.nsIFile);
+        file.append("userChrome.css");
+        const sss = Components.classes["@mozilla.org/content/style-sheet-service;1"]
+          .getService(Components.interfaces.nsIStyleSheetService);
+        sss.loadAndRegisterSheet(Services.io.newFileURI(file), sss.USER_SHEET);
+      } catch (e) {
+        Services.console.logStringMessage("mozilla.cfg: " + e);
+      }
+    '';
+  } // optionalAttrs (hostname == "beelink-ser5") {
     "default/airsane".source = pkgs.runCommand "airsane.default" {} ''
       cp ${pkgs.nur.repos.ilya-fedin.airsane + "/etc/default/airsane"} $out
       substituteInPlace $out --replace-fail LISTEN_PORT=8090 LISTEN_PORT=8091
