@@ -335,6 +335,8 @@ in {
     ServerAliveInterval 100
   '';
 
+  programs.kde-pim.enable = false;
+
   programs.solaar = optionalAttrs (hostname == "ms-7c94") {
     enable = true;
   };
@@ -539,6 +541,9 @@ in {
   services.gvfs.enable = hostname == "asus-x421da" || hostname == "ms-7c94";
   services.gvfs.package = pkgs.gvfs;
   services.flatpak.enable = hostname == "asus-x421da" || hostname == "ms-7c94";
+
+  services.orca.enable = false;
+  services.speechd.enable = false;
 
   services.dbus.implementation = "broker";
   services.dbus.packages = with pkgs; optionals (hostname == "asus-x421da" || hostname == "ms-7c94") [
