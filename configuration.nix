@@ -233,7 +233,7 @@ in {
     htop
     nur.repos.ilya-fedin.termbin
     nur.repos.ilya-fedin.nixos-collect-garbage
-  ] ++ optionals (hostname == "asus-x421da" || hostname == "ms-7c94") ([
+  ] ++ optionals (hostname == "asus-x421da" || hostname == "ms-7c94") [
     adapta-gtk-theme
     adapta-kde-theme
     papirus-icon-theme
@@ -263,7 +263,7 @@ in {
     p7zip
     vscode
     jamesdsp
-  ] ++ config.programs.firefox.nativeMessagingHosts.packages);
+  ];
 
   environment.defaultPackages = [];
 
@@ -345,9 +345,6 @@ in {
     enable = true;
     package = inputs.firefox.packages.${system}.firefox-devedition-bin;
     languagePacks = [ "ru" ];
-    nativeMessagingHosts.packages = with pkgs; [
-      firefoxpwa
-    ];
   };
 
   programs.digitalbitbox = optionalAttrs (hostname == "asus-x421da" || hostname == "ms-7c94") {
