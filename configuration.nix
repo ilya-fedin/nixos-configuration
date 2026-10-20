@@ -254,10 +254,7 @@ in {
     wget
     ayugram-desktop
     qbittorrent
-    libarchive
-    unzip
-    zip
-    unrar
+    unar
     d-spy
     bustle
     qemu_kvm
