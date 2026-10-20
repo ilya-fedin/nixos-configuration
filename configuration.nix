@@ -555,7 +555,7 @@ in {
   services.printing.defaultShared = hostname == "beelink-ser5";
   services.printing.drivers = with pkgs; [
     gutenprint
-    hplip
+    nur.repos.ilya-fedin.hplipWithPlugin
   ];
 
   services.openssh.enable = true;
