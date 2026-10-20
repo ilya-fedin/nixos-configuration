@@ -335,6 +335,7 @@ in {
     ServerAliveInterval 100
   '';
 
+  programs.xwayland.defaultFontPath = "";
   programs.kde-pim.enable = false;
 
   programs.solaar = optionalAttrs (hostname == "ms-7c94") {
