@@ -528,6 +528,7 @@ in {
   services.tlp = optionalAttrs (hostname == "asus-x421da") {
     enable = true;
     pd.enable = true;
+    package = pkgs.tlp;
     settings = {
       TLP_PROFILE_BAT = "SAV";
       CPU_SCALING_GOVERNOR_ON_BAT = "conservative";
