@@ -737,7 +737,7 @@ in {
     enable = true;
   };
 
-  fonts = optionalAttrs (hostname == "asus-x421da" || hostname == "ms-7c94") {
+  fonts = {
     packages = with pkgs; [
       nur.repos.ilya-fedin.exo2
       cascadia-code
