@@ -751,6 +751,7 @@ in {
 
     fontconfig.crOSMaps = true;
     fontconfig.useEmbeddedBitmaps = true;
+    fontconfig.subpixel.rgba = "rgb";
     fontconfig.defaultFonts.sansSerif = [ "Exo 2" "Symbols Nerd Font" ];
     fontconfig.defaultFonts.serif = [ "Tinos" "Symbols Nerd Font" ];
     fontconfig.defaultFonts.monospace = [ "Cascadia Code PL" "Symbols Nerd Font" ];
