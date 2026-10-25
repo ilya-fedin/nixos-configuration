@@ -44,13 +44,6 @@ in {
   nixpkgs.flake.setFlakeRegistry = false;
   nixpkgs.flake.setNixPath = false;
 
-  system.replaceDependencies.replacements = [
-    {
-      original = pkgs.glibcLocales;
-      replacement = config.i18n.glibcLocales;
-    }
-  ];
-
   nix.nixPath = [
     "nixpkgs=flake:nixpkgs"
     "nixos-config=/etc/nixos/configuration.nix"
