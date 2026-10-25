@@ -129,8 +129,6 @@ in {
 
   boot.tmp.cleanOnBoot = true;
   boot.consoleLogLevel = 3;
-  boot.initrd.verbose = false;
-  boot.initrd.systemd.enable = true;
 
   boot.kernel.sysctl = {
     "kernel.sysrq" = 1;
@@ -560,10 +558,10 @@ in {
   services.avahi.enable = true;
   services.avahi.nssmdns4 = true;
   services.avahi.nssmdns6 = true;
-  services.avahi.publish.enable = true;
-  services.avahi.publish.addresses = true;
-  services.avahi.publish.domain = true;
-  services.avahi.publish.userServices = true;
+  services.avahi.settings.publish.disable-publishing = false;
+  services.avahi.settings.publish.disable-user-service-publishing = false;
+  services.avahi.settings.publish.publish-addresses = true;
+  services.avahi.settings.publish.publish-domain = true;
 
   services.samba.enable = true;
   services.samba.package = pkgs.nur.repos.ilya-fedin.sambaWithMDNS;
