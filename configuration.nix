@@ -390,6 +390,8 @@ in {
     };
   };
 
+  systemd.tmpfiles.rules = optional (hostname == "asus-x421da") "w /sys/power/image_size - - - - 2147483648";
+
   systemd.user.services.ssh-add = {
     description = "Add SSH keys to the agent";
     wantedBy = [ "graphical-session.target" ];
