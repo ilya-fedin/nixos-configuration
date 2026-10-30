@@ -86,6 +86,7 @@ in {
   boot.kernelPackages = inputs.nix-cachyos-kernel.legacyPackages.${system}.linuxPackages-cachyos-bore-lto-x86_64-v3;
   boot.kernelParams = [
     "zswap.enabled=1"
+    "zswap.shrinker_enabled=1"
     "zswap.max_pool_percent=90"
     "tsc=reliable"
     "pcie_acs_override=downstream,multifunction"
