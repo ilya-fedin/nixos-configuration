@@ -380,6 +380,10 @@ in {
     package = pkgs.bitbox;
   };
 
+  systemd.oomd.enable = false;
+  systemd.settings.Manager.DefaultOOMPolicy = "continue";
+  systemd.user.settings.Manager.DefaultOOMPolicy = "continue";
+
   systemd.packages = with pkgs; optionals (hostname == "asus-x421da" || hostname == "ms-7c94") [
     dconf
   ] ++ optionals (hostname == "beelink-ser5") [
@@ -518,7 +522,6 @@ in {
     UserStopDelaySec = 0;
   };
   services.nohang.enable = true;
-  systemd.oomd.enable = false;
   services.journald.settings.Journal.SystemMaxUse = "100M";
   services.resolved.enable = true;
   services.resolved.settings.Resolve.MulticastDNS = "resolve";
