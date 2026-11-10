@@ -15,9 +15,45 @@ let
       };
     };
   };
+
+  bootvineFonts = pkgs.runCommand "bootvine-fonts" { nativeBuildInputs = [ pkgs.fontconfig ]; } ''
+    echo '<fontconfig><include>${config.environment.etc.fonts.source}/conf.d</include></fontconfig>' > fonts.conf
+    export FONTCONFIG_FILE=$PWD/fonts.conf XDG_CACHE_HOME=$TMPDIR
+    mkdir $out
+    for style in Regular Bold; do
+      cp --no-preserve=mode -f "$(fc-match -f '%{file}' monospace:style=$style)" $out/
+    done
+  '';
+
+  bootvineFontsConf = pkgs.writeText "bootvine-fonts.conf" ''
+    <?xml version="1.0"?>
+    <!DOCTYPE fontconfig SYSTEM "urn:fontconfig:fonts.dtd">
+    <fontconfig>
+      <dir>${bootvineFonts}</dir>
+      <cachedir>/run/kmscon-fontconfig</cachedir>
+    </fontconfig>
+  '';
+
+  bootvineKmscon = args: {
+    unitConfig.SurviveFinalKillSignal = true;
+    serviceConfig = {
+      ExecStart = [ "" "${getExe pkgs.kmscon} --vt=12 --oneshot --no-issue --no-mouse -l -- ${getExe config.services.bootvine.package}${args}" ];
+      StandardInput = "null";
+      StandardOutput = "journal";
+      Environment = [
+        "DBUS_SYSTEM_BUS_ADDRESS=null"
+        "FONTCONFIG_FILE=${bootvineFontsConf}"
+      ];
+    };
+  };
+
+  bootvineBoot = recursiveUpdate (bootvineKmscon "") {
+    after = [ "systemd-udev-trigger.service" ];
+  };
 in {
   imports = [
     inputs.nix-index-database.nixosModules.default
+    inputs.bootvine.nixosModules.default
   ] ++ attrValues nur-no-pkgs.repos.ilya-fedin.modules;
 
   nixpkgs.config = {
@@ -92,7 +128,6 @@ in {
     "pcie_acs_override=downstream,multifunction"
     "amd_pstate=active"
     "mitigations=off"
-    "fbcon=nodefer"
     "panic=1"
     "nowatchdog"
     "nmi_watchdog=0"
@@ -119,6 +154,10 @@ in {
 
   boot.tmp.cleanOnBoot = true;
   boot.consoleLogLevel = 3;
+
+  boot.initrd.systemd.storePaths = [ pkgs.kmscon bootvineFontsConf bootvineFonts ];
+  boot.initrd.systemd.services.initrd-cleanup.serviceConfig.ExecStartPre = "-${getExe' config.boot.initrd.systemd.package "udevadm"} settle --timeout=180";
+  boot.initrd.systemd.services.bootvine = bootvineBoot;
 
   boot.kernel.sysctl = {
     "kernel.sysrq" = 1;
@@ -350,6 +389,8 @@ in {
 
   systemd.services = {
     polkit.restartIfChanged = false;
+    bootvine = bootvineBoot;
+    bootvine-shutdown = bootvineKmscon " --shutdown";
   } // optionalAttrs (hostname != "beelink-ser5") {
     NetworkManager-wait-online.wantedBy = mkForce [];
   } // optionalAttrs (hostname == "beelink-ser5") {
@@ -471,6 +512,7 @@ in {
   services.kmscon.enable = true;
   services.kmscon.useXkbConfig = true;
   services.kmscon.config.term = "xterm-256color";
+  services.bootvine.enable = true;
   services.logind.settings.Login = {
     KillUserProcesses = true;
     UserStopDelaySec = 0;

@@ -2,6 +2,8 @@
   inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
   inputs.nix-index-database.url = "github:nix-community/nix-index-database";
   inputs.nix-index-database.inputs.nixpkgs.follows = "nixpkgs";
+  inputs.bootvine.url = "git+https://codeberg.org/wvhulle/bootvine";
+  inputs.bootvine.inputs.nixpkgs.follows = "nixpkgs";
   inputs.nix-cachyos-kernel.url = "github:xddxdd/nix-cachyos-kernel/release";
   inputs.nur.url = "github:nix-community/NUR";
   inputs.nur-repo-override.url = "git+file:///home/ilya/nur-repository";
