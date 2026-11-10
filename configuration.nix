@@ -468,6 +468,9 @@ in {
     })
   ];
   services.fstrim.enable = true;
+  services.kmscon.enable = true;
+  services.kmscon.useXkbConfig = true;
+  services.kmscon.config.term = "xterm-256color";
   services.logind.settings.Login = {
     KillUserProcesses = true;
     UserStopDelaySec = 0;
