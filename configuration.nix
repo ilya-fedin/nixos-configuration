@@ -176,7 +176,7 @@ in {
 
   console = {
     packages = with pkgs; [ terminus_font ];
-    font = "ter-v16n";
+    font = "ter-v24n";
     keyMap = "ru";
     earlySetup = true;
   };
