@@ -246,7 +246,11 @@ in {
       cp ${pkgs.nur.repos.ilya-fedin.airsane + "/etc/default/airsane"} $out
       substituteInPlace $out --replace-fail LISTEN_PORT=8090 LISTEN_PORT=8091
     '';
-    airsane.source = pkgs.nur.repos.ilya-fedin.airsane + "/etc/airsane";
+    airsane.source = pkgs.runCommand "airsane-etc" {} ''
+      cp -r ${pkgs.nur.repos.ilya-fedin.airsane}/etc/airsane $out
+      chmod -R u+w $out
+      sed -i '/0.555555/d' $out/options.conf
+    '';
   };
 
   environment.systemPackages = with pkgs; [
