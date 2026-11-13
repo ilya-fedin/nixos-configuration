@@ -350,36 +350,93 @@ in {
   '';
 
   programs.fish.promptInit = with pkgs; with nur.repos.ilya-fedin; let
-    silverConfig = writeText "silver.yml" ''
-      left:
-        - name: status
-          color:
-            background: black
-            foreground: none
-
-        - name: dir
-          color:
-            background: blue
-            foreground: black
-
-        - name: git
-          color:
-            background: green
-            foreground: black
-    '';
+    ompConfig = writeText "omp.json" (builtins.toJSON {
+      version = 3;
+      final_space = true;
+      blocks = [{
+        type = "prompt";
+        alignment = "left";
+        segments = [
+          {
+            type = "text";
+            style = "diamond";
+            trailing_diamond = "";
+            background = "transparent";
+            foreground = "default";
+            template = ''
+              {{- $v := "" }}
+              {{- if .Root }}{{ $v = print $v "⚡" }}{{ end }}
+              {{- if not .Segments.Path.Writable }}{{ $v = print $v "🔒" }}{{ end }}
+              {{- if ne .Code 0 }}{{ $v = print $v "❗" }}{{ end }}
+              {{- $v = print $v (repeat .Jobs "⚙️") }}
+              {{- $u := ternary "root" .UserName .Root }}
+              {{- $ssh := or .Env.SSH_CONNECTION .Env.SSH_CLIENT }}
+              {{- if or $ssh (ne $u "ilya") }}
+              {{- $v = print $v (ternary " " "" (ne $v "")) $u }}
+              {{- if $ssh }}{{ $v = print $v "@" .HostName }}{{ end }}
+              {{- end }}
+              {{- if $v }} {{ $v }} {{ end -}}
+            '';
+          }
+          {
+            type = "python";
+            style = "diamond";
+            background = "blue";
+            foreground = "black";
+            options.fetch_version = false;
+            template = " ({{ .Venv }})";
+          }
+          {
+            type = "nix-shell";
+            style = "diamond";
+            background = "blue";
+            foreground = "black";
+            template = " ({{ .Type }})";
+          }
+          {
+            type = "path";
+            style = "diamond";
+            trailing_diamond = "";
+            background = "blue";
+            foreground = "black";
+            options = {
+              style = "full";
+              home_icon = "🏠";
+            };
+            template = " {{ .Path }} ";
+          }
+          {
+            type = "git";
+            style = "diamond";
+            trailing_diamond = "";
+            background = "green";
+            background_templates = [ "{{ if or .Working.Changed .Staging.Changed }}yellow{{ end }}" ];
+            foreground = "black";
+            options = {
+              fetch_status = true;
+              fetch_upstream_icon = true;
+              ignore_submodules."*" = "dirty";
+            };
+            template = ''
+              {{- $sg := ternary (print "📥" .StashCount) (repeat .StashCount "📥") (gt .StashCount 5) }}
+              {{- $sg = print $sg (ternary (print "" .Ahead) (repeat .Ahead "") (gt .Ahead 5)) }}
+              {{- $sg = print $sg (ternary (print "" .Behind) (repeat .Behind "") (gt .Behind 5)) }}
+              {{- print " " .UpstreamIcon " " }}{{ if $sg }}{{ $sg }} {{ end }}
+              {{- .HEAD }}
+              {{- if .Working.Changed }}  {{ .Working.String }}{{ end }}
+              {{- if and .Working.Changed .Staging.Changed }} |{{ end }}
+              {{- if .Staging.Changed }}  {{ .Staging.String }}{{ end }}{{ " " -}}
+            '';
+          }
+        ];
+      }];
+    });
   in ''
     function fish_greeting
         ${getExe fastfetch}
     end
 
-    function fish_prompt
-        env code=$status jobs=(count (jobs -p)) cmdtime={$CMD_DURATION} ${getExe silver} -c ${silverConfig} lprint
-    end
-    function fish_right_prompt
-        env code=$status jobs=(count (jobs -p)) cmdtime={$CMD_DURATION} ${getExe silver} -c ${silverConfig} rprint
-    end
-
-    set -x VIRTUAL_ENV_DISABLE_PROMPT 1
+    ${getExe oh-my-posh} init fish --config ${ompConfig} | source
   '';
 
   programs.ssh.startAgent = true;
