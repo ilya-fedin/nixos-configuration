@@ -776,7 +776,6 @@ in {
       unifont
       symbola
       joypixels
-      nerd-fonts.symbols-only
     ];
 
     enableDefaultPackages = false;
@@ -784,9 +783,9 @@ in {
     fontconfig.crOSMaps = true;
     fontconfig.useEmbeddedBitmaps = true;
     fontconfig.subpixel.rgba = "rgb";
-    fontconfig.defaultFonts.sansSerif = [ "Exo 2" "Symbols Nerd Font" ];
-    fontconfig.defaultFonts.serif = [ "Tinos" "Symbols Nerd Font" ];
-    fontconfig.defaultFonts.monospace = [ "Cascadia Code PL" "Symbols Nerd Font" ];
+    fontconfig.defaultFonts.sansSerif = [ "Exo 2" ];
+    fontconfig.defaultFonts.serif = [ "Tinos" ];
+    fontconfig.defaultFonts.monospace = [ "Cascadia Code NF" ];
     fontconfig.defaultFonts.emoji = [ "JoyPixels" ];
     fontconfig.localConf = ''
       <?xml version="1.0"?>
