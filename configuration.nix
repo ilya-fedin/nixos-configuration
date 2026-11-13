@@ -296,7 +296,7 @@ in {
 
   environment.sessionVariables = rec {
     NIXPKGS_ALLOW_UNFREE = "1";
-    EDITOR = "${pkgs.micro}/bin/micro";
+    EDITOR = getExe pkgs.micro;
     VISUAL = EDITOR;
     SYSTEMD_EDITOR = EDITOR;
     SSH_ASKPASS_REQUIRE = "prefer";
@@ -313,11 +313,11 @@ in {
   programs.fish.enable = true;
 
   programs.fish.shellInit = ''
-    ${config.programs.direnv.package}/bin/direnv hook fish | source
+    ${getExe config.programs.direnv.package} hook fish | source
   '';
 
   programs.fish.interactiveShellInit = with pkgs; ''
-    eval (${coreutils}/bin/dircolors -c)
+    eval (${getExe' coreutils "dircolors"} -c)
   '';
 
   programs.fish.promptInit = with pkgs; with nur.repos.ilya-fedin; let
@@ -340,14 +340,14 @@ in {
     '';
   in ''
     function fish_greeting
-        ${fastfetch}/bin/fastfetch
+        ${getExe fastfetch}
     end
 
     function fish_prompt
-        env code=$status jobs=(count (jobs -p)) cmdtime={$CMD_DURATION} ${silver}/bin/silver -c ${silverConfig} lprint
+        env code=$status jobs=(count (jobs -p)) cmdtime={$CMD_DURATION} ${getExe silver} -c ${silverConfig} lprint
     end
     function fish_right_prompt
-        env code=$status jobs=(count (jobs -p)) cmdtime={$CMD_DURATION} ${silver}/bin/silver -c ${silverConfig} rprint
+        env code=$status jobs=(count (jobs -p)) cmdtime={$CMD_DURATION} ${getExe silver} -c ${silverConfig} rprint
     end
 
     set -x VIRTUAL_ENV_DISABLE_PROMPT 1
@@ -422,8 +422,8 @@ in {
       after = [ "udisks2.service" ];
       serviceConfig = with pkgs; {
         Type = "oneshot";
-        ExecStart = "${udisks}/bin/udisksctl mount -b %I";
-        ExecStop = "${udisks}/bin/udisksctl unmount -b %I";
+        ExecStart = "${getExe' udisks "udisksctl"} mount -b %I";
+        ExecStop = "${getExe' udisks "udisksctl"} unmount -b %I";
         RemainAfterExit = "yes";
       };
     };
@@ -445,7 +445,7 @@ in {
     unitConfig.ConditionPathExistsGlob = "%h/.ssh/id_*";
     serviceConfig = {
       Type = "oneshot";
-      ExecStart = "${config.programs.ssh.package}/bin/ssh-add";
+      ExecStart = getExe' config.programs.ssh.package "ssh-add";
     };
   };
 
@@ -474,13 +474,13 @@ in {
 
         # mount or umount for hdds
         LABEL="harddisk"
-        ACTION=="add", PROGRAM="${bash}/bin/sh -c '${gnugrep}/bin/grep -E ^/dev/%k\  /proc/mounts || true'", RESULT=="", RUN+="${systemd}/bin/systemctl --no-block restart udisks-mount@/dev/%k.service"
-        ACTION=="remove", RUN+="${systemd}/bin/systemctl --no-block stop udisks-mount@/dev/%k.service"
+        ACTION=="add", PROGRAM="${getExe' bash "sh"} -c '${getExe gnugrep} -E ^/dev/%k\  /proc/mounts || true'", RESULT=="", RUN+="${getExe' systemd "systemctl"} --no-block restart udisks-mount@/dev/%k.service"
+        ACTION=="remove", RUN+="${getExe' systemd "systemctl"} --no-block stop udisks-mount@/dev/%k.service"
         GOTO="exit"
 
         # mount or umount for opticals
         LABEL="optical"
-        ACTION=="add|change", RUN+="${systemd}/bin/systemctl --no-block restart udisks-mount@/dev/%k.service"
+        ACTION=="add|change", RUN+="${getExe' systemd "systemctl"} --no-block restart udisks-mount@/dev/%k.service"
         GOTO="exit"
 
         # Exit
@@ -650,9 +650,9 @@ in {
     urlPrefix = "";
     hooks = {
       usbip-attach = {
-        execute-command = "${pkgs.systemd}/bin/systemd-run";
+        execute-command = getExe' pkgs.systemd "systemd-run";
         pass-arguments-to-command = [
-          { source = "string"; name = "${config.boot.kernelPackages.usbip}/bin/usbip"; }
+          { source = "string"; name = getExe' config.boot.kernelPackages.usbip "usbip"; }
           { source = "string"; name = "attach"; }
           { source = "string"; name = "-r"; }
           { source = "url"; name = "ip"; }
@@ -740,7 +740,7 @@ in {
     settings = rec {
       default_session = {
         user = "ilya";
-        command = (with pkgs; with kodi-gbm.pythonPackages; (pkgs: runCommand "kodi-gbm" {} ''
+        command = getExe' (with pkgs; with kodi-gbm.pythonPackages; (pkgs: runCommand "kodi-gbm" {} ''
           . ${makeWrapper}/nix-support/setup-hook
           mkdir -p $out/bin
           for exe in kodi{,-standalone}
@@ -752,7 +752,7 @@ in {
           dbus-python
           (callPackage ./dbussy.nix {})
           requests
-        ]) + "/bin/kodi-standalone";
+        ]) "kodi-standalone";
       };
       initial_session = default_session;
     };
