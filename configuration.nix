@@ -274,11 +274,7 @@ in {
     kdePackages.kcalc
     kdePackages.kdeconnect-kde
     okteta
-    (remmina.override {
-      freerdp = freerdp.override {
-        openh264 = null;
-      };
-    })
+    remmina
     go-mtpfs
     haruna
     krita
