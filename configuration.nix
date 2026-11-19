@@ -303,7 +303,6 @@ in {
   } // optionalAttrs (hostname == "asus-x421da" || hostname == "ms-7c94") {
     GTK_USE_PORTAL = "1";
     MOZ_DISABLE_CONTENT_SANDBOX = "1";
-    CUPS_SERVER = "beelink-ser5";
   };
 
   programs.nix-ld.enable = true;
