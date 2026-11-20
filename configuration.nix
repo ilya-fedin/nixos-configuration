@@ -263,7 +263,6 @@ in {
     git
     htop
     nur.repos.ilya-fedin.termbin
-    nur.repos.ilya-fedin.nixos-collect-garbage
   ] ++ optionals (hostname == "asus-x421da" || hostname == "ms-7c94") [
     adapta-gtk-theme
     adapta-kde-theme
@@ -308,6 +307,9 @@ in {
   programs.nix-ld.enable = true;
 
   programs.nix-index-database.comma.enable = true;
+
+  programs.nh.enable = true;
+  programs.nh.clean.enable = true;
 
   programs.fish.enable = true;
 
